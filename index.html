@@ -1,0 +1,30 @@
+<html>
+
+<body>
+
+</body>
+
+<script>
+    // Create the SVG namespace
+    const svgns = "http://www.w3.org/2000/svg";
+
+    // Create an SVG element
+    const svg = document.createElementNS(svgns, "svg");
+    svg.setAttribute("width", "200");
+    svg.setAttribute("height", "100");
+    document.body.appendChild(svg);
+
+    const rect = rectangle(80, 40);
+    svg.appendChild(rect);
+
+    function rectangle(width, height) {
+        const rect = document.createElementNS(svgns, "rect");
+        rect.setAttribute("width", width);
+        rect.setAttribute("height", height);
+        rect.setAttribute("style", "fill:red;stroke:black;stroke-width:2;margin:10px;padding:10;");
+        return rect;
+    }
+
+</script>
+
+</html>
