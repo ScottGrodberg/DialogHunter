@@ -20,7 +20,7 @@
 			"tne"
 		],
 		"body": [
-			"throw new Error(`${Utility.timestamp()} $0`);"
+			"throw new Error(`$0`);"
 		]
 	},
 	"console.log": {
@@ -28,7 +28,7 @@
 			"cl"
 		],
 		"body": [
-			"console.log(`${Utility.timestamp()} $0`);"
+			"console.log(`$0`);"
 		]
 	},
 	"console.error": {
@@ -36,7 +36,7 @@
 			"ce"
 		],
 		"body": [
-			"console.error(`${Utility.timestamp()} $0`);"
+			"console.error(`$0`);"
 		]
 	},
 	"describe": {
