@@ -1,4 +1,4 @@
-import { Dep } from "./dep.js";
+import { Interchange } from "./Interchange.js";
 
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +11,7 @@ export class Main {
     svgns: any;
 
     test() {
-        const dep = new Dep();
+        const dep = new Interchange();
         dep.dep();
 
         // Create the SVG namespace
@@ -23,10 +23,12 @@ export class Main {
         svg.setAttribute("height", "100");
         document.body.appendChild(svg);
 
+
         const rect = this.rectangle(80, 40);
         rect.onpointerdown = () => {
 
         };
+
         svg.appendChild(rect);
     }
 
