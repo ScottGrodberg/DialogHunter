@@ -2,7 +2,7 @@
     "scm.showIncomingChanges": "never",
     "scm.showOutgoingChanges": "never",
     "files.exclude": {
-        "**/*.js": false,
+        "**/*.js": true,
         "**/*.map": true,
         "package-lock.json": true,
         "dist": true,
