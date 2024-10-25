@@ -13,8 +13,7 @@ export class Interchange {
         this.choices = new Array();
 
         this.element = document.createElement("div");
-        this.element.style.width = "80px";
-        this.element.style.height = "150px";
+        this.element.style.width = "150px";
         this.element.style.padding = "10px";
         this.element.style.backgroundColor = "black";
         this.element.style.position = "absolute";
@@ -22,14 +21,14 @@ export class Interchange {
         this.element.style.top = "100px";
 
         this.header = document.createElement("div");
-        this.header.style.width = "80px";
+        this.header.style.width = "100%";
         this.header.style.height = "30px";
         this.header.style.backgroundColor = "blue";
         this.header.style.cursor = "pointer";
 
         this.body = document.createElement("div");
-        this.body.style.width = "80px";
-        this.body.style.height = "120px";
+        this.body.style.width = "100%";
+        this.body.style.minHeight = "120px";
         this.body.style.backgroundColor = "red";
 
         // Attach the pointerdown event listener to the SVG elements
