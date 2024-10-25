@@ -7,10 +7,14 @@ export class Interchange {
     constructor(public svgns: any) {
         this.choices = new Array();
 
-        this.element = this.rectangle(80, 40);
-        this.element.onpointerdown = () => {
-            console.log(`pointer down`);
-        };
+
+        this.element = document.createElementNS(this.svgns, "rect");
+        this.element.setAttribute("width", "80");
+        this.element.setAttribute("height", "40");
+        this.element.setAttribute("style", "fill:red");
+
+        // Attach the pointerdown event listener to the SVG elements
+        this.element.addEventListener('pointerdown', this.onPointerDown.bind(this));
     }
 
     rectangle(width: number, height: number): HTMLElement {
@@ -20,4 +24,45 @@ export class Interchange {
         rect.setAttribute("style", "fill:red;stroke:black;stroke-width:2;margin:10px;padding:10;");
         return rect;
     }
+
+    // Function to handle the start of the drag
+    onPointerDown(event: any) {
+        const element = event.target;
+        element.setPointerCapture(event.pointerId);
+        element.addEventListener('pointermove', this.onPointerMove.bind(this));
+        element.addEventListener('pointerup', this.onPointerUp.bind(this));
+        element.dataset.startX = event.clientX;
+        element.dataset.startY = event.clientY;
+        element.dataset.initX = parseFloat(element.getAttribute('x')) || 0;
+        element.dataset.initY = parseFloat(element.getAttribute('y')) || 0;
+    }
+
+    // Function to handle the movement during drag
+    onPointerMove(event: any) {
+        const element = event.target;
+        const deltaX = event.clientX - element.dataset.startX;
+        const deltaY = event.clientY - element.dataset.startY;
+        const newX = parseFloat(element.dataset.initX) + deltaX;
+        const newY = parseFloat(element.dataset.initY) + deltaY;
+
+        if (element.tagName === 'rect') {
+            element.setAttribute('x', newX);
+            element.setAttribute('y', newY);
+        }
+        // else if (element.tagName === 'circle') {
+        //     element.setAttribute('cx', newX);
+        //     element.setAttribute('cy', newY);
+        // }
+    }
+
+    // Function to handle the end of the drag
+    onPointerUp(event: any) {
+        //FIXME: 
+        const element = event.target;
+        element.releasePointerCapture(event.pointerId);
+        element.removeEventListener('pointermove', this.onPointerMove);
+        element.removeEventListener('pointerup', this.onPointerUp);
+    }
+
+
 }
