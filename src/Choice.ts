@@ -26,7 +26,8 @@ export class Choice {
         key.style.width = "20%";
 
         const value = document.createElement("textarea");
-        value.style.width = "60%"
+        value.style.width = "60%";
+        value.style.resize = "vertical";
 
         const x = document.createElement("button");
         x.innerHTML = "X";
