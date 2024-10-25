@@ -15,6 +15,7 @@ export class Choice {
         socket.style.position = "absolute";
         socket.style.border = "1px solid black";
         socket.style.top = "10px";
+        socket.style.cursor = "pointer";
 
         const socketLeft = socket.cloneNode() as HTMLElement;
         socketLeft.style.left = "-18px";
