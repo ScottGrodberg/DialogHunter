@@ -52,14 +52,8 @@ export class Interchange {
         const newX = parseFloat(element.dataset.initX) + deltaX;
         const newY = parseFloat(element.dataset.initY) + deltaY;
 
-        if (element.tagName === 'rect') {
-            element.setAttribute('x', newX);
-            element.setAttribute('y', newY);
-        }
-        // else if (element.tagName === 'circle') {
-        //     element.setAttribute('cx', newX);
-        //     element.setAttribute('cy', newY);
-        // }
+        element.setAttribute('x', newX);
+        element.setAttribute('y', newY);
     }
 
     // Function to handle the end of the drag
