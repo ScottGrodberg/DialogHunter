@@ -39,6 +39,16 @@ export class Interchange {
 
         this.header.addEventListener('pointerdown', this.ptrDown);
 
+        const buttonAdd = document.createElement("button");
+        buttonAdd.innerHTML = "+";
+        buttonAdd.style.border = "1px solid black";
+        buttonAdd.onclick = () => {
+            const choice = new Choice();
+            this.choices.push(choice);
+            this.body.insertBefore(choice.element, buttonAdd);
+        };
+        this.body.appendChild(buttonAdd);
+
         this.element.appendChild(this.header);
         this.element.appendChild(this.body);
     }
