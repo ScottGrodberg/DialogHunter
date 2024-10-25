@@ -3,6 +3,9 @@ import { Choice } from "./Choice.js";
 export class Interchange {
     element: HTMLElement;
     choices: Array<Choice>;
+    ptrDown: (event: any) => void;
+    ptrMove: (event: any) => void;
+    ptrUp: (event: any) => void;
 
     constructor(public svgns: any) {
         this.choices = new Array();
@@ -14,7 +17,11 @@ export class Interchange {
         this.element.setAttribute("style", "fill:red");
 
         // Attach the pointerdown event listener to the SVG elements
-        this.element.addEventListener('pointerdown', this.onPointerDown.bind(this));
+        this.ptrDown = this.onPointerDown.bind(this);
+        this.ptrMove = this.onPointerMove.bind(this);
+        this.ptrUp = this.onPointerUp.bind(this);
+
+        this.element.addEventListener('pointerdown', this.ptrDown);
     }
 
     rectangle(width: number, height: number): HTMLElement {
@@ -29,8 +36,8 @@ export class Interchange {
     onPointerDown(event: any) {
         const element = event.target;
         element.setPointerCapture(event.pointerId);
-        element.addEventListener('pointermove', this.onPointerMove.bind(this));
-        element.addEventListener('pointerup', this.onPointerUp.bind(this));
+        element.addEventListener('pointermove', this.ptrMove);
+        element.addEventListener('pointerup', this.ptrUp);
         element.dataset.startX = event.clientX;
         element.dataset.startY = event.clientY;
         element.dataset.initX = parseFloat(element.getAttribute('x')) || 0;
@@ -57,11 +64,10 @@ export class Interchange {
 
     // Function to handle the end of the drag
     onPointerUp(event: any) {
-        //FIXME: 
         const element = event.target;
         element.releasePointerCapture(event.pointerId);
-        element.removeEventListener('pointermove', this.onPointerMove);
-        element.removeEventListener('pointerup', this.onPointerUp);
+        element.removeEventListener('pointermove', this.ptrMove);
+        element.removeEventListener('pointerup', this.ptrUp);
     }
 
 
