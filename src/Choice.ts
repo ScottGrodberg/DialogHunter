@@ -7,8 +7,15 @@ export class Choice {
         this.element.style.flexDirection = "row";
 
         const key = document.createElement("input");
-        const value = document.createElement("p");
+        key.style.width = "20%";
+        const value = document.createElement("textarea");
+        value.style.width = "60%"
         const x = document.createElement("button");
+        x.innerHTML = "X";
+        x.style.width = "20%"
+        x.onclick = (event: MouseEvent) => {
+            (event.target as HTMLElement).parentElement!.remove();
+        };
 
         this.element.appendChild(key);
         this.element.appendChild(value);
