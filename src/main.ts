@@ -25,6 +25,10 @@ export class Main {
         buttonNew.innerHTML = "+";
         buttonNew.onclick = () => {
             const interchange = new Interchange();
+            const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
+            const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
+            interchange.element.style.left = left + "px";
+            interchange.element.style.top = top + "px";
             div.appendChild(interchange.element);
         };
         div.appendChild(buttonNew);
