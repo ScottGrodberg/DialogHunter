@@ -17,8 +17,6 @@ export class Interchange {
         this.element.style.padding = "10px";
         this.element.style.backgroundColor = "black";
         this.element.style.position = "absolute";
-        this.element.style.left = "100px";
-        this.element.style.top = "100px";
         this.element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
 
         this.header = document.createElement("div");

@@ -21,7 +21,9 @@ export class Main {
         };
         div.appendChild(buttonNew);
 
-        const interchange = new Interchange();
+        const interchange = new Interchange()
+        interchange.element.style.left = "100px";
+        interchange.element.style.top = "100px";
         div.appendChild(interchange.element);
 
     }
