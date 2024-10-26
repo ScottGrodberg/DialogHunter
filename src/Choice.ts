@@ -24,6 +24,10 @@ export class Choice {
 
         const key = document.createElement("input");
         key.style.width = "20%";
+        key.oninput = (event: Event) => {
+            const element = (event.target as HTMLInputElement);
+            element.value = element.value.substring(0, 1);
+        };
 
         const value = document.createElement("textarea");
         value.style.width = "60%";
