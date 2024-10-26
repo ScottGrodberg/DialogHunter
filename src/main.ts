@@ -49,7 +49,9 @@ export class Main {
         div.appendChild(buttonNew);
 
         // Start with one interchange
-        this.addInterchange(connector, utility, data, divWrapper, div);
+        const firstInterchange = this.addInterchange(connector, utility, data, divWrapper, div);
+        firstInterchange.element.style.top = "66px";
+        firstInterchange.element.style.left = "100px";
 
         // Final composition
         divWrapper.appendChild(div);
@@ -57,12 +59,13 @@ export class Main {
 
     }
 
-    addInterchange(connector: Connector, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement) {
+    addInterchange(connector: Connector, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): Interchange {
         const interchange = new Interchange(connector, utility, data);
         const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
         const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
         interchange.element.style.left = left + "px";
         interchange.element.style.top = top + "px";
         div.appendChild(interchange.element);
+        return interchange;
     }
 }
