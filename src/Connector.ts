@@ -3,7 +3,7 @@ export class Connector {
     line?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public container: HTMLElement, public svg: SVGElement) {
+    constructor(public container: HTMLElement, public svg: SVGSVGElement) {
 
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
         defs.appendChild(this.createArrowMarker());
@@ -34,10 +34,10 @@ export class Connector {
         const svgPoint = this.svg.createSVGPoint();
         svgPoint.x = event.clientX;
         svgPoint.y = event.clientY;
-        const transformedPoint = svgPoint.matrixTransform(this.svg.getScreenCTM().inverse());
+        const transformedPoint = svgPoint.matrixTransform(this.svg.getScreenCTM()?.inverse());
 
-        this.line.setAttribute("x2", transformedPoint.x);
-        this.line.setAttribute("y2", transformedPoint.y);
+        this.line.setAttribute("x2", transformedPoint.x.toString());
+        this.line.setAttribute("y2", transformedPoint.y.toString());
     }
 
     /**
@@ -49,7 +49,7 @@ export class Connector {
             return;
         }
 
-        if (!event.srcElement?.getAttribute("id").startsWith("socket")) {
+        if (!(event.srcElement as HTMLElement)?.getAttribute("id")?.startsWith("socket")) {
             this.line.remove();
         } else {
             const end = this.getSocketCenter(event.target as HTMLElement);
