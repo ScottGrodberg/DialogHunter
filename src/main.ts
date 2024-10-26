@@ -10,22 +10,26 @@ window.addEventListener("DOMContentLoaded", () => {
 export class Main {
 
     setup() {
+        // Layout wrapper
         const divWrapper = document.createElement("div");
         divWrapper.id = "divWrapper";
         divWrapper.style.height = "50%";
         divWrapper.style.overflow = "scroll";
         document.body.appendChild(divWrapper);
 
+        // Layout inner
         const div = document.createElement("div");
         div.style.width = "2000px";
         div.style.height = "1000px";
         div.style.position = "relative";
 
+        // Svg
         const svg = document.createElementNS(svgns, "svg");
         svg.setAttribute("width", "100%");
         svg.setAttribute("height", "100%");
         div.appendChild(svg);
 
+        // Add new interchange button
         const buttonNew = document.createElement("button");
         buttonNew.innerHTML = "+";
         buttonNew.style.position = "fixed";
@@ -45,6 +49,7 @@ export class Main {
         interchange.element.style.top = "100px";
         div.appendChild(interchange.element);
 
+        // Final composition
         divWrapper.appendChild(div);
         document.body.appendChild(divWrapper);
     }
