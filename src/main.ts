@@ -4,14 +4,12 @@ let svgns: any;
 
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
-    main.test();
+    main.setup();
 });
 
 export class Main {
 
-    test() {
-
-        // Create an SVG element
+    setup() {
         const div = document.createElement("div");
         document.body.appendChild(div);
 
