@@ -10,8 +10,16 @@ window.addEventListener("DOMContentLoaded", () => {
 export class Main {
 
     setup() {
+        const divWrapper = document.createElement("div");
+        divWrapper.id = "divWrapper";
+        divWrapper.style.height = "50%";
+        divWrapper.style.overflow = "scroll";
+        document.body.appendChild(divWrapper);
+
         const div = document.createElement("div");
-        document.body.appendChild(div);
+        div.style.width = "2000px";
+        div.style.height = "1000px";
+        div.style.position = "relative";
 
         const buttonNew = document.createElement("button");
         buttonNew.innerHTML = "+";
@@ -26,6 +34,8 @@ export class Main {
         interchange.element.style.top = "100px";
         div.appendChild(interchange.element);
 
+        divWrapper.appendChild(div);
+        document.body.appendChild(divWrapper);
     }
 
 
