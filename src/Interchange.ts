@@ -1,6 +1,7 @@
 import { Choice } from "./Choice.js";
 
 export class Interchange {
+    static DEFAULT_WIDTH = 150;
     element: HTMLElement;
     header: HTMLElement;
     body: HTMLElement;
@@ -13,7 +14,7 @@ export class Interchange {
         this.choices = new Array();
 
         this.element = document.createElement("div");
-        this.element.style.width = "150px";
+        this.element.style.width = Interchange.DEFAULT_WIDTH + "px";
         this.element.style.padding = "10px";
         this.element.style.backgroundColor = "black";
         this.element.style.position = "absolute";
