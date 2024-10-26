@@ -1,15 +1,17 @@
 import { Connector } from "./Connector";
+import { Utility } from "./Utility";
 
 export class Choice {
     element: HTMLElement;
 
-    constructor(public connector: Connector) {
+    constructor(public connector: Connector, public utility: Utility) {
         this.element = document.createElement("div");
         this.element.style.display = "flex";
         this.element.style.flexDirection = "row";
         this.element.style.position = "relative";
 
         const socket = document.createElement("div");
+        socket.id = "socket-" + utility.generateUid(4);
         socket.style.borderRadius = "50%";
         socket.style.backgroundColor = "white";
         socket.style.width = "14px";

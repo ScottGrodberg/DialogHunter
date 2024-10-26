@@ -1,5 +1,6 @@
 import { Connector } from "./Connector.js";
 import { Interchange } from "./Interchange.js";
+import { Utility } from "./Utility.js";
 
 const svgns = "http://www.w3.org/2000/svg";
 
@@ -11,6 +12,9 @@ window.addEventListener("DOMContentLoaded", () => {
 export class Main {
 
     setup() {
+
+        const utility = new Utility();
+
         // Layout wrapper
         const divWrapper = document.createElement("div");
         divWrapper.id = "divWrapper";
@@ -38,7 +42,7 @@ export class Main {
         buttonNew.style.position = "fixed";
         buttonNew.style.zIndex = "1";
         buttonNew.onclick = () => {
-            const interchange = new Interchange(connector);
+            const interchange = new Interchange(connector, utility);
             const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
             const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
             interchange.element.style.left = left + "px";
@@ -47,7 +51,7 @@ export class Main {
         };
         div.appendChild(buttonNew);
 
-        const interchange = new Interchange(connector)
+        const interchange = new Interchange(connector, utility);
         interchange.element.style.left = "100px";
         interchange.element.style.top = "100px";
         div.appendChild(interchange.element);

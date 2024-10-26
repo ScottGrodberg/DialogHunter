@@ -1,5 +1,6 @@
 import { Choice } from "./Choice.js";
 import { Connector } from "./Connector.js";
+import { Utility } from "./Utility.js";
 
 export class Interchange {
     static DEFAULT_WIDTH = 150;
@@ -11,7 +12,7 @@ export class Interchange {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public connector: Connector) {
+    constructor(public connector: Connector, public utility: Utility) {
         this.choices = new Array();
 
         this.element = document.createElement("div");
@@ -43,7 +44,7 @@ export class Interchange {
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
         buttonAdd.onclick = () => {
-            const choice = new Choice(connector);
+            const choice = new Choice(connector, utility);
             this.choices.push(choice);
             this.body.insertBefore(choice.element, buttonAdd);
         };
