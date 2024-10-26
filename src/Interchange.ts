@@ -10,11 +10,16 @@ export class Interchange {
     header: HTMLElement;
     body: HTMLElement;
     choices: Array<Choice>;
+
+    id: string;
+
     ptrDown: (event: any) => void;
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
     constructor(public connector: Connector, public utility: Utility, public data: Data) {
+        this.id = utility.generateUid(8);
+
         this.choices = new Array();
 
         this.element = document.createElement("div");
