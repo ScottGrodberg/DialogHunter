@@ -44,20 +44,11 @@ export class Main {
         buttonNew.style.zIndex = "1";
         buttonNew.style.top = "0";
         buttonNew.style.left = "0";
-        buttonNew.onclick = () => {
-            const interchange = new Interchange(connector, utility);
-            const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
-            const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
-            interchange.element.style.left = left + "px";
-            interchange.element.style.top = top + "px";
-            div.appendChild(interchange.element);
-        };
+        buttonNew.onclick = () => this.addInterchange(connector, utility, data, divWrapper, div);
         div.appendChild(buttonNew);
 
-        const interchange = new Interchange(connector, utility);
-        interchange.element.style.left = "100px";
-        interchange.element.style.top = "100px";
-        div.appendChild(interchange.element);
+        // Start with one interchange
+        this.addInterchange(connector, utility, data, divWrapper, div);
 
         // Final composition
         divWrapper.appendChild(div);
@@ -65,5 +56,12 @@ export class Main {
 
     }
 
-
+    addInterchange(connector: Connector, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement) {
+        const interchange = new Interchange(connector, utility, data);
+        const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
+        const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
+        interchange.element.style.left = left + "px";
+        interchange.element.style.top = top + "px";
+        div.appendChild(interchange.element);
+    }
 }
