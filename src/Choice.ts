@@ -1,7 +1,9 @@
+import { Connector } from "./Connector";
+
 export class Choice {
     element: HTMLElement;
 
-    constructor() {
+    constructor(public connector: Connector) {
         this.element = document.createElement("div");
         this.element.style.display = "flex";
         this.element.style.flexDirection = "row";
@@ -17,10 +19,13 @@ export class Choice {
         socket.style.top = "10px";
         socket.style.cursor = "pointer";
 
+
         const socketLeft = socket.cloneNode() as HTMLElement;
         socketLeft.style.left = "-18px";
+        socketLeft.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed
         const socketRight = socket.cloneNode() as HTMLElement;
         socketRight.style.left = "calc(100% + 2px)";
+        socketRight.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: (see above)
 
         const key = document.createElement("input");
         key.style.width = "20%";
