@@ -42,6 +42,8 @@ export class Main {
         buttonNew.innerHTML = "+";
         buttonNew.style.position = "fixed";
         buttonNew.style.zIndex = "1";
+        buttonNew.style.top = "0";
+        buttonNew.style.left = "0";
         buttonNew.onclick = () => {
             const interchange = new Interchange(connector, utility);
             const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
