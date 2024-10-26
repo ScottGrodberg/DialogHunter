@@ -18,7 +18,6 @@
 
     <script>
         const svg = document.getElementById('svgCanvas');
-        let isDrawing = false;
         let line;
 
         function createArrowMarker() {
@@ -53,7 +52,6 @@
         }
 
         function onPointerDown(event) {
-            isDrawing = true;
             const start = getSocketCenter(event.target);
 
             line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -68,7 +66,7 @@
         }
 
         function onPointerMove(event) {
-            if (!isDrawing) return;
+            if (!line) return;
             const svgPoint = svg.createSVGPoint();
             svgPoint.x = event.clientX;
             svgPoint.y = event.clientY;
@@ -79,12 +77,12 @@
         }
 
         function onPointerUp(event) {
-            if (!isDrawing) return;
+            if (!line) return;
 
             const end = getSocketCenter(event.target);
             line.setAttribute("x2", end.x);
             line.setAttribute("y2", end.y);
-            isDrawing = false;
+            line = undefined;
         }
 
         document.querySelectorAll('#socket1, #socket2').forEach(socket => {
