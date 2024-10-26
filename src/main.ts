@@ -1,4 +1,5 @@
 import { Connector } from "./Connector.js";
+import { Data } from "./Data.js";
 import { Interchange } from "./Interchange.js";
 import { Utility } from "./Utility.js";
 
@@ -12,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
 export class Main {
 
     setup() {
-
+        const data = new Data();
         const utility = new Utility();
 
         // Layout wrapper

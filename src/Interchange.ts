@@ -1,9 +1,11 @@
 import { Choice } from "./Choice.js";
 import { Connector } from "./Connector.js";
+import { Data } from "./Data.js";
 import { Utility } from "./Utility.js";
 
 export class Interchange {
     static DEFAULT_WIDTH = 150;
+
     element: HTMLElement;
     header: HTMLElement;
     body: HTMLElement;
@@ -12,7 +14,7 @@ export class Interchange {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public connector: Connector, public utility: Utility) {
+    constructor(public connector: Connector, public utility: Utility, public data: Data) {
         this.choices = new Array();
 
         this.element = document.createElement("div");
