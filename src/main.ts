@@ -30,6 +30,7 @@ export class Main {
 
         // Svg
         const svg = document.createElementNS(svgns, "svg");
+        svg.id = "svg-layout";
         svg.setAttribute("width", "100%");
         svg.setAttribute("height", "100%");
         div.appendChild(svg);

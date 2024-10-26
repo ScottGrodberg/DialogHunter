@@ -9,8 +9,8 @@ export class Connector {
         defs.appendChild(this.createArrowMarker());
         this.svg.appendChild(defs);
 
-        container.addEventListener('pointerup', this.onPointerUp);
-        container.addEventListener('pointermove', this.onPointerMove);
+        container.addEventListener('pointerup', this.onPointerUp.bind(this));
+        container.addEventListener('pointermove', this.onPointerMove.bind(this));
 
     }
 
@@ -19,10 +19,10 @@ export class Connector {
         const start = this.getSocketCenter(this.socketFrom);
 
         this.line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        this.line.setAttribute("x1", start.x);
-        this.line.setAttribute("y1", start.y);
-        this.line.setAttribute("x2", start.x);
-        this.line.setAttribute("y2", start.y);
+        this.line.setAttribute("x1", start.x.toString());
+        this.line.setAttribute("y1", start.y.toString());
+        this.line.setAttribute("x2", start.x.toString());
+        this.line.setAttribute("y2", start.y.toString());
         this.line.setAttribute("stroke", "black");
         this.line.setAttribute("stroke-width", "2");
         this.line.setAttribute("marker-end", "url(#arrow)");
@@ -45,14 +45,16 @@ export class Connector {
      * TODO: Bezier curve for this.lines: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
      */
     onPointerUp(event: PointerEvent) {
-        if (!this.line || !this.socketFrom) return;
+        if (!this.line || !this.socketFrom) {
+            return;
+        }
 
         if (!event.srcElement?.getAttribute("id").startsWith("socket")) {
             this.line.remove();
         } else {
             const end = this.getSocketCenter(event.target as HTMLElement);
-            this.line.setAttribute("x2", end.x);
-            this.line.setAttribute("y2", end.y);
+            this.line.setAttribute("x2", end.x.toString());
+            this.line.setAttribute("y2", end.y.toString());
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
         }
         this.line = undefined;
