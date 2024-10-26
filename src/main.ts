@@ -15,6 +15,13 @@ export class Main {
         const div = document.createElement("div");
         document.body.appendChild(div);
 
+        const buttonNew = document.createElement("button");
+        buttonNew.innerHTML = "+";
+        buttonNew.onclick = () => {
+            const interchange = new Interchange();
+            div.appendChild(interchange.element);
+        };
+        div.appendChild(buttonNew);
 
         const interchange = new Interchange();
         div.appendChild(interchange.element);
