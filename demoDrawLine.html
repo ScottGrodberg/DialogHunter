@@ -19,6 +19,7 @@
     <script>
         const svg = document.getElementById('svgCanvas');
         let line;
+        let socketFrom;
 
         function createArrowMarker() {
             const arrowMarker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
@@ -52,7 +53,8 @@
         }
 
         function onPointerDown(event) {
-            const start = getSocketCenter(event.target);
+            socketFrom = event.target;
+            const start = getSocketCenter(socketFrom);
 
             line = document.createElementNS("http://www.w3.org/2000/svg", "line");
             line.setAttribute("x1", start.x);
@@ -76,20 +78,29 @@
             line.setAttribute("y2", transformedPoint.y);
         }
 
+        /**
+         * TODO: Check to make sure the connection isnt between two nodes/interchanges that already have a connection in either direction
+         */
         function onPointerUp(event) {
-            if (!line) return;
+            if (!line || !socketFrom) return;
 
-            const end = getSocketCenter(event.target);
-            line.setAttribute("x2", end.x);
-            line.setAttribute("y2", end.y);
+            if (!event.srcElement.getAttribute("id").startsWith("socket")) {
+                line.remove();
+            } else {
+                const end = getSocketCenter(event.target);
+                line.setAttribute("x2", end.x);
+                line.setAttribute("y2", end.y);
+                socketFrom.removeEventListener('pointerdown', onPointerDown);
+            }
             line = undefined;
         }
 
         document.querySelectorAll('#socket1, #socket2').forEach(socket => {
             socket.addEventListener('pointerdown', onPointerDown);
-            socket.addEventListener('pointerup', onPointerUp);
         });
-        svg.addEventListener('pointermove', onPointerMove);
+        const container = document.getElementById("container");
+        container.addEventListener('pointerup', onPointerUp);
+        container.addEventListener('pointermove', onPointerMove);
 
     </script>
 </body>
