@@ -49,7 +49,7 @@ export class Connector {
             return;
         }
 
-        if (!(event.srcElement as HTMLElement)?.getAttribute("id")?.startsWith("socket")) {
+        if (!(event.target as HTMLElement)?.getAttribute("id")?.startsWith("socket")) {
             this.line.remove();
         } else {
             const end = this.getSocketCenter(event.target as HTMLElement);
