@@ -23,6 +23,8 @@ export class Main {
 
         const buttonNew = document.createElement("button");
         buttonNew.innerHTML = "+";
+        buttonNew.style.position = "fixed";
+        buttonNew.style.zIndex = "1";
         buttonNew.onclick = () => {
             const interchange = new Interchange();
             const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
