@@ -1,6 +1,6 @@
 import { Interchange } from "./Interchange.js";
 
-let svgns: any;
+const svgns = "http://www.w3.org/2000/svg";
 
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
@@ -20,6 +20,11 @@ export class Main {
         div.style.width = "2000px";
         div.style.height = "1000px";
         div.style.position = "relative";
+
+        const svg = document.createElementNS(svgns, "svg");
+        svg.setAttribute("width", "100%");
+        svg.setAttribute("height", "100%");
+        div.appendChild(svg);
 
         const buttonNew = document.createElement("button");
         buttonNew.innerHTML = "+";
