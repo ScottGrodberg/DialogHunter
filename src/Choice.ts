@@ -31,7 +31,7 @@ export class Choice {
 
         const x = document.createElement("button");
         x.innerHTML = "X";
-        x.style.width = "20%"
+        x.style.width = "20%";
         x.onclick = (event: MouseEvent) => {
             (event.target as HTMLElement).parentElement!.remove();
         };
