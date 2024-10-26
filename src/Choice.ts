@@ -4,14 +4,17 @@ import { Utility } from "./Utility";
 export class Choice {
     element: HTMLElement;
 
-    constructor(public connector: Connector, public utility: Utility) {
+    constructor(public connector: Connector, public utility: Utility, public nodeId: string) {
         this.element = document.createElement("div");
         this.element.style.display = "flex";
         this.element.style.flexDirection = "row";
         this.element.style.position = "relative";
 
         const socket = document.createElement("div");
-        socket.id = "socket-" + utility.generateUid(4);
+        const socketId = utility.generateUid(8);
+        socket.id = "socket-" + socketId;
+        socket.dataset.socketId = socketId;
+        socket.dataset.nodeId = nodeId;
         socket.style.borderRadius = "50%";
         socket.style.backgroundColor = "white";
         socket.style.width = "14px";

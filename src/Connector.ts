@@ -1,9 +1,11 @@
+import { Data } from "./Data";
+
 export class Connector {
 
     line?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public container: HTMLElement, public svg: SVGSVGElement) {
+    constructor(public data: Data, public container: HTMLElement, public svg: SVGSVGElement) {
 
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
         defs.appendChild(this.createArrowMarker());
@@ -49,15 +51,47 @@ export class Connector {
             return;
         }
 
-        if (!(event.target as HTMLElement)?.getAttribute("id")?.startsWith("socket")) {
+        const socketTo = event.target as HTMLElement;
+        const validConnection = this.validateConnection(socketTo);
+        if (validConnection === false) {
             this.line.remove();
         } else {
-            const end = this.getSocketCenter(event.target as HTMLElement);
+            // ui
+            const end = this.getSocketCenter(socketTo);
             this.line.setAttribute("x2", end.x.toString());
             this.line.setAttribute("y2", end.y.toString());
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
+
+            // data
+            this.data.nodes.get(validConnection.nodeIdFrom)?.add(validConnection.nodeIdTo);
         }
         this.line = undefined;
+    }
+
+    validateConnection(socketTo: HTMLElement): false | { nodeIdFrom: string, nodeIdTo: string } {
+        if (!socketTo.getAttribute("id")?.startsWith("socket")) {
+            // did not end on a socket
+            return false;
+        }
+
+        if (socketTo === this.socketFrom) {
+            // don't allow connection to self (same socket)
+            return false;
+        }
+
+        const nodeIdFrom = this.socketFrom?.dataset.nodeId!;
+        const nodeIdTo = socketTo.dataset.nodeId!;
+        if (nodeIdFrom === nodeIdTo) {
+            // don't allow connections between sockets of the same node
+            return false;
+        }
+
+        if (this.data.nodes.get(nodeIdTo)?.has(nodeIdFrom)) {
+            // there is already a connection going the other way
+            return false;
+        }
+
+        return { nodeIdFrom, nodeIdTo };
     }
 
     createArrowMarker() {

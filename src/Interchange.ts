@@ -23,6 +23,8 @@ export class Interchange {
         this.choices = new Array();
 
         this.element = document.createElement("div");
+        this.element.id = "node-" + this.id;
+        this.element.dataset.nodeId = this.id;
         this.element.style.width = Interchange.DEFAULT_WIDTH + "px";
         this.element.style.padding = "10px";
         this.element.style.backgroundColor = "black";
@@ -51,7 +53,7 @@ export class Interchange {
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
         buttonAdd.onclick = () => {
-            const choice = new Choice(connector, utility);
+            const choice = new Choice(connector, utility, this.id);
             this.choices.push(choice);
             this.body.insertBefore(choice.element, buttonAdd);
         };

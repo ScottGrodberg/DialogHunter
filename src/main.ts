@@ -36,7 +36,7 @@ export class Main {
         svg.setAttribute("height", "100%");
         div.appendChild(svg);
 
-        const connector = new Connector(div, svg);
+        const connector = new Connector(data, div, svg);
 
         // Add new interchange button
         const buttonNew = document.createElement("button");
@@ -60,12 +60,23 @@ export class Main {
     }
 
     addInterchange(connector: Connector, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): Interchange {
+
         const interchange = new Interchange(connector, utility, data);
+
+        // Add to ui
         const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
         const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
         interchange.element.style.left = left + "px";
         interchange.element.style.top = top + "px";
         div.appendChild(interchange.element);
+
+        // Add to data
+        if (data.nodes.has(interchange.id)) {
+            throw new Error(`Unexpected duplicate nodeId`);
+        }
+        data.nodes.set(interchange.id, new Set<string>());
+
+
         return interchange;
     }
 }
