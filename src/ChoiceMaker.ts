@@ -2,7 +2,7 @@ import { Connector } from "./Connector";
 import { RowMaker } from "./RowMaker";
 import { Utility } from "./Utility";
 
-export class Choice {
+export class ChoiceMaker {
     element: HTMLElement;
     id: string;
 

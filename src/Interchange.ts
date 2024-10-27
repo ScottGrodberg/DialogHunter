@@ -1,4 +1,4 @@
-import { Choice } from "./Choice.js";
+import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { Data } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
@@ -10,7 +10,7 @@ export class Interchange {
     element: HTMLElement;
     header: HTMLElement;
     body: HTMLElement;
-    choices: Array<Choice>;
+    choices: Array<ChoiceMaker>;
 
     id: string;
 
@@ -61,7 +61,7 @@ export class Interchange {
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
         buttonAdd.onclick = () => {
-            const choice = new Choice(connector, rowMaker, utility, this.id);
+            const choice = new ChoiceMaker(connector, rowMaker, utility, this.id);
             this.choices.push(choice);
             this.body.insertBefore(choice.element, buttonAdd);
         };
