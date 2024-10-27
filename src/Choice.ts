@@ -3,8 +3,10 @@ import { Utility } from "./Utility";
 
 export class Choice {
     element: HTMLElement;
+    id: string;
 
     constructor(public connector: Connector, public utility: Utility, public nodeId: string) {
+        this.id = utility.generateUid(8);
         this.element = document.createElement("div");
         this.element.style.display = "flex";
         this.element.style.flexDirection = "row";
@@ -12,8 +14,7 @@ export class Choice {
 
         // Make a socket
         const socket = document.createElement("div");
-        const socketId = utility.generateUid(8);
-        socket.dataset.socketId = socketId;
+        socket.dataset.choiceId = this.id;
         socket.dataset.nodeId = nodeId;
         socket.style.borderRadius = "50%";
         socket.style.backgroundColor = "white";
@@ -28,13 +29,13 @@ export class Choice {
         const socketLeft = socket.cloneNode() as HTMLElement;
         socketLeft.style.left = "-18px";
         socketLeft.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed        
-        socketLeft.id = "socket-" + socketId + "-left";
+        socketLeft.id = "socket-" + this.id + "-left";
 
         // Clone to the right
         const socketRight = socket.cloneNode() as HTMLElement;
         socketRight.style.left = "calc(100% + 2px)";
         socketRight.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: (see above)
-        socketRight.id = "socket-" + socketId + "-right";
+        socketRight.id = "socket-" + this.id + "-right";
 
         const key = document.createElement("input");
         key.style.width = "20%";
