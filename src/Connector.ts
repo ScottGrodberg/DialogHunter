@@ -43,7 +43,6 @@ export class Connector {
     }
 
     /**
-     * TODO: Check to make sure the connection isnt between two nodes/interchanges that already have a connection in either direction
      * TODO: Bezier curve for this.lines: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
      */
     onPointerUp(event: PointerEvent) {
