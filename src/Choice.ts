@@ -10,9 +10,9 @@ export class Choice {
         this.element.style.flexDirection = "row";
         this.element.style.position = "relative";
 
+        // Make a socket
         const socket = document.createElement("div");
         const socketId = utility.generateUid(8);
-        socket.id = "socket-" + socketId;
         socket.dataset.socketId = socketId;
         socket.dataset.nodeId = nodeId;
         socket.style.borderRadius = "50%";
@@ -24,13 +24,17 @@ export class Choice {
         socket.style.top = "10px";
         socket.style.cursor = "pointer";
 
-
+        // Clone to the left
         const socketLeft = socket.cloneNode() as HTMLElement;
         socketLeft.style.left = "-18px";
-        socketLeft.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed
+        socketLeft.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed        
+        socketLeft.id = "socket-" + socketId + "-left";
+
+        // Clone to the right
         const socketRight = socket.cloneNode() as HTMLElement;
         socketRight.style.left = "calc(100% + 2px)";
         socketRight.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: (see above)
+        socketRight.id = "socket-" + socketId + "-right";
 
         const key = document.createElement("input");
         key.style.width = "20%";
