@@ -1,4 +1,6 @@
 export class Data {
-    nodes = new Map<string, Set<string>>();
+
+    incoming = new Map<string, Set<string>>();  // Connections from values to the key
+    outgoing = new Map<string, Set<string>>();  // Connections from the key to values
 
 }

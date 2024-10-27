@@ -71,11 +71,11 @@ export class Main {
         div.appendChild(interchange.element);
 
         // Add to data
-        if (data.nodes.has(interchange.id)) {
+        if (data.incoming.has(interchange.id) || data.outgoing.has(interchange.id)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
-        data.nodes.set(interchange.id, new Set<string>());
-
+        data.incoming.set(interchange.id, new Set<string>());
+        data.outgoing.set(interchange.id, new Set<string>());
 
         return interchange;
     }

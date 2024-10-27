@@ -62,7 +62,8 @@ export class Connector {
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
             // data
-            this.data.nodes.get(validConnection.nodeIdFrom)?.add(validConnection.nodeIdTo);
+            this.data.outgoing.get(validConnection.nodeIdFrom)?.add(validConnection.nodeIdTo);
+            this.data.incoming.get(validConnection.nodeIdTo)?.add(validConnection.nodeIdFrom);
         }
         this.line = undefined;
         this.socketFrom = undefined;
@@ -86,7 +87,12 @@ export class Connector {
             return false;
         }
 
-        if (this.data.nodes.get(nodeIdTo)?.has(nodeIdFrom)) {
+        if (this.data.incoming.get(nodeIdTo)?.has(nodeIdFrom)) {
+            // this node already has a connection from the "from" node
+            return false;
+        }
+
+        if (this.data.outgoing.get(nodeIdTo)?.has(nodeIdFrom)) {
             // there is already a connection going the other way
             return false;
         }
