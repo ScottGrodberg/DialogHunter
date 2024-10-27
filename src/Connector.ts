@@ -32,7 +32,9 @@ export class Connector {
     }
 
     onPointerMove(event: PointerEvent) {
-        if (!this.line) return;
+        if (!this.line || !this.socketFrom) {
+            return;
+        }
         const svgPoint = this.svg.createSVGPoint();
         svgPoint.x = event.clientX;
         svgPoint.y = event.clientY;
@@ -66,6 +68,7 @@ export class Connector {
             this.data.nodes.get(validConnection.nodeIdFrom)?.add(validConnection.nodeIdTo);
         }
         this.line = undefined;
+        this.socketFrom = undefined;
     }
 
     validateConnection(socketTo: HTMLElement): false | { nodeIdFrom: string, nodeIdTo: string } {
