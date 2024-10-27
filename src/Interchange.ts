@@ -1,5 +1,5 @@
+import { Choice } from "./Choice.js";
 import { ChoiceMaker } from "./ChoiceMaker.js";
-import { Connector } from "./Connector.js";
 import { Data } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -10,7 +10,6 @@ export class Interchange {
     element: HTMLElement;
     header: HTMLElement;
     body: HTMLElement;
-    choices: Array<ChoiceMaker>;
 
     id: string;
 
@@ -18,10 +17,8 @@ export class Interchange {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public connector: Connector, public rowMaker: RowMaker, public utility: Utility, public data: Data) {
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) {
         this.id = utility.generateUid(8);
-
-        this.choices = new Array();
 
         this.element = document.createElement("div");
         this.element.id = "node-" + this.id;
@@ -61,9 +58,10 @@ export class Interchange {
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
         buttonAdd.onclick = () => {
-            const choice = new ChoiceMaker(connector, rowMaker, utility, this.id);
-            this.choices.push(choice);
-            this.body.insertBefore(choice.element, buttonAdd);
+            const choiceId = this.utility.generateUid(8);
+            this.data.choices.set(choiceId, new Choice(choiceId));
+            const element = this.choiceMaker.choice(this.id, choiceId);
+            this.body.insertBefore(element, buttonAdd);
         };
         this.body.appendChild(buttonAdd);
 

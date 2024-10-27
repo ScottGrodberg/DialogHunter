@@ -1,3 +1,4 @@
+import { Choice } from "./Choice";
 
 export type NodeId = string;
 export type ChoiceId = string;
@@ -7,12 +8,7 @@ export type Node = {
     position: { top: number, left: number },
     choices: Array<ChoiceId>
 }
-export type Choice = {
-    choiceId: ChoiceId;
-    key: string;         // shortcut or hot key, should be unique among all choices for a node
-    sentence: string;    // statement or question or description    
-    nodeId?: NodeId;     // link to
-}
+
 export class Data {
 
     nodes = new Map<NodeId, Node>();

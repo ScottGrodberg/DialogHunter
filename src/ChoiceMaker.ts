@@ -1,17 +1,17 @@
 import { Connector } from "./Connector";
+import { ChoiceId, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
 import { Utility } from "./Utility";
 
 export class ChoiceMaker {
-    element: HTMLElement;
-    id: string;
 
-    constructor(public connector: Connector, public rowMaker: RowMaker, public utility: Utility, public nodeId: string) {
-        this.id = utility.generateUid(8);
+    constructor(public connector: Connector, public rowMaker: RowMaker, public utility: Utility) { }
 
-        this.element = rowMaker.row();
+    choice(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
-        const { socketLeft, socketRight } = rowMaker.sockets(nodeId, this.id);
+        const element = this.rowMaker.row();
+
+        const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
         const key = document.createElement("input");
         key.style.width = "20%";
@@ -31,10 +31,12 @@ export class ChoiceMaker {
             (event.target as HTMLElement).parentElement!.remove();
         };
 
-        this.element.appendChild(socketLeft);
-        this.element.appendChild(key);
-        this.element.appendChild(value);
-        this.element.appendChild(x);
-        this.element.appendChild(socketRight);
+        element.appendChild(socketLeft);
+        element.appendChild(key);
+        element.appendChild(value);
+        element.appendChild(x);
+        element.appendChild(socketRight);
+
+        return element;
     }
 }
