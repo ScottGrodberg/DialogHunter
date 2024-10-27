@@ -1,41 +1,17 @@
 import { Connector } from "./Connector";
+import { RowMaker } from "./RowMaker";
 import { Utility } from "./Utility";
 
 export class Choice {
     element: HTMLElement;
     id: string;
 
-    constructor(public connector: Connector, public utility: Utility, public nodeId: string) {
+    constructor(public connector: Connector, public rowMaker: RowMaker, public utility: Utility, public nodeId: string) {
         this.id = utility.generateUid(8);
-        this.element = document.createElement("div");
-        this.element.style.display = "flex";
-        this.element.style.flexDirection = "row";
-        this.element.style.position = "relative";
 
-        // Make a socket
-        const socket = document.createElement("div");
-        socket.dataset.choiceId = this.id;
-        socket.dataset.nodeId = nodeId;
-        socket.style.borderRadius = "50%";
-        socket.style.backgroundColor = "white";
-        socket.style.width = "14px";
-        socket.style.height = "14px";
-        socket.style.position = "absolute";
-        socket.style.border = "1px solid black";
-        socket.style.top = "10px";
-        socket.style.cursor = "pointer";
+        this.element = rowMaker.row();
 
-        // Clone to the left
-        const socketLeft = socket.cloneNode() as HTMLElement;
-        socketLeft.style.left = "-18px";
-        socketLeft.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed        
-        socketLeft.id = "socket-" + this.id + "-left";
-
-        // Clone to the right
-        const socketRight = socket.cloneNode() as HTMLElement;
-        socketRight.style.left = "calc(100% + 2px)";
-        socketRight.addEventListener('pointerdown', connector.onPointerDown.bind(connector)); // FIXME: (see above)
-        socketRight.id = "socket-" + this.id + "-right";
+        const { socketLeft, socketRight } = rowMaker.sockets(nodeId, this.id);
 
         const key = document.createElement("input");
         key.style.width = "20%";

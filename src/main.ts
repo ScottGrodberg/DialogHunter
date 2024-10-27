@@ -1,6 +1,7 @@
 import { Connector } from "./Connector.js";
 import { Data } from "./Data.js";
 import { Interchange } from "./Interchange.js";
+import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 const svgns = "http://www.w3.org/2000/svg";
@@ -37,6 +38,7 @@ export class Main {
         div.appendChild(svg);
 
         const connector = new Connector(data, div, svg);
+        const rowMaker = new RowMaker(connector, utility);
 
         // Add new interchange button
         const buttonNew = document.createElement("button");
@@ -45,11 +47,11 @@ export class Main {
         buttonNew.style.zIndex = "1";
         buttonNew.style.top = "0";
         buttonNew.style.left = "0";
-        buttonNew.onclick = () => this.addInterchange(connector, utility, data, divWrapper, div);
+        buttonNew.onclick = () => this.addInterchange(connector, rowMaker, utility, data, divWrapper, div);
         div.appendChild(buttonNew);
 
         // Start with one interchange
-        const firstInterchange = this.addInterchange(connector, utility, data, divWrapper, div);
+        const firstInterchange = this.addInterchange(connector, rowMaker, utility, data, divWrapper, div);
         firstInterchange.element.style.top = "66px";
         firstInterchange.element.style.left = "100px";
 
@@ -59,9 +61,9 @@ export class Main {
 
     }
 
-    addInterchange(connector: Connector, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): Interchange {
+    addInterchange(connector: Connector, rowMaker: RowMaker, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): Interchange {
 
-        const interchange = new Interchange(connector, utility, data);
+        const interchange = new Interchange(connector, rowMaker, utility, data);
 
         // Add to ui
         const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
