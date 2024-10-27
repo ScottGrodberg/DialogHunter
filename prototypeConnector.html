@@ -53,6 +53,7 @@
         }
 
         function onPointerDown(event) {
+            event.preventDefault();
             socketFrom = event.target;
             const start = getSocketCenter(socketFrom);
 

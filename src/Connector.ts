@@ -17,6 +17,8 @@ export class Connector {
     }
 
     onPointerDown(event: PointerEvent) {
+        event.preventDefault();
+
         this.socketFrom = event.target as HTMLElement;
         const start = this.getSocketCenter(this.socketFrom);
 
