@@ -20,6 +20,17 @@ export class Connector {
         event.preventDefault();
 
         this.socketFrom = event.target as HTMLElement;
+
+        const sockets = document.getElementsByClassName("socket");
+        [...sockets].forEach(socket => {
+            const _socket = socket as HTMLElement;
+            if ("choiceId" in _socket.dataset && _socket !== this.socketFrom) {
+                _socket.style.display = "none";
+            } else {
+                _socket.style.display = "block";
+            }
+        });
+
         const start = this.getSocketCenter(this.socketFrom);
 
         this.line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -67,6 +78,16 @@ export class Connector {
         }
         this.line = undefined;
         this.socketFrom = undefined;
+
+        const sockets = document.getElementsByClassName("socket");
+        [...sockets].forEach(socket => {
+            const _socket = socket as HTMLElement;
+            if ("choiceId" in _socket.dataset || _socket === socketTo) {
+                _socket.style.display = "block";
+            } else {
+                _socket.style.display = "none";
+            }
+        });
     }
 
     validateConnection(socketTo: HTMLElement): false | { nodeIdFrom: string, nodeIdTo: string } {

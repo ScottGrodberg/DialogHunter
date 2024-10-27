@@ -29,6 +29,7 @@ export class RowMaker {
         socket.style.border = "1px solid black";
         socket.style.top = "10px";
         socket.style.cursor = "pointer";
+        socket.className = "socket";
 
         // Clone for the left
         const socketLeft = socket.cloneNode() as HTMLDivElement;

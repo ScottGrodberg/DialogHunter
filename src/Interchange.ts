@@ -40,6 +40,8 @@ export class Interchange {
 
         const row = rowMaker.row();
         const sockets = rowMaker.sockets(this.id);
+        sockets.socketLeft.style.display = "none";
+        sockets.socketRight.style.display = "none";
         row.append(sockets.socketLeft, sockets.socketRight);
         this.header.appendChild(row);
 
