@@ -34,9 +34,9 @@ export class Connector {
         const start = this.getSocketCenter(this.socketFrom);
 
         this.line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        this.line.setAttribute("x1", start.x.toString());
+        this.line.setAttribute("x1", start.x.toString());   // from
         this.line.setAttribute("y1", start.y.toString());
-        this.line.setAttribute("x2", start.x.toString());
+        this.line.setAttribute("x2", start.x.toString());   // to
         this.line.setAttribute("y2", start.y.toString());
         this.line.setAttribute("stroke", "black");
         this.line.setAttribute("stroke-width", "2");
