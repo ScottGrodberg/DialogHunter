@@ -73,8 +73,8 @@ export class Connector {
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
             // data
-            this.data.outgoing.get(validConnection.nodeIdFrom)?.add(validConnection.nodeIdTo);
-            this.data.incoming.get(validConnection.nodeIdTo)?.add(validConnection.nodeIdFrom);
+            this.data.outgoing.get(validConnection.nodeIdFrom)?.set(validConnection.nodeIdTo, this.line);
+            this.data.incoming.get(validConnection.nodeIdTo)?.set(validConnection.nodeIdFrom, this.line);
         }
         this.line = undefined;
         this.socketFrom = undefined;

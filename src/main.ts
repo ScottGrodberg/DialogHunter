@@ -1,5 +1,5 @@
 import { Connector } from "./Connector.js";
-import { Data } from "./Data.js";
+import { Data, Line, NodeId } from "./Data.js";
 import { Interchange } from "./Interchange.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -76,8 +76,8 @@ export class Main {
         if (data.incoming.has(interchange.id) || data.outgoing.has(interchange.id)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
-        data.incoming.set(interchange.id, new Set<string>());
-        data.outgoing.set(interchange.id, new Set<string>());
+        data.incoming.set(interchange.id, new Map<NodeId, Line>());
+        data.outgoing.set(interchange.id, new Map<NodeId, Line>());
 
         return interchange;
     }
