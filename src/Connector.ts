@@ -37,13 +37,9 @@ export class Connector {
         if (!this.line || !this.socketFrom) {
             return;
         }
-        const svgPoint = this.svg.createSVGPoint();
-        svgPoint.x = event.clientX;
-        svgPoint.y = event.clientY;
-        const transformedPoint = svgPoint.matrixTransform(this.svg.getScreenCTM()?.inverse());
 
-        this.line.setAttribute("x2", transformedPoint.x.toString());
-        this.line.setAttribute("y2", transformedPoint.y.toString());
+        this.line.setAttribute("x2", event.clientX.toString());
+        this.line.setAttribute("y2", event.clientY.toString());
     }
 
     /**
