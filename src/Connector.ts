@@ -82,7 +82,7 @@ export class Connector {
         const sockets = document.getElementsByClassName("socket");
         [...sockets].forEach(socket => {
             const _socket = socket as HTMLElement;
-            if ("choiceId" in _socket.dataset || _socket === socketTo) {
+            if ("choiceId" in _socket.dataset || (validConnection && _socket === socketTo)) {
                 _socket.style.display = "block";
             } else {
                 _socket.style.display = "none";
@@ -117,6 +117,8 @@ export class Connector {
             // there is already a connection going the other way
             return false;
         }
+
+        // TODO: not valid if the outgoing socket already has a connection to another node
 
         return { nodeIdFrom, nodeIdTo };
     }
