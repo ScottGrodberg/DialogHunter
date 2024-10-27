@@ -38,6 +38,11 @@ export class Interchange {
         this.header.style.backgroundColor = "blue";
         this.header.style.cursor = "pointer";
 
+        const row = rowMaker.row();
+        const sockets = rowMaker.sockets(this.id);
+        row.append(sockets.socketLeft, sockets.socketRight);
+        this.header.appendChild(row);
+
         this.body = document.createElement("div");
         this.body.style.width = "100%";
         this.body.style.minHeight = "120px";
