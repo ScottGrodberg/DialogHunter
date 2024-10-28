@@ -32,12 +32,12 @@ export class ChoiceMaker {
 
             // Delete the element
             const element = (event.target as HTMLElement).parentElement;
-            const nodeId = element?.dataset.nodeId!;
+            const nodeId = element!.dataset.nodeId!;
             const choiceId = element!.dataset.choiceId!;
             element!.remove();
 
             // Delete the data
-            const nodeIdTo = this.data.choices.get(choiceId)?.nodeId;
+            const nodeIdTo = this.data.choices.get(choiceId)!.nodeId;
             this.data.choices.delete(choiceId);
             const node = this.data.nodes.get(nodeId)!;
             node.choices = node.choices.filter(_choiceId => _choiceId !== choiceId);
@@ -45,7 +45,7 @@ export class ChoiceMaker {
             // Delete the connection
             if (nodeIdTo) {
                 const node = this.data.outgoing.get(nodeId)!;
-                node.get(nodeIdTo)?.remove(); // remove the ilne
+                node.get(nodeIdTo)!.remove(); // remove the ilne
                 node.delete(nodeIdTo); // delete the outgoing to connection                
             }
         };

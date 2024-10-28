@@ -74,8 +74,8 @@ export class Connector {
 
             // data
             this.data.choices.get(this.socketFrom.dataset.choiceId!)!.nodeId = validConnection.nodeIdTo;
-            this.data.outgoing.get(validConnection.nodeIdFrom)?.set(validConnection.nodeIdTo, this.line);
-            this.data.incoming.get(validConnection.nodeIdTo)?.set(validConnection.nodeIdFrom, this.line);
+            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, this.line);
+            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, this.line);
         }
         this.line = undefined;
         this.socketFrom = undefined;
@@ -102,7 +102,7 @@ export class Connector {
             return false;
         }
 
-        const nodeIdFrom = this.socketFrom?.dataset.nodeId!;
+        const nodeIdFrom = this.socketFrom!.dataset.nodeId!;
         const nodeIdTo = socketTo.dataset.nodeId!;
         if (nodeIdFrom === nodeIdTo) {
             // don't allow connections between sockets of the same node
