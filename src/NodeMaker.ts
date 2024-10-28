@@ -90,6 +90,9 @@ export class NodeMaker {
         const nodeElement = element.parentElement;
         nodeElement.style.left = newX + "px";
         nodeElement.style.top = newY + "px";
+
+        // TODO: get the incoming and outgoing lines by nodeId. 
+        // For the incoming, update x2 and y2. For outgoing, update x1 and y1
     }
 
     // Function to handle the end of the drag
