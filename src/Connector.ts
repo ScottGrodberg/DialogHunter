@@ -118,7 +118,11 @@ export class Connector {
             return false;
         }
 
-        // TODO: not valid if the outgoing socket already has a connection to another node
+        const choiceId = this.socketFrom!.dataset.choiceId!;
+        if (this.data.choices.get(choiceId)!.nodeId) {
+            // outgoing socket already has a connection to another node
+            return false;
+        }
 
         return { nodeIdFrom, nodeIdTo };
     }

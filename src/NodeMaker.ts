@@ -55,7 +55,7 @@ export class NodeMaker {
         buttonAdd.onclick = () => {
             const choiceId = this.utility.generateUid(8);
             this.data.choices.set(choiceId, new Choice(choiceId));
-            this.data.nodes.get(nodeId)?.choices.push(choiceId);
+            this.data.nodes.get(nodeId)!.choices.push(choiceId);
             const element = this.choiceMaker.choice(nodeId, choiceId);
             body.insertBefore(element, buttonAdd);
         };

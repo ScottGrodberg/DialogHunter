@@ -1,6 +1,7 @@
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { Data, Line, NodeId } from "./Data.js";
+import { Node } from "./Node.js";
 import { NodeMaker } from "./NodeMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -65,8 +66,9 @@ export class Main {
     }
 
     newNode(nodeMaker: NodeMaker, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): HTMLElement {
-
-        const element = nodeMaker.node(utility.generateUid(8));
+        const node = new Node(utility.generateUid(8));
+        data.nodes.set(node.nodeId, node);
+        const element = nodeMaker.node(node.nodeId);
 
         // Add to ui
         const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
@@ -76,11 +78,11 @@ export class Main {
         div.appendChild(element);
 
         // Add to data
-        if (data.incoming.has(element.id) || data.outgoing.has(element.id)) {
+        if (data.incoming.has(node.nodeId) || data.outgoing.has(node.nodeId)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
-        data.incoming.set(element.id, new Map<NodeId, Line>());
-        data.outgoing.set(element.id, new Map<NodeId, Line>());
+        data.incoming.set(node.nodeId, new Map<NodeId, Line>());
+        data.outgoing.set(node.nodeId, new Map<NodeId, Line>());
 
         return element;
     }
