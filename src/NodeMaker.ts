@@ -46,7 +46,6 @@ export class NodeMaker {
         body.style.minHeight = "120px";
         body.style.backgroundColor = "red";
 
-
         header.addEventListener('pointerdown', this.ptrDown);
 
         const buttonAdd = document.createElement("button");
@@ -60,9 +59,10 @@ export class NodeMaker {
             body.insertBefore(element, buttonAdd);
         };
         body.appendChild(buttonAdd);
-
         element.appendChild(header);
         element.appendChild(body);
+
+        element.addEventListener('click', this.loadNodeIntoEditor);
 
         return element;
     }
@@ -108,5 +108,12 @@ export class NodeMaker {
         this.data.nodes.get(nodeId)!.position = { left: node.style.left, top: node.style.top };
     }
 
+    loadNodeIntoEditor(event: Event) {
+        const element = event.currentTarget as HTMLElement;
+
+        console.log(`Got click at ${element.id}`);
+
+        event.stopPropagation();
+    }
 
 }
