@@ -40,7 +40,7 @@ export class Main {
 
         const connector = new Connector(data, div, svg);
         const rowMaker = new RowMaker(connector, utility);
-        const choiceMaker = new ChoiceMaker(connector, rowMaker, utility);
+        const choiceMaker = new ChoiceMaker(rowMaker);
 
         // Add new interchange button
         const buttonNew = document.createElement("button");

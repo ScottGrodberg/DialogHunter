@@ -1,11 +1,9 @@
-import { Connector } from "./Connector";
 import { ChoiceId, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
-import { Utility } from "./Utility";
 
 export class ChoiceMaker {
 
-    constructor(public connector: Connector, public rowMaker: RowMaker, public utility: Utility) { }
+    constructor(public rowMaker: RowMaker) { }
 
     choice(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
