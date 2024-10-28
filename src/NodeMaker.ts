@@ -109,11 +109,12 @@ export class NodeMaker {
     }
 
     loadNodeIntoEditor(event: Event) {
-        const element = event.currentTarget as HTMLElement;
-
-        console.log(`Got click at ${element.id}`);
-
         event.stopPropagation();
+        const element = event.currentTarget as HTMLElement;
+        const nodeId = element.dataset.nodeId;
+
+        console.log(`Got click at node ${nodeId}`);
+
     }
 
 }
