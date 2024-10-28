@@ -32,30 +32,31 @@ export class Main {
         const data = new Data();
         const utility = new Utility();
 
-        // Layout wrapper
-        const divWrapper = document.createElement("div");
-        divWrapper.id = "divWrapper";
-        divWrapper.style.height = "50%";
-        divWrapper.style.overflow = "scroll";
-        document.body.appendChild(divWrapper);
-
-        // Layout inner
-        const div = document.createElement("div");
-        div.style.width = "2000px";
-        div.style.height = "1000px";
-        div.style.position = "relative";
-
-        // Svg
-        const svg = document.createElementNS(svgns, "svg");
-        svg.id = "svg-layout";
-        svg.setAttribute("width", "100%");
-        svg.setAttribute("height", "100%");
-        div.appendChild(svg);
-
-        const connector = new Connector(data, div, svg);
+        const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+
+        // Layout wrapper
+        const divLayoutWrapper = document.createElement("div");
+        divLayoutWrapper.id = "divWrapper";
+        divLayoutWrapper.style.height = "50%";
+        divLayoutWrapper.style.overflow = "scroll";
+        data.divLayoutWrapper = divLayoutWrapper;
+
+        // Layout inner
+        const divLayout = document.createElement("div");
+        divLayout.style.width = "2000px";
+        divLayout.style.height = "1000px";
+        divLayout.style.position = "relative";
+        data.divLayout = divLayout;
+
+        // Svg
+        const svgLayout = document.createElementNS(svgns, "svg");
+        svgLayout.id = "svg-layout";
+        svgLayout.setAttribute("width", "100%");
+        svgLayout.setAttribute("height", "100%");
+        data.svgLayout = svgLayout;
 
         // Add new interchange button
         const buttonNew = document.createElement("button");
@@ -64,31 +65,37 @@ export class Main {
         buttonNew.style.zIndex = "1";
         buttonNew.style.top = "0";
         buttonNew.style.left = "0";
-        buttonNew.onclick = () => this.newNode(nodeMaker, utility, data, divWrapper, div);
-        div.appendChild(buttonNew);
+        buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
+        divLayout.appendChild(buttonNew);
 
         // Start with one interchange
-        const firstInterchange = this.newNode(nodeMaker, utility, data, divWrapper, div);
+        const firstInterchange = this.newNode(nodeMaker, utility, data);
         firstInterchange.style.top = "66px";
         firstInterchange.style.left = "100px";
 
-        // Final composition
-        divWrapper.appendChild(div);
-        document.body.appendChild(divWrapper);
+        // Element composition
+        divLayout.appendChild(svgLayout);
+        divLayoutWrapper.appendChild(divLayout);
+        document.body.appendChild(divLayoutWrapper);
+
+        connector.init();
 
     }
 
-    newNode(nodeMaker: NodeMaker, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): HTMLElement {
+    newNode(nodeMaker: NodeMaker, utility: Utility, data: Data): HTMLElement {
+        const divLayout = data.divLayout!;
+        const divLayoutWrapper = data.divLayoutWrapper!;
+
         const node = new Node(utility.generateUid(8));
         data.nodes.set(node.nodeId, node);
         const element = nodeMaker.node(node.nodeId);
 
         // Add to ui
-        const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
-        const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
+        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
+        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
         element.style.left = left + "px";
         element.style.top = top + "px";
-        div.appendChild(element);
+        divLayout.appendChild(element);
 
         // Add to data
         if (data.incoming.has(node.nodeId) || data.outgoing.has(node.nodeId)) {

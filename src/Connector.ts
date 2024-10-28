@@ -5,14 +5,15 @@ export class Connector {
     line?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public data: Data, public container: HTMLElement, public svg: SVGSVGElement) {
+    constructor(public data: Data) { }
 
+    init() {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
         defs.appendChild(this.createArrowMarker());
-        this.svg.appendChild(defs);
+        this.data.svgLayout!.appendChild(defs);
 
-        container.addEventListener('pointerup', this.onPointerUp.bind(this));
-        container.addEventListener('pointermove', this.onPointerMove.bind(this));
+        this.data.divLayout!.addEventListener('pointerup', this.onPointerUp.bind(this));
+        this.data.divLayout!.addEventListener('pointermove', this.onPointerMove.bind(this));
 
     }
 
@@ -41,7 +42,7 @@ export class Connector {
         this.line.setAttribute("stroke", "black");
         this.line.setAttribute("stroke-width", "2");
         this.line.setAttribute("marker-end", "url(#arrow)");
-        this.svg.appendChild(this.line);
+        this.data.svgLayout!.appendChild(this.line);
     }
 
     onPointerMove(event: PointerEvent) {
@@ -148,7 +149,7 @@ export class Connector {
 
     getSocketCenter(socket: HTMLElement) {
         const rect = socket.getBoundingClientRect();
-        const svgRect = this.svg.getBoundingClientRect();
+        const svgRect = this.data.svgLayout!.getBoundingClientRect();
         return {
             x: rect.left + rect.width / 2 - svgRect.left,
             y: rect.top + rect.height / 2 - svgRect.top,

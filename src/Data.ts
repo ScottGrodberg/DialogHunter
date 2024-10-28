@@ -7,6 +7,9 @@ export type Line = SVGElement;
 
 
 export class Data {
+    divLayout?: HTMLDivElement;
+    svgLayout?: SVGElement;
+    divLayoutWrapper?: HTMLDivElement;
 
     nodes = new Map<NodeId, Node>();
     choices = new Map<ChoiceId, Choice>();
