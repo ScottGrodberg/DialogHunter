@@ -81,6 +81,7 @@ export class Main {
         const firstInterchange = this.newNode(nodeMaker, utility, data);
         firstInterchange.style.top = "66px";
         firstInterchange.style.left = "100px";
+        data.head = firstInterchange.dataset.nodeId;
 
         // Element composition
         divLayout.appendChild(svgLayout);

@@ -7,6 +7,9 @@ export type Line = SVGElement;
 
 
 export class Data {
+
+    // Elements
+
     // Top section - layout
     divLayoutWrapper?: HTMLDivElement;
     divLayout?: HTMLDivElement;
@@ -16,10 +19,13 @@ export class Data {
     divStepthruWrapper?: HTMLDivElement;
     divStepthru?: HTMLDivElement;
 
+
+    // Data 
+    head?: NodeId;  // The starting node for the interchange
     nodes = new Map<NodeId, Node>();
     choices = new Map<ChoiceId, Choice>();
 
-    // Node connections
+    // Node connections, hold refs to Line objects
     incoming = new Map<NodeId, Map<NodeId, Line>>();  // Connections from values to the key
     outgoing = new Map<NodeId, Map<NodeId, Line>>();  // Connections from the key to values
 
