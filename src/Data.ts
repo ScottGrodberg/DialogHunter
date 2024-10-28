@@ -7,9 +7,14 @@ export type Line = SVGElement;
 
 
 export class Data {
+    // Top section - layout
+    divLayoutWrapper?: HTMLDivElement;
     divLayout?: HTMLDivElement;
     svgLayout?: SVGElement;
-    divLayoutWrapper?: HTMLDivElement;
+
+    // Bottom section - stepthru
+    divStepthruWrapper?: HTMLDivElement;
+    divStepthru?: HTMLDivElement;
 
     nodes = new Map<NodeId, Node>();
     choices = new Map<ChoiceId, Choice>();

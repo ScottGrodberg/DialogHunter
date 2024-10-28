@@ -36,6 +36,7 @@ export class Main {
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker);
+        this.composeStepthru(data, utility);
 
         connector.init();
 
@@ -45,13 +46,14 @@ export class Main {
 
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
-        divLayoutWrapper.id = "divWrapper";
+        divLayoutWrapper.id = "div-layout-wrapper";
         divLayoutWrapper.style.height = "50%";
         divLayoutWrapper.style.overflow = "scroll";
         data.divLayoutWrapper = divLayoutWrapper;
 
         // Layout inner
         const divLayout = document.createElement("div");
+        divLayout.id = "div-layout";
         divLayout.style.width = "2000px";
         divLayout.style.height = "1000px";
         divLayout.style.position = "relative";
@@ -64,13 +66,14 @@ export class Main {
         svgLayout.setAttribute("height", "100%");
         data.svgLayout = svgLayout;
 
-        // Add new interchange button
+        // Add new node button
         const buttonNew = document.createElement("button");
+        buttonNew.id = "button-new-node";
         buttonNew.innerHTML = "+";
         buttonNew.style.position = "fixed";
         buttonNew.style.zIndex = "1";
-        buttonNew.style.top = "0";
-        buttonNew.style.left = "0";
+        buttonNew.style.top = "20px";
+        buttonNew.style.left = "20px";
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
 
@@ -84,6 +87,39 @@ export class Main {
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
     }
+
+    composeStepthru(data: Data, utility: Utility) {
+        // Stepthru wrapper
+        const divStepthruWrapper = document.createElement("div");
+        divStepthruWrapper.id = "div-stepthru-wrapper";
+        divStepthruWrapper.style.height = "50%";
+        divStepthruWrapper.style.overflow = "scroll";
+        data.divStepthruWrapper = divStepthruWrapper;
+
+        // Stepthru inner
+        const divStepthru = document.createElement("div");
+        divStepthru.id = "div-stepthru";
+        divStepthru.style.width = "2000px";
+        divStepthru.style.height = "1000px";
+        divStepthru.style.position = "relative";
+        data.divStepthru = divStepthru;
+
+        // Add play button
+        const buttonPlay = document.createElement("button");
+        buttonPlay.id = "button-play";
+        buttonPlay.innerHTML = ">";
+        buttonPlay.style.position = "fixed";
+        buttonPlay.style.zIndex = "1";
+        buttonPlay.style.top = "calc(50% + 20px)";
+        buttonPlay.style.left = "20px";
+        buttonPlay.onclick = () => { throw new Error(`onclick undef`); };
+        divStepthruWrapper.appendChild(buttonPlay);
+
+        // Element composition
+        divStepthruWrapper.appendChild(divStepthru);
+        document.body.appendChild(divStepthruWrapper);
+    }
+
 
     newNode(nodeMaker: NodeMaker, utility: Utility, data: Data): HTMLElement {
         const divLayout = data.divLayout!;
@@ -109,4 +145,5 @@ export class Main {
 
         return element;
     }
+
 }
