@@ -53,10 +53,10 @@ export class NodeMaker {
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
         buttonAdd.onclick = () => {
-            const choiceId = this.utility.generateUid(8);
-            this.data.choices.set(choiceId, new Choice(choiceId));
-            this.data.nodes.get(nodeId)!.choices.push(choiceId);
-            const element = this.choiceMaker.choice(nodeId, choiceId);
+            const choice = new Choice(this.utility.generateUid(8));
+            this.data.choices.set(choice.choiceId, choice);
+            this.data.nodes.get(nodeId)!.choices.push(choice.choiceId);
+            const element = this.choiceMaker.choice(nodeId, choice.choiceId);
             body.insertBefore(element, buttonAdd);
         };
         body.appendChild(buttonAdd);
