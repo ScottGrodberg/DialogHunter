@@ -98,6 +98,11 @@ export class NodeMaker {
         element.releasePointerCapture(event.pointerId);
         element.removeEventListener('pointermove', this.ptrMove);
         element.removeEventListener('pointerup', this.ptrUp);
+
+        // Update node position        
+        const node = element.parentElement;
+        const nodeId = node.dataset.nodeId;
+        this.data.nodes.get(nodeId)!.position = { left: node.style.left, top: node.style.top };
     }
 
 
