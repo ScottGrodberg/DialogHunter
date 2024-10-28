@@ -115,11 +115,6 @@ export class Connector {
             return false;
         }
 
-        if (this.data.outgoing.get(nodeIdTo)?.has(nodeIdFrom)) {
-            // there is already a connection going the other way
-            return false;
-        }
-
         const choiceId = this.socketFrom!.dataset.choiceId!;
         if (this.data.choices.get(choiceId)!.nodeId) {
             // outgoing socket already has a connection to another node
