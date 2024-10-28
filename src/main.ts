@@ -1,7 +1,7 @@
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { Data, Line, NodeId } from "./Data.js";
-import { Interchange } from "./Interchange.js";
+import { NodeMaker } from "./NodeMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -41,6 +41,7 @@ export class Main {
         const connector = new Connector(data, div, svg);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(rowMaker);
+        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
 
         // Add new interchange button
         const buttonNew = document.createElement("button");
@@ -49,13 +50,13 @@ export class Main {
         buttonNew.style.zIndex = "1";
         buttonNew.style.top = "0";
         buttonNew.style.left = "0";
-        buttonNew.onclick = () => this.addInterchange(choiceMaker, rowMaker, utility, data, divWrapper, div);
+        buttonNew.onclick = () => this.newNode(nodeMaker, utility, data, divWrapper, div);
         div.appendChild(buttonNew);
 
         // Start with one interchange
-        const firstInterchange = this.addInterchange(choiceMaker, rowMaker, utility, data, divWrapper, div);
-        firstInterchange.element.style.top = "66px";
-        firstInterchange.element.style.left = "100px";
+        const firstInterchange = this.newNode(nodeMaker, utility, data, divWrapper, div);
+        firstInterchange.style.top = "66px";
+        firstInterchange.style.left = "100px";
 
         // Final composition
         divWrapper.appendChild(div);
@@ -63,24 +64,24 @@ export class Main {
 
     }
 
-    addInterchange(choiceMaker: ChoiceMaker, rowMaker: RowMaker, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): Interchange {
+    newNode(nodeMaker: NodeMaker, utility: Utility, data: Data, divWrapper: HTMLDivElement, div: HTMLDivElement): HTMLElement {
 
-        const interchange = new Interchange(rowMaker, utility, data, choiceMaker);
+        const element = nodeMaker.node(utility.generateUid(8));
 
         // Add to ui
-        const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
-        const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - Interchange.DEFAULT_WIDTH * 0.5;
-        interchange.element.style.left = left + "px";
-        interchange.element.style.top = top + "px";
-        div.appendChild(interchange.element);
+        const left = divWrapper.scrollLeft + divWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
+        const top = divWrapper.scrollTop + divWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
+        element.style.left = left + "px";
+        element.style.top = top + "px";
+        div.appendChild(element);
 
         // Add to data
-        if (data.incoming.has(interchange.id) || data.outgoing.has(interchange.id)) {
+        if (data.incoming.has(element.id) || data.outgoing.has(element.id)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
-        data.incoming.set(interchange.id, new Map<NodeId, Line>());
-        data.outgoing.set(interchange.id, new Map<NodeId, Line>());
+        data.incoming.set(element.id, new Map<NodeId, Line>());
+        data.outgoing.set(element.id, new Map<NodeId, Line>());
 
-        return interchange;
+        return element;
     }
 }

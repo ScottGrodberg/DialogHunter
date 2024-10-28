@@ -1,13 +1,10 @@
 import { Choice } from "./Choice";
+import { Node } from "./Node";
 
 export type NodeId = string;
 export type ChoiceId = string;
 export type Line = SVGElement;
 
-export type Node = {
-    position: { top: number, left: number },
-    choices: Array<ChoiceId>
-}
 
 export class Data {
 

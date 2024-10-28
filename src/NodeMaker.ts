@@ -1,58 +1,53 @@
 import { Choice } from "./Choice.js";
 import { ChoiceMaker } from "./ChoiceMaker.js";
-import { Data } from "./Data.js";
+import { Data, NodeId } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
-export class Interchange {
+export class NodeMaker {
     static DEFAULT_WIDTH = 150;
-
-    element: HTMLElement;
-    header: HTMLElement;
-    body: HTMLElement;
-
-    id: string;
 
     ptrDown: (event: any) => void;
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
     constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) {
-        this.id = utility.generateUid(8);
-
-        this.element = document.createElement("div");
-        this.element.id = "node-" + this.id;
-        this.element.dataset.nodeId = this.id;
-        this.element.style.width = Interchange.DEFAULT_WIDTH + "px";
-        this.element.style.padding = "10px";
-        this.element.style.backgroundColor = "black";
-        this.element.style.position = "absolute";
-        this.element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
-
-        this.header = document.createElement("div");
-        this.header.style.width = "100%";
-        this.header.style.height = "30px";
-        this.header.style.backgroundColor = "blue";
-        this.header.style.cursor = "pointer";
-
-        const row = rowMaker.row();
-        const sockets = rowMaker.sockets(this.id);
-        sockets.socketLeft.style.display = "none";
-        sockets.socketRight.style.display = "none";
-        row.append(sockets.socketLeft, sockets.socketRight);
-        this.header.appendChild(row);
-
-        this.body = document.createElement("div");
-        this.body.style.width = "100%";
-        this.body.style.minHeight = "120px";
-        this.body.style.backgroundColor = "red";
-
-        // Attach the pointerdown event listener to the SVG elements
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
+    }
 
-        this.header.addEventListener('pointerdown', this.ptrDown);
+    node(nodeId: NodeId): HTMLDivElement {
+
+        const element = document.createElement("div");
+        element.id = "node-" + nodeId;
+        element.dataset.nodeId = nodeId;
+        element.style.width = NodeMaker.DEFAULT_WIDTH + "px";
+        element.style.padding = "10px";
+        element.style.backgroundColor = "black";
+        element.style.position = "absolute";
+        element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
+
+        const header = document.createElement("div");
+        header.style.width = "100%";
+        header.style.height = "30px";
+        header.style.backgroundColor = "blue";
+        header.style.cursor = "pointer";
+
+        const row = this.rowMaker.row();
+        const sockets = this.rowMaker.sockets(nodeId);
+        sockets.socketLeft.style.display = "none";
+        sockets.socketRight.style.display = "none";
+        row.append(sockets.socketLeft, sockets.socketRight);
+        header.appendChild(row);
+
+        const body = document.createElement("div");
+        body.style.width = "100%";
+        body.style.minHeight = "120px";
+        body.style.backgroundColor = "red";
+
+
+        header.addEventListener('pointerdown', this.ptrDown);
 
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+";
@@ -60,13 +55,16 @@ export class Interchange {
         buttonAdd.onclick = () => {
             const choiceId = this.utility.generateUid(8);
             this.data.choices.set(choiceId, new Choice(choiceId));
-            const element = this.choiceMaker.choice(this.id, choiceId);
-            this.body.insertBefore(element, buttonAdd);
+            this.data.nodes.get(nodeId)?.choices.push(choiceId);
+            const element = this.choiceMaker.choice(nodeId, choiceId);
+            body.insertBefore(element, buttonAdd);
         };
-        this.body.appendChild(buttonAdd);
+        body.appendChild(buttonAdd);
 
-        this.element.appendChild(this.header);
-        this.element.appendChild(this.body);
+        element.appendChild(header);
+        element.appendChild(body);
+
+        return element;
     }
 
     // Function to handle the start of the drag
@@ -77,8 +75,9 @@ export class Interchange {
         element.addEventListener('pointerup', this.ptrUp);
         element.dataset.startX = event.clientX;
         element.dataset.startY = event.clientY;
-        element.dataset.initX = parseFloat(this.element.style.left) || 0;
-        element.dataset.initY = parseFloat(this.element.style.top) || 0;
+        const nodeElement = element.parentElement;
+        element.dataset.initX = parseFloat(nodeElement.style.left) || 0;
+        element.dataset.initY = parseFloat(nodeElement.style.top) || 0;
     }
 
     // Function to handle the movement during drag
@@ -88,8 +87,9 @@ export class Interchange {
         const deltaY = event.clientY - element.dataset.startY;
         const newX = parseFloat(element.dataset.initX) + deltaX;
         const newY = parseFloat(element.dataset.initY) + deltaY;
-        this.element.style.left = newX + "px";
-        this.element.style.top = newY + "px";
+        const nodeElement = element.parentElement;
+        nodeElement.style.left = newX + "px";
+        nodeElement.style.top = newY + "px";
     }
 
     // Function to handle the end of the drag
