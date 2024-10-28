@@ -11,7 +11,6 @@ const svgns = "http://www.w3.org/2000/svg";
 // Entry point
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
-    main.setup();
 });
 
 // App-wide styles, should prob just be element selectors here
@@ -27,15 +26,22 @@ document.head.appendChild(style);
 
 export class Main {
 
-    setup() {
+    constructor() {
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
-
         const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+
+        this.composeLayout(data, utility, nodeMaker);
+
+        connector.init();
+
+    }
+
+    composeLayout(data: Data, utility: Utility, nodeMaker: NodeMaker) {
 
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
@@ -77,9 +83,6 @@ export class Main {
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
-
-        connector.init();
-
     }
 
     newNode(nodeMaker: NodeMaker, utility: Utility, data: Data): HTMLElement {
