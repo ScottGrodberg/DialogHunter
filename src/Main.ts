@@ -94,30 +94,9 @@ export class Main {
         const divStepthruWrapper = document.createElement("div");
         divStepthruWrapper.id = "div-stepthru-wrapper";
         divStepthruWrapper.style.height = "50%";
-        divStepthruWrapper.style.overflow = "scroll";
         data.divStepthruWrapper = divStepthruWrapper;
 
-        // Stepthru inner
-        const divStepthru = document.createElement("div");
-        divStepthru.id = "div-stepthru";
-        divStepthru.style.width = "2000px";
-        divStepthru.style.height = "1000px";
-        divStepthru.style.position = "relative";
-        data.divStepthru = divStepthru;
-
-        // Add play button
-        const buttonPlay = document.createElement("button");
-        buttonPlay.id = "button-play";
-        buttonPlay.innerHTML = ">";
-        buttonPlay.style.position = "fixed";
-        buttonPlay.style.zIndex = "1";
-        buttonPlay.style.top = "calc(50% + 20px)";
-        buttonPlay.style.left = "20px";
-        buttonPlay.onclick = () => { throw new Error(`onclick undef`); };
-        divStepthruWrapper.appendChild(buttonPlay);
-
         // Element composition
-        divStepthruWrapper.appendChild(divStepthru);
         document.body.appendChild(divStepthruWrapper);
     }
 

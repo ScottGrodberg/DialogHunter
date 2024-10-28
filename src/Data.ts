@@ -17,7 +17,6 @@ export class Data {
 
     // Bottom section - stepthru
     divStepthruWrapper?: HTMLDivElement;
-    divStepthru?: HTMLDivElement;
 
 
     // Data 
