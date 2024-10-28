@@ -8,14 +8,27 @@ import { Utility } from "./Utility.js";
 
 const svgns = "http://www.w3.org/2000/svg";
 
+// Entry point
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
     main.setup();
 });
 
+// App-wide styles, should prob just be element selectors here
+const style = document.createElement('style');
+style.innerHTML = `
+    button {
+        cursor: pointer;
+        user-select: none;
+    }
+`;
+document.head.appendChild(style);
+
+
 export class Main {
 
     setup() {
+        // Begin composition root
         const data = new Data();
         const utility = new Utility();
 
