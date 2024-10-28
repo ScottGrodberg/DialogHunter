@@ -106,10 +106,9 @@ export class Main {
         const divLayoutWrapper = data.divLayoutWrapper!;
 
         const node = new Node(utility.generateUid(8));
-        data.nodes.set(node.nodeId, node);
-        const element = nodeMaker.node(node.nodeId);
 
         // Add to ui
+        const element = nodeMaker.node(node.nodeId);
         const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
         const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
         element.style.left = left + "px";
@@ -117,6 +116,7 @@ export class Main {
         divLayout.appendChild(element);
 
         // Add to data
+        data.nodes.set(node.nodeId, node);
         if (data.incoming.has(node.nodeId) || data.outgoing.has(node.nodeId)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
