@@ -41,7 +41,7 @@ export class Main {
 
         const connector = new Connector(data, div, svg);
         const rowMaker = new RowMaker(connector, utility);
-        const choiceMaker = new ChoiceMaker(rowMaker);
+        const choiceMaker = new ChoiceMaker(data, rowMaker);
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
 
         // Add new interchange button

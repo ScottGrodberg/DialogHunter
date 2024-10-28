@@ -1,9 +1,9 @@
-import { ChoiceId, NodeId } from "./Data";
+import { ChoiceId, Data, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
 
 export class ChoiceMaker {
 
-    constructor(public rowMaker: RowMaker) { }
+    constructor(public data: Data, public rowMaker: RowMaker) { }
 
     choice(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
@@ -29,7 +29,25 @@ export class ChoiceMaker {
         x.innerHTML = "X";
         x.style.width = "20%";
         x.onclick = (event: MouseEvent) => {
-            (event.target as HTMLElement).parentElement!.remove();
+
+            // Delete the element
+            const element = (event.target as HTMLElement).parentElement;
+            const nodeId = element?.dataset.nodeId!;
+            const choiceId = element!.dataset.choiceId!;
+            element!.remove();
+
+            // Delete the data
+            const nodeIdTo = this.data.choices.get(choiceId)?.nodeId;
+            this.data.choices.delete(choiceId);
+            const node = this.data.nodes.get(nodeId)!;
+            node.choices = node.choices.filter(_choiceId => _choiceId !== choiceId);
+
+            // Delete the connection
+            if (nodeIdTo) {
+                const node = this.data.outgoing.get(nodeId)!;
+                node.get(nodeIdTo)?.remove(); // remove the ilne
+                node.delete(nodeIdTo); // delete the outgoing to connection                
+            }
         };
 
         element.appendChild(socketLeft);
