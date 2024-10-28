@@ -36,7 +36,7 @@ export class Main {
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker);
-        this.composeStepthru(data, utility);
+        this.composeEditor(data, utility);
 
         connector.init();
 
@@ -89,15 +89,15 @@ export class Main {
         document.body.appendChild(divLayoutWrapper);
     }
 
-    composeStepthru(data: Data, utility: Utility) {
-        // Stepthru wrapper
-        const divStepthruWrapper = document.createElement("div");
-        divStepthruWrapper.id = "div-stepthru-wrapper";
-        divStepthruWrapper.style.height = "50%";
-        data.divStepthruWrapper = divStepthruWrapper;
+    composeEditor(data: Data, utility: Utility) {
+        // Editor wrapper
+        const divEditorWrapper = document.createElement("div");
+        divEditorWrapper.id = "div-Editor-wrapper";
+        divEditorWrapper.style.height = "50%";
+        data.divEditorWrapper = divEditorWrapper;
 
         // Element composition
-        document.body.appendChild(divStepthruWrapper);
+        document.body.appendChild(divEditorWrapper);
     }
 
 

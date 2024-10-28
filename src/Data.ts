@@ -15,8 +15,8 @@ export class Data {
     divLayout?: HTMLDivElement;
     svgLayout?: SVGElement;
 
-    // Bottom section - stepthru
-    divStepthruWrapper?: HTMLDivElement;
+    // Bottom section - editor
+    divEditorWrapper?: HTMLDivElement;
 
 
     // Data 
