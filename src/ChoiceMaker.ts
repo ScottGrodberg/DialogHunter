@@ -8,6 +8,9 @@ export class ChoiceMaker {
     choice(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
         const element = this.rowMaker.row();
+        element.id = "choice-" + choiceId;
+        element.dataset.nodeId = nodeId;
+        element.dataset.choiceId = choiceId;
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
