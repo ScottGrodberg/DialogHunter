@@ -1,13 +1,14 @@
 import { Choice } from "./Choice.js";
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Data } from "./Data.js";
+import { NodeUpdater } from "./NodeUpdater.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public nodeUpdater: NodeUpdater) { }
 
     makeEditor(): HTMLDivElement {
 
@@ -45,7 +46,7 @@ export class NodeEditor {
             const element = this.choiceMaker.choiceForEditor(this.data.currentNodeId!, choice.choiceId);
             body.insertBefore(element, buttonAdd);
 
-            this.data.update(this.data.currentNodeId!);
+            this.nodeUpdater.update(this.data.currentNodeId!);
         };
         body.appendChild(buttonAdd);
         element.appendChild(header);
