@@ -5,29 +5,52 @@ export class ChoiceMaker {
 
     constructor(public data: Data, public rowMaker: RowMaker) { }
 
-    choice(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
+    choiceForLayout(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
+        const element = this.makeRow(nodeId, choiceId);
+
+        const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
+
+        const key = this.makeKey();
+        key.style.width = "20%";
+
+        const value = this.makeValue();
+        value.style.width = "60%";
+
+        const x = this.makeX();
+        x.style.width = "20%";
+
+        element.append(socketLeft, key, value, x, socketRight);
+
+        return element;
+    }
+
+    makeRow(nodeId: NodeId, choiceId: ChoiceId) {
         const element = this.rowMaker.row();
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
+        return element;
+    }
 
-        const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
-
+    makeKey() {
         const key = document.createElement("input");
-        key.style.width = "20%";
         key.oninput = (event: Event) => {
             const element = (event.target as HTMLInputElement);
             element.value = element.value.substring(0, 1);
         };
+        return key;
+    }
 
+    makeValue() {
         const value = document.createElement("textarea");
-        value.style.width = "60%";
         value.style.resize = "vertical";
+        return value;
+    }
 
+    makeX() {
         const x = document.createElement("button");
         x.innerHTML = "X";
-        x.style.width = "20%";
         x.onclick = (event: MouseEvent) => {
 
             // Delete the element
@@ -49,13 +72,6 @@ export class ChoiceMaker {
                 node.delete(nodeIdTo); // delete the outgoing to connection                
             }
         };
-
-        element.appendChild(socketLeft);
-        element.appendChild(key);
-        element.appendChild(value);
-        element.appendChild(x);
-        element.appendChild(socketRight);
-
-        return element;
+        return x;
     }
 }

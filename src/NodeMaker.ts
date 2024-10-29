@@ -55,7 +55,7 @@ export class NodeMaker {
             const choice = new Choice(this.utility.generateUid(8));
             this.data.choices.set(choice.choiceId, choice);
             this.data.nodes.get(nodeId)!.choices.push(choice.choiceId);
-            const element = this.choiceMaker.choice(nodeId, choice.choiceId);
+            const element = this.choiceMaker.choiceForLayout(nodeId, choice.choiceId);
             body.insertBefore(element, buttonAdd);
         };
         body.appendChild(buttonAdd);
