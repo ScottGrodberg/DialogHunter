@@ -11,16 +11,28 @@ export class ChoiceMaker {
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
+        const value = this.makeValue();
+        value.style.width = "100%";
+
+        element.append(socketLeft, value, socketRight);
+
+        return element;
+    }
+
+    choiceForEditor(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
+
+        const element = this.makeRow(nodeId, choiceId);
+
         const key = this.makeKey();
-        key.style.width = "20%";
+        key.style.width = "30px";
 
         const value = this.makeValue();
-        value.style.width = "60%";
+        value.style.width = "calc(100% - 30px - 30px)";
 
         const x = this.makeX();
-        x.style.width = "20%";
+        x.style.width = "30px";
 
-        element.append(socketLeft, key, value, x, socketRight);
+        element.append(key, value, x);
 
         return element;
     }
