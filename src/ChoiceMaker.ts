@@ -11,7 +11,7 @@ export class ChoiceMaker {
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
-        const value = this.makeValue();
+        const value = this.makeValueReadonly();
         value.style.width = "100%";
 
         element.append(socketLeft, value, socketRight);
@@ -57,6 +57,11 @@ export class ChoiceMaker {
     makeValue() {
         const value = document.createElement("textarea");
         value.style.resize = "vertical";
+        return value;
+    }
+
+    makeValueReadonly() {
+        const value = document.createElement("p");
         return value;
     }
 
