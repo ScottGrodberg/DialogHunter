@@ -30,4 +30,12 @@ export class Data {
     incoming = new Map<NodeId, Map<NodeId, Line>>();  // Connections from values to the key
     outgoing = new Map<NodeId, Map<NodeId, Line>>();  // Connections from the key to values
 
+    /**
+     * Create or update rows for the given node
+     * @param nodeId 
+     */
+    update(nodeId: NodeId) {
+        const body = document.getElementById(`node-body-${nodeId}`);
+        console.log(`${body}`);
+    }
 }

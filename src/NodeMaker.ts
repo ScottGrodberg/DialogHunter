@@ -28,6 +28,7 @@ export class NodeMaker {
         element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
 
         const header = document.createElement("div");
+        header.id = "node-header-" + nodeId;
         header.style.width = "100%";
         header.style.height = "30px";
         header.style.backgroundColor = "blue";
@@ -41,6 +42,7 @@ export class NodeMaker {
         header.appendChild(row);
 
         const body = document.createElement("div");
+        body.id = "node-body-" + nodeId;
         body.style.width = "100%";
         body.style.minHeight = "120px";
         body.style.backgroundColor = "red";

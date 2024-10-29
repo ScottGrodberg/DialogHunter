@@ -44,6 +44,8 @@ export class NodeEditor {
 
             const element = this.choiceMaker.choiceForEditor(this.data.currentNodeId!, choice.choiceId);
             body.insertBefore(element, buttonAdd);
+
+            this.data.update(this.data.currentNodeId!);
         };
         body.appendChild(buttonAdd);
         element.appendChild(header);
