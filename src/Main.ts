@@ -36,7 +36,7 @@ export class Main {
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
         const nodeUpdater = new NodeUpdater(data, choiceMaker);
-        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker, nodeUpdater);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeUpdater);
 
         this.composeLayout(data, utility, nodeMaker);
