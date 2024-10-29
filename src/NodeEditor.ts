@@ -37,22 +37,24 @@ export class NodeEditor {
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+";
         buttonAdd.style.border = "1px solid black";
-        buttonAdd.onclick = () => {
-
-            const choice = new Choice(this.utility.generateUid(8));
-            this.data.choices.set(choice.choiceId, choice);
-            this.data.nodes.get(this.data.currentNodeId!)!.choices.push(choice.choiceId);
-
-            const element = this.choiceMaker.choiceForEditor(this.data.currentNodeId!, choice.choiceId);
-            body.insertBefore(element, buttonAdd);
-
-            this.nodeUpdater.update(this.data.currentNodeId!);
-        };
+        buttonAdd.onclick = () => this.addNode(body, buttonAdd);
         body.appendChild(buttonAdd);
+
         element.appendChild(header);
         element.appendChild(body);
 
         return element;
+    }
+
+    addNode(body: HTMLElement, buttonAdd: HTMLButtonElement) {
+        const choice = new Choice(this.utility.generateUid(8));
+        this.data.choices.set(choice.choiceId, choice);
+        this.data.nodes.get(this.data.currentNodeId!)!.choices.push(choice.choiceId);
+
+        const element = this.choiceMaker.choiceForEditor(this.data.currentNodeId!, choice.choiceId);
+        body.insertBefore(element, buttonAdd);
+
+        this.nodeUpdater.update(this.data.currentNodeId!);
     }
 
 }
