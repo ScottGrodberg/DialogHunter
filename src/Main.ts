@@ -2,6 +2,7 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { Data, Line, NodeId } from "./Data.js";
 import { Node } from "./Node.js";
+import { NodeEditor } from "./NodeEditor.js";
 import { NodeMaker } from "./NodeMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -34,9 +35,10 @@ export class Main {
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
         const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker);
-        this.composeEditor(data, utility);
+        this.composeEditor(data, nodeEditor);
 
         connector.init();
 
@@ -89,14 +91,17 @@ export class Main {
         document.body.appendChild(divLayoutWrapper);
     }
 
-    composeEditor(data: Data, utility: Utility) {
+    composeEditor(data: Data, nodeEditor: NodeEditor) {
         // Editor wrapper
         const divEditorWrapper = document.createElement("div");
         divEditorWrapper.id = "div-Editor-wrapper";
         divEditorWrapper.style.height = "50%";
         data.divEditorWrapper = divEditorWrapper;
 
+        const nodeEditorElement = nodeEditor.makeEditor();
+
         // Element composition
+        divEditorWrapper.appendChild(nodeEditorElement);
         document.body.appendChild(divEditorWrapper);
     }
 

@@ -62,7 +62,7 @@ export class NodeMaker {
         element.appendChild(header);
         element.appendChild(body);
 
-        element.addEventListener('click', this.loadNodeIntoEditor);
+        element.addEventListener('click', this.loadNodeIntoEditor.bind(this));
 
         return element;
     }
@@ -114,6 +114,7 @@ export class NodeMaker {
         const nodeId = element.dataset.nodeId;
 
         console.log(`Got click at node ${nodeId}`);
+        this.data.currentNodeId = nodeId;
 
     }
 

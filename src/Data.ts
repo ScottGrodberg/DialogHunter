@@ -20,7 +20,9 @@ export class Data {
 
 
     // Data 
-    head?: NodeId;  // The starting node for the interchange
+    head?: NodeId;              // The starting node for the interchange
+    currentNodeId?: NodeId;     // The nodeId currently in the editory
+
     nodes = new Map<NodeId, Node>();
     choices = new Map<ChoiceId, Choice>();
 
