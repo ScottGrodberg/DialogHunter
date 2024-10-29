@@ -11,7 +11,7 @@ export class ChoiceMaker {
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
-        const value = this.makeValueReadonly();
+        const value = this.makeValueReadonly(choiceId);
         value.style.width = "100%";
 
         element.append(socketLeft, value, socketRight);
@@ -26,7 +26,7 @@ export class ChoiceMaker {
         const key = this.makeKey();
         key.style.width = "30px";
 
-        const value = this.makeValue();
+        const value = this.makeValue(choiceId);
         value.style.width = "calc(100% - 30px - 30px)";
 
         const x = this.makeX();
@@ -54,14 +54,16 @@ export class ChoiceMaker {
         return key;
     }
 
-    makeValue() {
+    makeValue(choiceId: ChoiceId) {
         const value = document.createElement("textarea");
         value.style.resize = "vertical";
+        value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
         return value;
     }
 
-    makeValueReadonly() {
+    makeValueReadonly(choiceId: ChoiceId) {
         const value = document.createElement("p");
+        value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
         return value;
     }
 
