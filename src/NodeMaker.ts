@@ -1,4 +1,3 @@
-import { Choice } from "./Choice.js";
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Data, NodeId } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
@@ -48,17 +47,6 @@ export class NodeMaker {
 
         header.addEventListener('pointerdown', this.ptrDown);
 
-        const buttonAdd = document.createElement("button");
-        buttonAdd.innerHTML = "+";
-        buttonAdd.style.border = "1px solid black";
-        buttonAdd.onclick = () => {
-            const choice = new Choice(this.utility.generateUid(8));
-            this.data.choices.set(choice.choiceId, choice);
-            this.data.nodes.get(nodeId)!.choices.push(choice.choiceId);
-            const element = this.choiceMaker.choiceForLayout(nodeId, choice.choiceId);
-            body.insertBefore(element, buttonAdd);
-        };
-        body.appendChild(buttonAdd);
         element.appendChild(header);
         element.appendChild(body);
 
