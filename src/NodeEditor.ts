@@ -1,14 +1,13 @@
 import { Choice } from "./Choice.js";
-import { ChoiceMaker } from "./ChoiceMaker.js";
+import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { Data } from "./Data.js";
-import { ChoiceFor, NodeUpdater } from "./NodeUpdater.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public nodeUpdater: NodeUpdater) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) { }
 
     makeEditor(): HTMLDivElement {
 
@@ -66,7 +65,7 @@ export class NodeEditor {
 
         // add the choice to the node in layout
         const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
-        this.nodeUpdater.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
+        this.choiceMaker.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
     }
 
 }

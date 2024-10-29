@@ -4,7 +4,6 @@ import { Data, Line, NodeId } from "./Data.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeMaker } from "./NodeMaker.js";
-import { NodeUpdater } from "./NodeUpdater.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -35,9 +34,8 @@ export class Main {
         const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
-        const nodeUpdater = new NodeUpdater(data, choiceMaker);
-        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker, nodeUpdater);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeUpdater);
+        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker);
         this.composeEditor(data, nodeEditor);

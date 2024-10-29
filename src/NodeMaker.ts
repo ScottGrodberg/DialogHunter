@@ -1,6 +1,5 @@
-import { ChoiceMaker } from "./ChoiceMaker.js";
+import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { Data, NodeId } from "./Data.js";
-import { ChoiceFor, NodeUpdater } from "./NodeUpdater.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -11,7 +10,7 @@ export class NodeMaker {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public nodeUpdater: NodeUpdater) {
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) {
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
@@ -104,7 +103,7 @@ export class NodeMaker {
         const element = event.currentTarget as HTMLElement;
         const nodeId = element.dataset.nodeId!;
         const destination = document.getElementById(`node-editor-body`)!;
-        this.nodeUpdater.update(nodeId, destination, ChoiceFor.EDITOR);
+        this.choiceMaker.update(nodeId, destination, ChoiceFor.EDITOR);
         this.data.currentNodeId = nodeId;
 
         console.log(`Click at node ${nodeId}`);

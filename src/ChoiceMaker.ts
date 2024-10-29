@@ -1,6 +1,10 @@
 import { ChoiceId, Data, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
 
+export enum ChoiceFor {
+    LAYOUT, EDITOR
+}
+
 export class ChoiceMaker {
 
     constructor(public data: Data, public rowMaker: RowMaker) { }
@@ -88,9 +92,35 @@ export class ChoiceMaker {
             if (nodeIdTo) {
                 const node = this.data.outgoing.get(nodeId)!;
                 node.get(nodeIdTo)!.remove(); // remove the ilne
-                node.delete(nodeIdTo); // delete the outgoing to connection                
+                node.delete(nodeIdTo); // delete the outgoing connection                
             }
+
+            const destination = document.getElementById(`node-body-${nodeId}`)!;
+            this.update(nodeId, destination, ChoiceFor.LAYOUT);
         };
         return x;
+    }
+    /**
+     * Create or update rows for the given node. Called after the data has been changed and needs to be reflected in the ui
+     * @param nodeId 
+     */
+    update(nodeId: NodeId, destination: HTMLElement, choiceFor: ChoiceFor) {
+
+        // Clear all rows from the body
+        destination.innerHTML = ``;
+
+        const node = this.data.nodes.get(nodeId)!;
+        const choices = node.choices;
+        choices.forEach(choice => {
+            let element: HTMLElement;
+            if (choiceFor === ChoiceFor.LAYOUT) {
+                element = this.choiceForLayout(nodeId, choice);
+            } else {
+                element = this.choiceForEditor(nodeId, choice);
+            }
+            destination.appendChild(element);
+        })
+
+
     }
 }
