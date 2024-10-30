@@ -84,7 +84,12 @@ export class ChoiceMaker {
 
             const nextNodeId = this.data.choices.get(choiceId)?.nodeId;
             console.log(`Choice ${choiceId} clicked arrow, next node is ${nextNodeId}`);
-
+            if (!nextNodeId) {
+                return;
+            }
+            const destination = document.getElementById(`node-editor-body`)!;
+            this.update(nextNodeId, destination, ChoiceFor.EDITOR);
+            this.data.currentNodeId = nextNodeId;
         };
         return arrow;
     }
