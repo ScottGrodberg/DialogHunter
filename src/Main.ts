@@ -1,5 +1,6 @@
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
+import { CurrentNode } from "./CurrentNode.js";
 import { Data, Line, NodeId } from "./Data.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
@@ -34,17 +35,18 @@ export class Main {
         const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
+        const currentNode = new CurrentNode(data);
         const nodeMaker = new NodeLayout(rowMaker, utility, data, choiceMaker);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
-        this.composeLayout(data, utility, nodeMaker);
+        this.composeLayout(data, utility, nodeMaker, currentNode);
         this.composeEditor(data, nodeEditor);
 
         connector.init();
 
     }
 
-    composeLayout(data: Data, utility: Utility, nodeMaker: NodeLayout) {
+    composeLayout(data: Data, utility: Utility, nodeMaker: NodeLayout, currentNode: CurrentNode) {
 
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
@@ -86,20 +88,12 @@ export class Main {
         data.head = nodeFirst.dataset.nodeId;
 
         // "Current node" indicator
-        const arrow = this.arrow();
-        svgLayout!.appendChild(arrow);
+        const arrow = currentNode.makeArrow();
 
         // Element composition
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
-    }
-
-    arrow(): SVGElement {
-        const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        arrow.setAttribute("d", "M 70 10 L 130 30 L 10 30 Z");
-        arrow.setAttribute("fill", "black");
-        return arrow;
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
