@@ -85,10 +85,21 @@ export class Main {
         firstInterchange.style.left = "100px";
         data.head = firstInterchange.dataset.nodeId;
 
+        // "Current node" indicator
+        const arrow = this.arrow();
+        svgLayout!.appendChild(arrow);
+
         // Element composition
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
+    }
+
+    arrow(): SVGElement {
+        const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        arrow.setAttribute("d", "M 70 10 L 130 30 L 10 30 Z");
+        arrow.setAttribute("fill", "black");
+        return arrow;
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
