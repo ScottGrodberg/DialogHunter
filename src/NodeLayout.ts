@@ -3,7 +3,7 @@ import { Data, NodeId } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
-export class NodeMaker {
+export class NodeLayout {
     static DEFAULT_WIDTH = 150;
 
     ptrDown: (event: any) => void;
@@ -21,7 +21,7 @@ export class NodeMaker {
         const element = document.createElement("div");
         element.id = "node-" + nodeId;
         element.dataset.nodeId = nodeId;
-        element.style.width = NodeMaker.DEFAULT_WIDTH + "px";
+        element.style.width = NodeLayout.DEFAULT_WIDTH + "px";
         element.style.padding = "10px";
         element.style.backgroundColor = "black";
         element.style.position = "absolute";

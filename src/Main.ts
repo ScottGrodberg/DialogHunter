@@ -3,7 +3,7 @@ import { Connector } from "./Connector.js";
 import { Data, Line, NodeId } from "./Data.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
-import { NodeMaker } from "./NodeMaker.js";
+import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -34,7 +34,7 @@ export class Main {
         const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker);
-        const nodeMaker = new NodeMaker(rowMaker, utility, data, choiceMaker);
+        const nodeMaker = new NodeLayout(rowMaker, utility, data, choiceMaker);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker);
@@ -44,7 +44,7 @@ export class Main {
 
     }
 
-    composeLayout(data: Data, utility: Utility, nodeMaker: NodeMaker) {
+    composeLayout(data: Data, utility: Utility, nodeMaker: NodeLayout) {
 
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
@@ -106,7 +106,7 @@ export class Main {
     }
 
 
-    newNode(nodeMaker: NodeMaker, utility: Utility, data: Data): HTMLElement {
+    newNode(nodeMaker: NodeLayout, utility: Utility, data: Data): HTMLElement {
         const divLayout = data.divLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
@@ -114,8 +114,8 @@ export class Main {
 
         // Add to ui
         const element = nodeMaker.node(node.nodeId);
-        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
-        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeMaker.DEFAULT_WIDTH * 0.5;
+        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
+        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
         element.style.left = left + "px";
         element.style.top = top + "px";
         divLayout.appendChild(element);
