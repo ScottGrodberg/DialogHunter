@@ -1,3 +1,4 @@
+import { CurrentNode } from "./CurrentNode";
 import { ChoiceId, Data, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
 
@@ -7,7 +8,7 @@ export enum ChoiceFor {
 
 export class ChoiceMaker {
 
-    constructor(public data: Data, public rowMaker: RowMaker) { }
+    constructor(public data: Data, public rowMaker: RowMaker, public currentNode: CurrentNode) { }
 
     choiceForLayout(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
@@ -90,7 +91,7 @@ export class ChoiceMaker {
             }
             const destination = document.getElementById(`node-editor-body`)!;
             this.update(nextNodeId, destination, ChoiceFor.EDITOR);
-            this.data.currentNodeId = nextNodeId;
+            this.currentNode.setCurrentNode(nextNodeId);
         };
         return arrow;
     }

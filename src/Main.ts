@@ -34,9 +34,9 @@ export class Main {
         const utility = new Utility();
         const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
-        const choiceMaker = new ChoiceMaker(data, rowMaker);
         const currentNode = new CurrentNode(data);
-        const nodeMaker = new NodeLayout(rowMaker, utility, data, choiceMaker);
+        const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
+        const nodeMaker = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
         this.composeLayout(data, utility, nodeMaker, currentNode);

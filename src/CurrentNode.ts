@@ -3,7 +3,9 @@ export class CurrentNode {
 
     constructor(public data: Data) { }
 
-    setCurrentNode(nodeId: NodeId) { }
+    setCurrentNode(nodeId: NodeId) {
+        this.data.currentNodeId = nodeId;
+    }
 
     makeArrow() {
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
