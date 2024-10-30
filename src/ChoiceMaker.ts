@@ -37,6 +37,7 @@ export class ChoiceMaker {
         x.style.width = "30px";
 
         const arrow = this.makeArrow(choiceId);
+        arrow.style.width = "30px";
 
         //element.append(key,value,x);
         element.append(x, value, arrow);
