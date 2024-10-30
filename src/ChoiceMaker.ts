@@ -15,7 +15,7 @@ export class ChoiceMaker {
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
-        const value = this.makeValueReadonly(choiceId);
+        const value = this.makeSentenceReadOnly(choiceId);
         value.style.width = "100%";
 
         element.append(socketLeft, value, socketRight);
@@ -30,7 +30,7 @@ export class ChoiceMaker {
         const key = this.makeKey();
         key.style.width = "30px";
 
-        const value = this.makeValue(choiceId);
+        const value = this.makeSentence(choiceId);
         value.style.width = "calc(100% - 30px - 30px)";
 
         const x = this.makeX();
@@ -61,20 +61,20 @@ export class ChoiceMaker {
         return key;
     }
 
-    makeValue(choiceId: ChoiceId) {
-        const value = document.createElement("textarea");
-        value.style.resize = "vertical";
-        value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
-        value.onchange = () => {
-            this.data.choices.get(choiceId)!.sentence = value.value;
+    makeSentence(choiceId: ChoiceId) {
+        const sentence = document.createElement("textarea");
+        sentence.style.resize = "vertical";
+        sentence.innerHTML = this.data.choices.get(choiceId)!.sentence!;
+        sentence.onchange = () => {
+            this.data.choices.get(choiceId)!.sentence = sentence.value;
         };
-        return value;
+        return sentence;
     }
 
-    makeValueReadonly(choiceId: ChoiceId) {
-        const value = document.createElement("p");
-        value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
-        return value;
+    makeSentenceReadOnly(choiceId: ChoiceId) {
+        const sentence = document.createElement("p");
+        sentence.innerHTML = this.data.choices.get(choiceId)!.sentence!;
+        return sentence;
     }
 
     makeArrow(choiceId: ChoiceId) {
