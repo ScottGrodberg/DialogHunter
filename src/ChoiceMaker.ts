@@ -36,7 +36,10 @@ export class ChoiceMaker {
         const x = this.makeX();
         x.style.width = "30px";
 
-        element.append(key, value, x);
+        const arrow = this.makeArrow(choiceId);
+
+        //element.append(key,value,x);
+        element.append(x, value, arrow);
 
         return element;
     }
@@ -69,6 +72,18 @@ export class ChoiceMaker {
         const value = document.createElement("p");
         value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
         return value;
+    }
+
+    makeArrow(choiceId: ChoiceId) {
+        const arrow = document.createElement("button");
+        arrow.innerHTML = ">";
+        arrow.onclick = (event: MouseEvent) => {
+
+            const nextNodeId = this.data.choices.get(choiceId)?.nodeId;
+            console.log(`Choice ${choiceId} clicked arrow, next node is ${nextNodeId}`);
+
+        };
+        return arrow;
     }
 
     makeX() {
