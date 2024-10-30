@@ -65,6 +65,9 @@ export class ChoiceMaker {
         const value = document.createElement("textarea");
         value.style.resize = "vertical";
         value.innerHTML = this.data.choices.get(choiceId)!.sentence!;
+        value.onchange = () => {
+            this.data.choices.get(choiceId)!.sentence = value.value;
+        };
         return value;
     }
 
