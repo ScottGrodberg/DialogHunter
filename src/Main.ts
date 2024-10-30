@@ -80,10 +80,10 @@ export class Main {
         divLayout.appendChild(buttonNew);
 
         // Start with one interchange
-        const firstInterchange = this.newNode(nodeMaker, utility, data);
-        firstInterchange.style.top = "66px";
-        firstInterchange.style.left = "100px";
-        data.head = firstInterchange.dataset.nodeId;
+        const nodeFirst = this.newNode(nodeMaker, utility, data);
+        nodeFirst.style.top = "66px";
+        nodeFirst.style.left = "100px";
+        data.head = nodeFirst.dataset.nodeId;
 
         // "Current node" indicator
         const arrow = this.arrow();
