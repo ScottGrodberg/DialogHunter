@@ -144,6 +144,5 @@ export class ChoiceMaker {
             destination.appendChild(element);
         })
 
-
     }
 }
