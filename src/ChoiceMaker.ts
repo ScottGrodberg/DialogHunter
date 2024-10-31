@@ -37,7 +37,7 @@ export class ChoiceMaker {
         const x = this.makeX();
         x.style.width = "30px";
 
-        const arrow = this.makeArrow(choiceId);
+        const arrow = this.makeNextArrow(choiceId);
         arrow.style.width = "30px";
 
         //element.append(key,value,x);
@@ -81,7 +81,7 @@ export class ChoiceMaker {
         return response;
     }
 
-    makeArrow(choiceId: ChoiceId) {
+    makeNextArrow(choiceId: ChoiceId) {
         const arrow = document.createElement("button");
         arrow.innerHTML = ">";
         arrow.onclick = (event: MouseEvent) => {

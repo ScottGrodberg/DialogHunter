@@ -88,7 +88,7 @@ export class Main {
         data.head = nodeFirst.dataset.nodeId;
 
         // "Current node" indicator
-        const arrow = currentNode.makeArrow();
+        const arrow = currentNode.makeCurrentArrow();
 
         // Element composition
         divLayout.appendChild(svgLayout);
