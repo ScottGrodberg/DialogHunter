@@ -31,8 +31,8 @@ export class NodeEditor {
         headerText.onchange = (event: Event) => {
             const text = (event.target as HTMLTextAreaElement).value;
             this.data.nodes.get(this.data.currentNodeId!)!.text = text;
-            const header = document.getElementById(`node-header-${this.data.currentNodeId}`)!;
-            header.firstElementChild!.innerHTML = text;
+            const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`)!;
+            header.innerHTML = text;
         };
         row.append(headerText);
         header.appendChild(row);

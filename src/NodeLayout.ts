@@ -36,6 +36,7 @@ export class NodeLayout {
         header.style.cursor = "pointer";
 
         const headerText = document.createElement("p");
+        headerText.id = "node-header-text-" + nodeId;
         headerText.style.color = "white";
         headerText.style.margin = "0";
         headerText.style.padding = "0";
