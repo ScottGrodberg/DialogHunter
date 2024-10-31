@@ -111,14 +111,14 @@ export class Main {
     }
 
 
-    newNode(nodeMaker: NodeLayout, utility: Utility, data: Data): HTMLElement {
+    newNode(nodeLayout: NodeLayout, utility: Utility, data: Data): HTMLElement {
         const divLayout = data.divLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
         const node = new Node(utility.generateUid(8));
 
         // Add to ui
-        const element = nodeMaker.node(node.nodeId);
+        const element = nodeLayout.node(node.nodeId);
         const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
         const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
         element.style.left = left + "px";
