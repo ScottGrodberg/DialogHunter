@@ -69,6 +69,8 @@ export class ChoiceMaker {
         sentence.innerHTML = this.data.choices.get(choiceId)!.sentence!;
         sentence.onchange = () => {
             this.data.choices.get(choiceId)!.sentence = sentence.value;
+            const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
+            this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
         };
         return sentence;
     }
