@@ -1,16 +1,25 @@
 import { Data, NodeId } from "./Data";
 export class CurrentNode {
 
+    arrow?: SVGElement;
+
     constructor(public data: Data) { }
 
     setCurrentNode(nodeId: NodeId) {
         this.data.currentNodeId = nodeId;
+
+        const element = document.getElementById(`node-${nodeId}`)!;
+        this.arrow!.setAttribute("x", element.style.left);
     }
 
+
     makeArrow() {
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
         arrow.setAttribute("d", "M 70 10 L 130 30 L 10 30 Z");
         arrow.setAttribute("fill", "black");
-        this.data.svgLayout!.appendChild(arrow);
+        svg.appendChild(arrow);
+        this.arrow = svg;
+        this.data.svgLayout!.appendChild(svg);
     }
 }
