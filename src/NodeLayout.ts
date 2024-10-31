@@ -39,13 +39,12 @@ export class NodeLayout {
         headerText.style.color = "white";
         headerText.style.margin = "0";
         headerText.style.padding = "0";
-        header.append(headerText);
 
         const row = this.rowMaker.row();
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";
-        row.append(sockets.socketLeft, sockets.socketRight);
+        row.append(sockets.socketLeft, headerText, sockets.socketRight);
         header.appendChild(row);
 
         const body = document.createElement("div");
