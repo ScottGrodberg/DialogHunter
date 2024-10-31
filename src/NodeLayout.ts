@@ -39,7 +39,6 @@ export class NodeLayout {
         headerText.style.color = "white";
         headerText.style.margin = "0";
         headerText.style.padding = "0";
-        headerText.innerHTML = "test";
         header.append(headerText);
 
         const row = this.rowMaker.row();
@@ -110,11 +109,18 @@ export class NodeLayout {
         event.stopPropagation();
         const element = event.currentTarget as HTMLElement;
         const nodeId = element.dataset.nodeId!;
+
+        // Update the header
+        const text = this.data.nodes.get(nodeId)!.text!;
+        const header = document.getElementById(`node-editor-header`)!;
+        header.getElementsByTagName("textarea").item(0)!.value = text;
+
+        // Update the responses
         const destination = document.getElementById(`node-editor-body`)!;
         this.choiceMaker.update(nodeId, destination, ChoiceFor.EDITOR);
+
         this.currentNode.setCurrentNode(nodeId);
 
-        console.log(`Click at node ${nodeId}`);
     }
 
 }
