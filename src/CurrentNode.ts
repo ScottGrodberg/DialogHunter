@@ -15,6 +15,7 @@ export class CurrentNode {
 
     makeArrow() {
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("x", "-200px"); // start offscreen to the left 
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
         arrow.setAttribute("d", "M 70 10 L 130 30 L 10 30 Z");
         arrow.setAttribute("fill", "black");
