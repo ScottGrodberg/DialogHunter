@@ -35,6 +35,13 @@ export class NodeLayout {
         header.style.backgroundColor = "blue";
         header.style.cursor = "pointer";
 
+        const headerText = document.createElement("p");
+        headerText.style.color = "white";
+        headerText.style.margin = "0";
+        headerText.style.padding = "0";
+        headerText.innerHTML = "test";
+        header.append(headerText);
+
         const row = this.rowMaker.row();
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";

@@ -22,11 +22,13 @@ export class NodeEditor {
 
         const header = document.createElement("div");
         header.id = "node-editor-header";
-        header.style.width = "100%";
-        header.style.height = "30px";
         header.style.backgroundColor = "blue";
 
         const row = this.rowMaker.row();
+        const headerText = document.createElement("textarea");
+        headerText.style.margin = "5px";
+        headerText.style.width = "calc(100% - 10px)";
+        row.append(headerText);
         header.appendChild(row);
 
         const body = document.createElement("div");
