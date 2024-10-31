@@ -16,7 +16,7 @@ export class ChoiceMaker {
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
-        const value = this.makeSentenceReadOnly(choiceId);
+        const value = this.makeResponseReadOnly(choiceId);
         value.style.width = "100%";
 
         element.append(socketLeft, value, socketRight);
@@ -31,7 +31,7 @@ export class ChoiceMaker {
         const key = this.makeKey();
         key.style.width = "30px";
 
-        const value = this.makeSentence(choiceId);
+        const value = this.makeResponse(choiceId);
         value.style.width = "calc(100% - 30px - 30px)";
 
         const x = this.makeX();
@@ -63,22 +63,22 @@ export class ChoiceMaker {
         return key;
     }
 
-    makeSentence(choiceId: ChoiceId) {
-        const sentence = document.createElement("textarea");
-        sentence.style.resize = "vertical";
-        sentence.innerHTML = this.data.choices.get(choiceId)!.sentence!;
-        sentence.onchange = () => {
-            this.data.choices.get(choiceId)!.sentence = sentence.value;
+    makeResponse(choiceId: ChoiceId) {
+        const response = document.createElement("textarea");
+        response.style.resize = "vertical";
+        response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        response.onchange = () => {
+            this.data.choices.get(choiceId)!.response = response.value;
             const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
             this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
         };
-        return sentence;
+        return response;
     }
 
-    makeSentenceReadOnly(choiceId: ChoiceId) {
-        const sentence = document.createElement("p");
-        sentence.innerHTML = this.data.choices.get(choiceId)!.sentence!;
-        return sentence;
+    makeResponseReadOnly(choiceId: ChoiceId) {
+        const response = document.createElement("p");
+        response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        return response;
     }
 
     makeArrow(choiceId: ChoiceId) {
