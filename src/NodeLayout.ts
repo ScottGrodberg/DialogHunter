@@ -94,12 +94,14 @@ export class NodeLayout {
         // get the socket position
         const nodeList = document.querySelectorAll(`div.socket[data-node-id="${nodeId}"]`);
 
-        const socketLeft = nodeList.item(0);
-        const socketRight = nodeList.item(1);
+        const socketLeftRect = nodeList.item(0).getBoundingClientRect();
+        const socketRightRect = nodeList.item(1).getBoundingClientRect();
         this.data.incoming.get(nodeId)?.forEach(line => {
             // set the line ending coords
-            // line.setAttribute("x2");
-            // line.setAttribute("y2");
+            const x = socketLeftRect.x + "px";
+            const y = socketLeftRect.y + "px";
+            line.setAttribute("x2", x);
+            line.setAttribute("y2", y);
         });
         this.data.outgoing.get(nodeId)?.forEach(line => {
             // set the line beginning coords
