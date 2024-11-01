@@ -36,10 +36,10 @@ export class Main {
         const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
-        const nodeMaker = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode);
+        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker);
 
-        this.composeLayout(data, utility, nodeMaker, currentNode);
+        this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
 
         connector.init();

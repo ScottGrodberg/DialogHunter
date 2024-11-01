@@ -1,4 +1,5 @@
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
+import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId } from "./Data.js";
 import { RowMaker } from "./RowMaker.js";
@@ -11,7 +12,7 @@ export class NodeLayout {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode) {
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector) {
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
@@ -94,14 +95,12 @@ export class NodeLayout {
         // get the socket position
         const nodeList = document.querySelectorAll(`div.socket[data-node-id="${nodeId}"]`);
 
-        const socketLeftRect = nodeList.item(0).getBoundingClientRect();
-        const socketRightRect = nodeList.item(1).getBoundingClientRect();
+        const socketLeftCenter = this.connector.getSocketCenter(nodeList.item(0) as HTMLElement);
+        const socketRightCenter = this.connector.getSocketCenter(nodeList.item(1) as HTMLElement);
         this.data.incoming.get(nodeId)?.forEach(line => {
             // set the line ending coords
-            const x = socketLeftRect.x + "px";
-            const y = socketLeftRect.y + "px";
-            line.setAttribute("x2", x);
-            line.setAttribute("y2", y);
+            line.setAttribute("x2", socketLeftCenter.x + "px");
+            line.setAttribute("y2", socketLeftCenter.y + "px");
         });
         this.data.outgoing.get(nodeId)?.forEach(line => {
             // set the line beginning coords
