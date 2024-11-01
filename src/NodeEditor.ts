@@ -19,6 +19,7 @@ export class NodeEditor {
         element.style.position = "absolute";
         element.style.left = "200px";
         element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
+        element.style.display = "none";
 
         const header = document.createElement("div");
         header.id = "node-editor-header";

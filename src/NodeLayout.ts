@@ -119,6 +119,9 @@ export class NodeLayout {
         const destination = document.getElementById(`node-editor-body`)!;
         this.choiceMaker.update(nodeId, destination, ChoiceFor.EDITOR);
 
+        // Show the node
+        document.getElementById("node-editor")!.style.display = "block";
+
         this.currentNode.setCurrentNode(nodeId);
 
     }
