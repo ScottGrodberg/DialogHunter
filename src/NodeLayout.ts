@@ -88,8 +88,24 @@ export class NodeLayout {
         nodeElement.style.left = newX + "px";
         nodeElement.style.top = newY + "px";
 
-        // TODO: get the incoming and outgoing lines by nodeId. 
-        // For the incoming, update x2 and y2. For outgoing, update x1 and y1
+        // TODO: get the incoming and outgoing lines by nodeId.
+        const nodeId = nodeElement.dataset.nodeId;
+
+        // get the socket position
+        const nodeList = document.querySelectorAll(`div.socket[data-node-id="${nodeId}"]`);
+
+        const socketLeft = nodeList.item(0);
+        const socketRight = nodeList.item(1);
+        this.data.incoming.get(nodeId)?.forEach(line => {
+            // set the line ending coords
+            // line.setAttribute("x2");
+            // line.setAttribute("y2");
+        });
+        this.data.outgoing.get(nodeId)?.forEach(line => {
+            // set the line beginning coords
+            // line.setAttribute("x1");
+            // line.setAttribute("y1");
+        });
     }
 
     // Function to handle the end of the drag
