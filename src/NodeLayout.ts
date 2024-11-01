@@ -97,10 +97,10 @@ export class NodeLayout {
 
         const socketLeftCenter = this.connector.getSocketCenter(nodeList.item(0) as HTMLElement);
         const socketRightCenter = this.connector.getSocketCenter(nodeList.item(1) as HTMLElement);
-        this.data.incoming.get(nodeId)?.forEach(line => {
+        this.data.incoming.get(nodeId)?.forEach(socketConnection => {
             // set the line ending coords
-            line.setAttribute("x2", socketLeftCenter.x + "px");
-            line.setAttribute("y2", socketLeftCenter.y + "px");
+            socketConnection.line.setAttribute("x2", socketLeftCenter.x + "px");
+            socketConnection.line.setAttribute("y2", socketLeftCenter.y + "px");
         });
         this.data.outgoing.get(nodeId)?.forEach(line => {
             // set the line beginning coords

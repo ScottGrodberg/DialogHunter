@@ -1,7 +1,7 @@
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
-import { Data, Line, NodeId } from "./Data.js";
+import { Data, NodeId, SocketsConnection } from "./Data.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
@@ -130,8 +130,8 @@ export class Main {
         if (data.incoming.has(node.nodeId) || data.outgoing.has(node.nodeId)) {
             throw new Error(`Unexpected duplicate nodeId`);
         }
-        data.incoming.set(node.nodeId, new Map<NodeId, Line>());
-        data.outgoing.set(node.nodeId, new Map<NodeId, Line>());
+        data.incoming.set(node.nodeId, new Map<NodeId, SocketsConnection>());
+        data.outgoing.set(node.nodeId, new Map<NodeId, SocketsConnection>());
 
         return element;
     }

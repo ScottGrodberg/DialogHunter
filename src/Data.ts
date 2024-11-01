@@ -5,7 +5,11 @@ export type NodeId = string;
 export type ChoiceId = string;
 export type Line = SVGElement;
 
-
+export type SocketsConnection = {
+    socketFrom: HTMLElement;
+    line: Line;
+    socketTo: HTMLElement;
+}
 export class Data {
 
     // Elements
@@ -27,7 +31,7 @@ export class Data {
     choices = new Map<ChoiceId, Choice>();
 
     // Node connections, hold refs to Line objects
-    incoming = new Map<NodeId, Map<NodeId, Line>>();  // Connections from values to the key
-    outgoing = new Map<NodeId, Map<NodeId, Line>>();  // Connections from the key to values
+    incoming = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from values to the key
+    outgoing = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from the key to values
 
 }

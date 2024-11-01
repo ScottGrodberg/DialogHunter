@@ -118,7 +118,7 @@ export class ChoiceMaker {
             // Delete the connection
             if (nodeIdTo) {
                 const node = this.data.outgoing.get(nodeId)!;
-                node.get(nodeIdTo)!.remove(); // remove the ilne
+                node.get(nodeIdTo)!.line.remove(); // remove the line
                 node.delete(nodeIdTo); // delete the outgoing connection                
             }
 

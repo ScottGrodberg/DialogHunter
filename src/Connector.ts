@@ -75,8 +75,8 @@ export class Connector {
 
             // data
             this.data.choices.get(this.socketFrom.dataset.choiceId!)!.nodeId = validConnection.nodeIdTo;
-            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, this.line);
-            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, this.line);
+            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, line: this.line, socketTo });
+            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
         }
         this.line = undefined;
         this.socketFrom = undefined;
