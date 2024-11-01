@@ -92,20 +92,17 @@ export class NodeLayout {
         // TODO: get the incoming and outgoing lines by nodeId.
         const nodeId = nodeElement.dataset.nodeId;
 
-        // get the socket position
-        const nodeList = document.querySelectorAll(`div.socket[data-node-id="${nodeId}"]`);
-
-        const socketLeftCenter = this.connector.getSocketCenter(nodeList.item(0) as HTMLElement);
-        const socketRightCenter = this.connector.getSocketCenter(nodeList.item(1) as HTMLElement);
-        this.data.incoming.get(nodeId)?.forEach(socketConnection => {
+        this.data.incoming.get(nodeId)?.forEach(socketsConnection => {
             // set the line ending coords
-            socketConnection.line.setAttribute("x2", socketLeftCenter.x + "px");
-            socketConnection.line.setAttribute("y2", socketLeftCenter.y + "px");
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketTo);
+            socketsConnection.line.setAttribute("x2", socketCenter.x + "px");
+            socketsConnection.line.setAttribute("y2", socketCenter.y + "px");
         });
-        this.data.outgoing.get(nodeId)?.forEach(line => {
+        this.data.outgoing.get(nodeId)?.forEach(socketsConnection => {
             // set the line beginning coords
-            // line.setAttribute("x1");
-            // line.setAttribute("y1");
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketFrom);
+            socketsConnection.line.setAttribute("x1", socketCenter.x + "px");
+            socketsConnection.line.setAttribute("y1", socketCenter.y + "px");
         });
     }
 
