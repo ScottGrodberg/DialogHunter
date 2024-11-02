@@ -83,8 +83,16 @@ export class ChoiceMaker {
 
     makeNextArrow(choiceId: ChoiceId) {
         const arrow = document.createElement("button");
-        arrow.style.visibility = "hidden";
         arrow.innerHTML = ">";
+
+        // determine if there is an outgoing connection from this choice
+        // If there is then show the arrow
+        if (this.data.choices.get(choiceId)?.nodeId) {
+            arrow.style.visibility = "visible";
+        } else {
+            arrow.style.visibility = "hidden";
+        }
+
         arrow.onclick = (event: MouseEvent) => {
 
             const nextNodeId = this.data.choices.get(choiceId)?.nodeId;
