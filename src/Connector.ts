@@ -81,10 +81,14 @@ export class Connector {
         this.line = undefined;
         this.socketFrom = undefined;
 
-        const sockets = document.getElementsByClassName("socket");
-        [...sockets].forEach(socket => {
+        const socketElements = document.getElementsByClassName("socket");
+
+        // Show all body sockets 
+        // Hide all header sockets except those connected
+        const sockets = this.allConnectedSockets();
+        [...socketElements].forEach(socket => {
             const _socket = socket as HTMLElement;
-            if ("choiceId" in _socket.dataset || (validConnection && _socket === socketTo)) {
+            if ("choiceId" in _socket.dataset || sockets.has(_socket)) {
                 _socket.style.display = "block";
             } else {
                 _socket.style.display = "none";
@@ -92,6 +96,18 @@ export class Connector {
         });
     }
 
+    allConnectedSockets(): Set<HTMLElement> {
+        const socketsConnected = new Set<HTMLElement>();
+        this.data.incoming.forEach(_sc1 => _sc1.forEach(_sc => {
+            socketsConnected.add(_sc.socketFrom);
+            socketsConnected.add(_sc.socketTo);
+        }));
+        this.data.outgoing.forEach(_sc1 => _sc1.forEach(_sc => {
+            socketsConnected.add(_sc.socketFrom);
+            socketsConnected.add(_sc.socketTo);
+        }));
+        return socketsConnected;
+    }
     validateConnection(socketTo: HTMLElement): false | { nodeIdFrom: string, nodeIdTo: string } {
         if (!socketTo.getAttribute("id")?.startsWith("socket")) {
             // did not end on a socket
