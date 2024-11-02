@@ -22,6 +22,7 @@ export class Connector {
 
         this.socketFrom = event.target as HTMLElement;
 
+        // Hide the choice sockets and show the node sockets
         const sockets = document.getElementsByClassName("socket");
         [...sockets].forEach(socket => {
             const _socket = socket as HTMLElement;
@@ -90,14 +91,12 @@ export class Connector {
         this.line = undefined;
         this.socketFrom = undefined;
 
-        const socketElements = document.getElementsByClassName("socket");
-
-        // Show all body sockets 
-        // Hide all header sockets except those connected
-        const sockets = this.allConnectedSockets();
-        [...socketElements].forEach(socket => {
+        // Hide the node sockets and show the choice sockets
+        const allSockets = document.getElementsByClassName("socket");
+        const connectedSockets = this.allConnectedSockets();
+        [...allSockets].forEach(socket => {
             const _socket = socket as HTMLElement;
-            if ("choiceId" in _socket.dataset || sockets.has(_socket)) {
+            if ("choiceId" in _socket.dataset || connectedSockets.has(_socket)) {
                 _socket.style.display = "block";
             } else {
                 _socket.style.display = "none";
