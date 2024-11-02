@@ -67,24 +67,25 @@ export class Connector {
         if (validConnection === false) {
             this.line.remove();
         } else {
+
+            const choiceId = this.socketFrom.dataset.choiceId!;
+
+            // data
+            this.data.choices.get(choiceId)!.nodeId = validConnection.nodeIdTo;
+            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, line: this.line, socketTo });
+            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
+
             // ui
             const end = this.getSocketCenter(socketTo);
             this.line.setAttribute("x2", end.x.toString());
             this.line.setAttribute("y2", end.y.toString());
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
-            const choiceId = this.socketFrom.dataset.choiceId!;
-
             // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
             const choice = document.querySelector(`#node-editor-body #choice-${choiceId} button:nth-child(3)`) as HTMLElement;
             if (choice) {
                 choice.style.visibility = "visible";
             }
-
-            // data
-            this.data.choices.get(choiceId)!.nodeId = validConnection.nodeIdTo;
-            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, line: this.line, socketTo });
-            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
         }
         this.line = undefined;
         this.socketFrom = undefined;
