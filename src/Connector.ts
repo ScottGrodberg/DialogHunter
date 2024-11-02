@@ -18,7 +18,7 @@ export class Connector {
     }
 
     onPointerDown(event: PointerEvent) {
-        event.preventDefault();
+        event.stopPropagation();
 
         this.socketFrom = event.target as HTMLElement;
 
