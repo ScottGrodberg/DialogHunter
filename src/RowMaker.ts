@@ -18,9 +18,6 @@ export class RowMaker {
         // Make a socket
         const socket = document.createElement("div");
         socket.dataset.nodeId = nodeId;
-        if (choiceId) {
-            socket.dataset.choiceId = choiceId;
-        }
         socket.style.borderRadius = "50%";
         socket.style.backgroundColor = "white";
         socket.style.width = "14px";
@@ -34,14 +31,22 @@ export class RowMaker {
         // Clone for the left
         const socketLeft = socket.cloneNode() as HTMLDivElement;
         socketLeft.style.left = "-18px";
-        socketLeft.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector)); // FIXME: proper binding so it can be unbound when the outgoing connection is completed        
         socketLeft.id = "socket-" + this.utility.generateUid(8) + "-left";
 
         // Clone for the right
         const socketRight = socket.cloneNode() as HTMLDivElement;
         socketRight.style.left = "calc(100% + 2px)";
-        socketRight.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector)); // FIXME: (see above)
         socketRight.id = "socket-" + this.utility.generateUid(8) + "-right";
+
+        if (choiceId) {
+            socketLeft.dataset.choiceId = choiceId;
+            socketRight.dataset.choiceId = choiceId;
+            socketLeft.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector));
+            socketRight.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector));
+        } else {
+            socketLeft.addEventListener('pointerdown', (event) => { event.stopPropagation() });
+            socketRight.addEventListener('pointerdown', (event) => { event.stopPropagation() });
+        }
 
         return { socketLeft, socketRight };
     }
