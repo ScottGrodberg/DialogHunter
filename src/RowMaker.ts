@@ -39,11 +39,13 @@ export class RowMaker {
         socketRight.id = "socket-" + this.utility.generateUid(8) + "-right";
 
         if (choiceId) {
+            // body sockets, outgoing from choices
             socketLeft.dataset.choiceId = choiceId;
             socketRight.dataset.choiceId = choiceId;
             socketLeft.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector));
             socketRight.addEventListener('pointerdown', this.connector.onPointerDown.bind(this.connector));
         } else {
+            // header sockets, incoming from choices
             socketLeft.addEventListener('pointerdown', (event) => { event.stopPropagation() });
             socketRight.addEventListener('pointerdown', (event) => { event.stopPropagation() });
         }
