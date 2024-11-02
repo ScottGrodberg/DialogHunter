@@ -83,6 +83,7 @@ export class ChoiceMaker {
 
     makeNextArrow(choiceId: ChoiceId) {
         const arrow = document.createElement("button");
+        arrow.style.visibility = "hidden";
         arrow.innerHTML = ">";
         arrow.onclick = (event: MouseEvent) => {
 

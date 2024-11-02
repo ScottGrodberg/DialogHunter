@@ -73,8 +73,16 @@ export class Connector {
             this.line.setAttribute("y2", end.y.toString());
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
+            const choiceId = this.socketFrom.dataset.choiceId!;
+
+            // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
+            const choice = document.querySelector(`#node-editor-body #choice-${choiceId} button:nth-child(3)`) as HTMLElement;
+            if (choice) {
+                choice.style.visibility = "visible";
+            }
+
             // data
-            this.data.choices.get(this.socketFrom.dataset.choiceId!)!.nodeId = validConnection.nodeIdTo;
+            this.data.choices.get(choiceId)!.nodeId = validConnection.nodeIdTo;
             this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, line: this.line, socketTo });
             this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
         }
@@ -96,6 +104,7 @@ export class Connector {
         });
     }
 
+    /** Determine a set of connected sockets, whether they are an incoming or outgoing socket */
     allConnectedSockets(): Set<HTMLElement> {
         const socketsConnected = new Set<HTMLElement>();
         this.data.incoming.forEach(_sc1 => _sc1.forEach(_sc => {
