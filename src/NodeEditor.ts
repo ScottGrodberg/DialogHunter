@@ -62,6 +62,17 @@ export class NodeEditor {
         return element;
     }
 
+    makeOutput(): HTMLDivElement {
+        const divOutput = document.createElement("div");
+        divOutput.style.position = "absolute";
+        divOutput.style.right = "8%";
+        divOutput.style.width = "34%";
+        divOutput.style.height = "40%";
+        divOutput.style.overflow = "scroll-y";
+        divOutput.id = "div-output";
+        return divOutput;
+    }
+
     addChoice(body: HTMLElement) {
         // data
         const choice = new Choice(this.utility.generateUid(8));

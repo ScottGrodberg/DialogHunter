@@ -103,15 +103,7 @@ export class Main {
         divEditorWrapper.style.height = "50%";
         data.divEditorWrapper = divEditorWrapper;
 
-        // Output div
-        const divOutput = document.createElement("div");
-        divOutput.style.position = "absolute";
-        divOutput.style.right = "8%";
-        divOutput.style.width = "34%";
-        divOutput.style.height = "40%";
-        divOutput.style.overflow = "scroll-y";
-        divOutput.id = "div-output";
-
+        const divOutput = nodeEditor.makeOutput();
         const nodeEditorElement = nodeEditor.makeEditor();
 
         // Element composition
