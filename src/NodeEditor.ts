@@ -13,11 +13,11 @@ export class NodeEditor {
 
         const element = document.createElement("div");
         element.id = "node-editor";
-        element.style.width = "50%";
+        element.style.width = "40%";
         element.style.padding = "10px";
         element.style.backgroundColor = "black";
         element.style.position = "absolute";
-        element.style.left = "200px";
+        element.style.left = "10%";
         element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
         element.style.display = "none";
 

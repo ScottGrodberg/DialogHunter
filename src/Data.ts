@@ -35,15 +35,21 @@ export class Data {
     outgoing = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from the key to values
 
     dump() {
+        let output = "";
+
+        output += `[`;
         this.nodes.forEach(node => {
-            console.log(`{`);
-            console.log(`  "nodeId": "${node.nodeId}"`);
-            console.log(`  "text": "${node.text}"`);
-            console.log(`  "choices" : [`);
-            console.log(`    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}`);
-            console.log(`  ]`);
-            console.log(`},`);
+            output += `{`;
+            output += `  "nodeId":"${node.nodeId}",`;
+            output += `  "text":"${node.text}",`;
+            output += `  "choices":[`;
+            output += `    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}`;
+            output += `  ]`;
+            output += `},`;
         });
+        output += `]`;
+
+        document.getElementById("div-output")!.innerHTML = output;
     }
 
 }
