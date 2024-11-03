@@ -39,15 +39,15 @@ export class Data {
 
         output += `[`;
         this.nodes.forEach(node => {
-            output += `{`;
-            output += `  "nodeId":"${node.nodeId}",`;
-            output += `  "text":"${node.text}",`;
-            output += `  "choices":[`;
-            output += `    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}`;
-            output += `  ]`;
-            output += `},`;
+            output += `{\n`;
+            output += `  "nodeId":"${node.nodeId}",\n`;
+            output += `  "text":"${node.text}",\n`;
+            output += `  "choices":[\n`;
+            output += `    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}\n`;
+            output += `  ]\n`;
+            output += `},\n`;
         });
-        output += `]`;
+        output += `]\n`;
 
         document.getElementById("div-output")!.innerHTML = output;
     }

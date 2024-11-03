@@ -73,6 +73,9 @@ export class NodeEditor {
 
         const divOutput = document.createElement("div");
         divOutput.id = "div-output";
+        divOutput.style.whiteSpace = "pre";
+        divOutput.style.overflow = "scroll";
+        divOutput.style.height = "100%";
 
         const buttonCopy = document.createElement("button");
         buttonCopy.innerHTML = "Copy";
