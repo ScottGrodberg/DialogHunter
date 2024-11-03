@@ -114,7 +114,7 @@ export class Connector {
         const choice = this.data.choices.get(choiceIdFrom);
         if (!choice?.nodeId) {
             // choice is not connected to another node
-            console.log(`choice ${choiceIdFrom} is not connected to another node`);
+            //console.log(`choice ${choiceIdFrom} is not connected to another node`);
             return;
         }
         const nodeIdTo = choice.nodeId;
