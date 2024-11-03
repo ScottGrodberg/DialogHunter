@@ -67,7 +67,7 @@ export class NodeLayout {
 
     // Function to handle the start of the drag
     onPointerDown(event: any) {
-        const element = event.target;
+        const element = event.currentTarget;
         element.setPointerCapture(event.pointerId);
         element.addEventListener('pointermove', this.ptrMove);
         element.addEventListener('pointerup', this.ptrUp);
