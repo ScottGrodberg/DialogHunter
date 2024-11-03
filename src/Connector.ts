@@ -22,6 +22,8 @@ export class Connector {
 
         this.socketFrom = event.target as HTMLElement;
 
+        this.removeExistingConnection();
+
         // Hide the choice sockets and show the node sockets
         const sockets = document.getElementsByClassName("socket");
         [...sockets].forEach(socket => {
@@ -102,6 +104,31 @@ export class Connector {
                 _socket.style.display = "none";
             }
         });
+    }
+
+    removeExistingConnection() {
+        const choiceIdFrom = this.socketFrom?.dataset.choiceId!;
+        const nodeIdFrom = this.socketFrom?.dataset.nodeId!;
+
+        // unset the choice's nodeId
+        const choice = this.data.choices.get(choiceIdFrom);
+        if (!choice?.nodeId) {
+            // choice is not connected to another node
+            console.log(`choice ${choiceIdFrom} is not connected to another node`);
+            return;
+        }
+        const nodeIdTo = choice.nodeId;
+        choice.nodeId = undefined;
+
+        // Delete the incoming and outgoing connections
+        const nodeFrom = this.data.outgoing.get(nodeIdFrom);
+        const nodeTo = nodeFrom!.get(nodeIdTo);
+        const line = nodeTo!.line;
+        nodeFrom!.delete(nodeIdTo);
+        this.data.incoming.get(nodeIdTo)?.delete(nodeIdFrom);
+
+        // Remove the line from the dom
+        line.remove();
     }
 
     /** Determine a set of connected sockets, whether they are an incoming or outgoing socket */
