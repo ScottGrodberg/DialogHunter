@@ -95,14 +95,12 @@ export class ChoiceMaker {
 
         arrow.onclick = (event: MouseEvent) => {
 
-            const nextNodeId = this.data.choices.get(choiceId)?.nodeId;
-            console.log(`Choice ${choiceId} clicked arrow, next node is ${nextNodeId}`);
-            if (!nextNodeId) {
+            const nodeId = this.data.choices.get(choiceId)?.nodeId;
+            console.log(`Choice ${choiceId} clicked arrow, next node is ${nodeId}`);
+            if (!nodeId) {
                 return;
             }
-            const destination = document.getElementById(`node-editor-body`)!;
-            this.update(nextNodeId, destination, ChoiceFor.EDITOR);
-            this.currentNode.setCurrentNode(nextNodeId);
+            this.changeNode(nodeId);
         };
         return arrow;
     }
@@ -157,5 +155,22 @@ export class ChoiceMaker {
             destination.appendChild(element);
         })
         this.data.dump();
+    }
+
+    changeNode(nodeId: NodeId) {
+
+        // Update the header
+        const text = this.data.nodes.get(nodeId)!.text!;
+        const header = document.getElementById(`node-editor-header`)!;
+        header.getElementsByTagName("textarea").item(0)!.value = text;
+
+        // Update the responses
+        const destination = document.getElementById(`node-editor-body`)!;
+        this.update(nodeId, destination, ChoiceFor.EDITOR);
+
+        // Show the node
+        document.getElementById("node-editor")!.style.display = "block";
+
+        this.currentNode.setCurrentNode(nodeId);
     }
 }

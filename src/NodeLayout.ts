@@ -1,4 +1,4 @@
-import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
+import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId } from "./Data.js";
@@ -124,19 +124,7 @@ export class NodeLayout {
         const element = event.currentTarget as HTMLElement;
         const nodeId = element.dataset.nodeId!;
 
-        // Update the header
-        const text = this.data.nodes.get(nodeId)!.text!;
-        const header = document.getElementById(`node-editor-header`)!;
-        header.getElementsByTagName("textarea").item(0)!.value = text;
-
-        // Update the responses
-        const destination = document.getElementById(`node-editor-body`)!;
-        this.choiceMaker.update(nodeId, destination, ChoiceFor.EDITOR);
-
-        // Show the node
-        document.getElementById("node-editor")!.style.display = "block";
-
-        this.currentNode.setCurrentNode(nodeId);
+        this.choiceMaker.changeNode(nodeId);
 
     }
 
