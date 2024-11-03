@@ -156,6 +156,6 @@ export class ChoiceMaker {
             }
             destination.appendChild(element);
         })
-
+        this.data.dump();
     }
 }

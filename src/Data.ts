@@ -34,4 +34,16 @@ export class Data {
     incoming = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from values to the key
     outgoing = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from the key to values
 
+    dump() {
+        this.nodes.forEach(node => {
+            console.log(`{`);
+            console.log(`  "nodeId": "${node.nodeId}"`);
+            console.log(`  "text": "${node.text}"`);
+            console.log(`  "choices" : [`);
+            console.log(`    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}`);
+            console.log(`  ]`);
+            console.log(`},`);
+        });
+    }
+
 }
