@@ -63,14 +63,26 @@ export class NodeEditor {
     }
 
     makeOutput(): HTMLDivElement {
+        const divOutputWrapper = document.createElement("div");
+        divOutputWrapper.id = "div-output-wrapper";
+        divOutputWrapper.style.position = "absolute";
+        divOutputWrapper.style.right = "8%";
+        divOutputWrapper.style.width = "34%";
+        divOutputWrapper.style.height = "40%";
+        divOutputWrapper.style.overflow = "scroll-y";
+
         const divOutput = document.createElement("div");
-        divOutput.style.position = "absolute";
-        divOutput.style.right = "8%";
-        divOutput.style.width = "34%";
-        divOutput.style.height = "40%";
-        divOutput.style.overflow = "scroll-y";
         divOutput.id = "div-output";
-        return divOutput;
+
+        const buttonCopy = document.createElement("button");
+        buttonCopy.innerHTML = "Copy";
+        buttonCopy.onclick = () => {
+            var text = document.getElementById("div-output")!.innerHTML;
+            navigator.clipboard.writeText(text);
+        };
+
+        divOutputWrapper.append(divOutput, buttonCopy);
+        return divOutputWrapper;
     }
 
     addChoice(body: HTMLElement) {
