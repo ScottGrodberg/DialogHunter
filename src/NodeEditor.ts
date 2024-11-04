@@ -93,8 +93,7 @@ export class NodeEditor {
         const buttonLoad = document.createElement("button");
         buttonLoad.innerHTML = "Load";
         buttonLoad.onclick = () => {
-            this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
-            this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
+            this.loadFromStorage();
         };
 
 
@@ -120,5 +119,10 @@ export class NodeEditor {
     saveToStorage() {
         localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
         localStorage.setItem("choices", JSON.stringify(Array.from(this.data.choices.entries())));
+    }
+
+    loadFromStorage() {
+        this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
+        this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
     }
 }
