@@ -84,7 +84,22 @@ export class NodeEditor {
             navigator.clipboard.writeText(text);
         };
 
-        divOutputWrapper.append(divOutput, buttonCopy);
+        const buttonSave = document.createElement("button");
+        buttonSave.innerHTML = "Save";
+        buttonSave.onclick = () => {
+            localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
+            localStorage.setItem("choices", JSON.stringify(Array.from(this.data.choices.entries())));
+        };
+
+        const buttonLoad = document.createElement("button");
+        buttonLoad.innerHTML = "Load";
+        buttonLoad.onclick = () => {
+            this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
+            this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
+        };
+
+
+        divOutputWrapper.append(divOutput, buttonCopy, buttonSave, buttonLoad);
         return divOutputWrapper;
     }
 
