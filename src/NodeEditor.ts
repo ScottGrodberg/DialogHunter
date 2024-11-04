@@ -87,8 +87,7 @@ export class NodeEditor {
         const buttonSave = document.createElement("button");
         buttonSave.innerHTML = "Save";
         buttonSave.onclick = () => {
-            localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
-            localStorage.setItem("choices", JSON.stringify(Array.from(this.data.choices.entries())));
+            this.saveToStorage();
         };
 
         const buttonLoad = document.createElement("button");
@@ -118,4 +117,8 @@ export class NodeEditor {
         this.choiceMaker.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
     }
 
+    saveToStorage() {
+        localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
+        localStorage.setItem("choices", JSON.stringify(Array.from(this.data.choices.entries())));
+    }
 }
