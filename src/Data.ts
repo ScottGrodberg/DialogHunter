@@ -23,14 +23,17 @@ export class Data {
     divEditorWrapper?: HTMLDivElement;
 
 
-    // Data 
+    // Data
+
+    // Convenience variables
     head?: NodeId;              // The starting node for the interchange
     currentNodeId?: NodeId;     // The nodeId currently in the editory
 
+    // Data structures, meant to be serialized to storage
     nodes = new Map<NodeId, Node>();
     choices = new Map<ChoiceId, Choice>();
 
-    // Node connections, hold refs to Line objects
+    // Node connections, holds DOM objects, not meant for serialization
     incoming = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from values to the key
     outgoing = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from the key to values
 
