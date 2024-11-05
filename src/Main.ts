@@ -33,12 +33,12 @@ export class Main {
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
-        const lineMaker = new LineMaker();
+        const lineMaker = new LineMaker(data);
         const connector = new Connector(data, lineMaker);
         const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
-        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
+        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, lineMaker);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeLayout, lineMaker);
 
         this.composeLayout(data, utility, nodeLayout, currentNode);

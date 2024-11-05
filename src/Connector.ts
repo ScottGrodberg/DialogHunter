@@ -36,7 +36,7 @@ export class Connector {
             }
         });
 
-        const start = this.getSocketCenter(this.socketFrom);
+        const start = this.lineMaker.getSocketCenter(this.socketFrom);
 
         this.line = this.lineMaker.makeLine(start);
 
@@ -74,7 +74,7 @@ export class Connector {
             this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
 
             // ui
-            const end = this.getSocketCenter(socketTo);
+            const end = this.lineMaker.getSocketCenter(socketTo);
             this.line.setAttribute("x2", end.x.toString());
             this.line.setAttribute("y2", end.y.toString());
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
@@ -189,12 +189,4 @@ export class Connector {
         return arrowMarker;
     }
 
-    getSocketCenter(socket: HTMLElement) {
-        const rect = socket.getBoundingClientRect();
-        const svgRect = this.data.svgLayout!.getBoundingClientRect();
-        return {
-            x: rect.left + rect.width / 2 - svgRect.left,
-            y: rect.top + rect.height / 2 - svgRect.top,
-        };
-    }
 }
