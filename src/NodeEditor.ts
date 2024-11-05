@@ -126,12 +126,18 @@ export class NodeEditor {
     }
 
     loadFromStorage() {
-
+        // clear the dom
         this.data.nodes.forEach(node => {
             const element = document.getElementById(`node-${node.nodeId}`);
             element?.remove();
         });
+        this.data.incoming.forEach(_map => {
+            _map.forEach(_sc => {
+                _sc.line.remove();
+            });
+        })
 
+        // Load the basic data from storage
         this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
         this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
 
