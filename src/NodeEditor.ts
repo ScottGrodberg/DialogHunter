@@ -155,6 +155,8 @@ export class NodeEditor {
 
 
         // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
+        this.data.incoming.clear();
+        this.data.outgoing.clear();
         this.data.nodes.forEach(node => {
 
             node.choices.forEach(choiceId => {
@@ -181,8 +183,17 @@ export class NodeEditor {
                 line.setAttribute("y2", end.y.toString());
                 this.data.svgLayout!.appendChild(line);
 
-                //  TODO: create the incomign and outgoing records, storing the line and socket element refs
 
+                // Create the incomign and outgoing records, storing the line and socket element refs
+                if (!this.data.incoming.has(choice.nodeId)) {
+                    this.data.incoming.set(choice.nodeId, new Map());
+                }
+                this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
+
+                if (!this.data.outgoing.has(node.nodeId)) {
+                    this.data.outgoing.set(node.nodeId, new Map());
+                }
+                this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
 
             });
         });
