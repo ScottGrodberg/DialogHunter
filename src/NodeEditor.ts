@@ -137,8 +137,8 @@ export class NodeEditor {
 
             // add the node to the layout
             const element = this.nodeLayout.node(node.nodeId);
-            element.style.left = node.position!.left + "px";
-            element.style.top = node.position!.top + "px";
+            element.style.left = node.position!.left.toString();
+            element.style.top = node.position!.top.toString();
             this.data.divLayout!.appendChild(element);
 
             // update the text of node
