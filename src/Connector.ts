@@ -174,9 +174,9 @@ export class Connector {
     createArrowMarker() {
         const arrowMarker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
         arrowMarker.setAttribute("id", "arrow");
-        arrowMarker.setAttribute("markerWidth", "10");
+        arrowMarker.setAttribute("markerWidth", "20");
         arrowMarker.setAttribute("markerHeight", "10");
-        arrowMarker.setAttribute("refX", "5");
+        arrowMarker.setAttribute("refX", "10");
         arrowMarker.setAttribute("refY", "5");
         arrowMarker.setAttribute("orient", "auto-start-reverse");
         arrowMarker.setAttribute("markerUnits", "strokeWidth");
