@@ -88,6 +88,7 @@ export class NodeLayout {
         const nodeElement = element.parentElement;
         nodeElement.style.left = newX + "px";
         nodeElement.style.top = newY + "px";
+        this.data.nodes.get(nodeElement.dataset.nodeId)!.position = { left: newX, top: newY };
 
         // TODO: get the incoming and outgoing lines by nodeId.
         const nodeId = nodeElement.dataset.nodeId;
