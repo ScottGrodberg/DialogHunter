@@ -39,7 +39,7 @@ export class Main {
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeLayout);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeLayout, lineMaker);
 
         this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
