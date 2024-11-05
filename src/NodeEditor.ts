@@ -38,6 +38,7 @@ export class NodeEditor {
             this.data.nodes.get(this.data.currentNodeId!)!.text = text;
             const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`)!;
             header.innerHTML = text;
+            header.title = text;
         };
         row.append(headerText);
         header.appendChild(row);
@@ -153,6 +154,7 @@ export class NodeEditor {
             // update the text of node
             const header = document.getElementById(`node-header-text-${node.nodeId}`)!;
             header.innerHTML = node.text!;
+            header.title = node.text!;
 
             // call the method to add the choices to the node
             const destination = document.getElementById(`node-body-${node.nodeId}`)!;
