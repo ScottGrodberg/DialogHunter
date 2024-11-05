@@ -33,15 +33,13 @@ export class NodeLayout {
         const header = document.createElement("div");
         header.id = "node-header-" + nodeId;
         header.style.width = "100%";
-        header.style.height = "30px";
+        header.style.height = "3em";
         header.style.backgroundColor = "blue";
         header.style.cursor = "pointer";
 
         const headerText = document.createElement("p");
         headerText.id = "node-header-text-" + nodeId;
         headerText.style.color = "white";
-        headerText.style.margin = "0";
-        headerText.style.padding = "0";
 
         const row = this.rowMaker.row();
         const sockets = this.rowMaker.sockets(nodeId);
@@ -53,8 +51,9 @@ export class NodeLayout {
         const body = document.createElement("div");
         body.id = "node-body-" + nodeId;
         body.style.width = "100%";
-        body.style.minHeight = "120px";
+        body.style.minHeight = "5em";
         body.style.backgroundColor = "red";
+        body.style.paddingTop = "0.4em";
 
         header.addEventListener('pointerdown', this.ptrDown);
 

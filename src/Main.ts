@@ -23,6 +23,19 @@ style.innerHTML = `
         cursor: pointer;
         user-select: none;
     }
+    p { 
+        margin: 0 0 0.8em 0;
+        line-height:1.3;
+        height:2.5em;
+        padding: 0 0.2em;
+        overflow:hidden;
+
+        /* ellipsis after two lines */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+    }
 `;
 document.head.appendChild(style);
 
