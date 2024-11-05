@@ -1,13 +1,14 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { Data } from "./Data.js";
+import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public nodeLayout: NodeLayout) { }
 
     makeEditor(): HTMLDivElement {
 
@@ -124,5 +125,24 @@ export class NodeEditor {
     loadFromStorage() {
         this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
         this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
+
+        // Update the UI put all nodes and choices into the layout window
+        this.data.nodes.forEach(node => {
+
+            // add the node to the layout
+            const element = this.nodeLayout.node(node.nodeId);
+            element.style.left = node.position!.left + "px";
+            element.style.top = node.position!.top + "px";
+            this.data.divLayout!.appendChild(element);
+
+            // update the text of node
+            const header = document.getElementById(`node-header-text-${node.nodeId}`)!;
+            header.innerHTML = node.text!;
+
+            // call the method to add the choices to the node
+            const destination = document.getElementById(`node-body-${node.nodeId}`)!;
+            this.choiceMaker.update(node.nodeId, destination, ChoiceFor.LAYOUT);
+        });
+
     }
 }
