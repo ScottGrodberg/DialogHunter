@@ -123,6 +123,12 @@ export class NodeEditor {
     }
 
     loadFromStorage() {
+
+        this.data.nodes.forEach(node => {
+            const element = document.getElementById(`node-${node.nodeId}`);
+            element?.remove();
+        });
+
         this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
         this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
 
