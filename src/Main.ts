@@ -114,15 +114,16 @@ export class Main {
     composeEditor(data: Data, nodeEditor: NodeEditor) {
         // Editor wrapper
         const divEditorWrapper = document.createElement("div");
-        divEditorWrapper.id = "div-Editor-wrapper";
+        divEditorWrapper.id = "div-editor-wrapper";
         divEditorWrapper.style.height = "50%";
         data.divEditorWrapper = divEditorWrapper;
 
+        const divSidebar = nodeEditor.makeSidebar();
         const divOutput = nodeEditor.makeOutput();
         const nodeEditorElement = nodeEditor.makeEditor();
 
         // Element composition
-        divEditorWrapper.append(nodeEditorElement, divOutput);
+        divEditorWrapper.append(divSidebar, nodeEditorElement, divOutput);
         document.body.appendChild(divEditorWrapper);
     }
 

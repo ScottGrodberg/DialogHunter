@@ -67,6 +67,18 @@ export class NodeEditor {
         return element;
     }
 
+    makeSidebar(): HTMLDivElement {
+        const div = document.createElement("div");
+        div.style.margin = "20px 0 0 20px";
+        const buttonDelete = document.createElement("button");
+        buttonDelete.innerHTML = "X";
+        buttonDelete.onclick = () => {
+            console.log(`TODO: delete the current node`);
+        };
+        div.append(buttonDelete);
+        return div;
+    }
+
     makeOutput(): HTMLDivElement {
         const divOutputWrapper = document.createElement("div");
         divOutputWrapper.id = "div-output-wrapper";
@@ -100,7 +112,6 @@ export class NodeEditor {
         buttonLoad.onclick = () => {
             this.loadFromStorage();
         };
-
 
         divOutputWrapper.append(divOutput, buttonCopy, buttonSave, buttonLoad);
         return divOutputWrapper;
