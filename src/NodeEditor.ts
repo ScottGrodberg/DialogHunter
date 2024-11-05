@@ -153,5 +153,40 @@ export class NodeEditor {
             this.choiceMaker.update(node.nodeId, destination, ChoiceFor.LAYOUT);
         });
 
+
+        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
+        this.data.nodes.forEach(node => {
+
+            node.choices.forEach(choiceId => {
+                const choice = this.data.choices.get(choiceId)!;
+                if (!choice.nodeId) {
+                    return; // no linkage
+                }
+
+                // get the from sockets
+                const socketFromLeft = document.querySelector(`#choice-${choiceId} :nth-child(1)`) as HTMLElement;
+                const socketFromRight = document.querySelector(`#choice-${choiceId} :nth-child(3)`) as HTMLElement;
+
+                // get the to sockets
+                const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`) as HTMLElement;
+                const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`) as HTMLElement;
+
+                // Draw the line
+                // FIXME: This assumes outgoing lines go from the right of the source node to the left of the incoming node
+                socketToLeft.style.display = "block";
+                const start = this.lineMaker.getSocketCenter(socketFromRight);
+                const end = this.lineMaker.getSocketCenter(socketToLeft)!;
+                const line = this.lineMaker.makeLine(start);
+                line.setAttribute("x2", end.x.toString());
+                line.setAttribute("y2", end.y.toString());
+                this.data.svgLayout!.appendChild(line);
+
+                //  TODO: create the incomign and outgoing records, storing the line and socket element refs
+
+
+            });
+        });
+
+
     }
 }
