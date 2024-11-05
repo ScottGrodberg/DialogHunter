@@ -21,6 +21,8 @@ export class Connector {
     onPointerDown(event: PointerEvent) {
         event.stopPropagation();
 
+        this.data.divLayout!.style.userSelect = "none";
+
         this.socketFrom = event.target as HTMLElement;
 
         this.removeExistingConnection();
@@ -99,6 +101,7 @@ export class Connector {
                 _socket.style.display = "none";
             }
         });
+        this.data.divLayout!.style.userSelect = "initial";
     }
 
     removeExistingConnection() {
