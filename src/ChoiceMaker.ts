@@ -67,6 +67,7 @@ export class ChoiceMaker {
         const response = document.createElement("textarea");
         response.style.resize = "vertical";
         response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        response.title = response.innerHTML;
         response.onchange = () => {
             this.data.choices.get(choiceId)!.response = response.value;
             const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
@@ -78,6 +79,7 @@ export class ChoiceMaker {
     makeResponseReadOnly(choiceId: ChoiceId) {
         const response = document.createElement("p");
         response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        response.title = response.innerHTML;
         return response;
     }
 
