@@ -1,6 +1,6 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
-import { Data } from "./Data.js";
+import { Data, NodeId, SocketsConnection } from "./Data.js";
 import { LineMaker } from "./LineMaker.js";
 import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
@@ -153,10 +153,15 @@ export class NodeEditor {
             this.choiceMaker.update(node.nodeId, destination, ChoiceFor.LAYOUT);
         });
 
-
-        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
+        // Reset the incoming and outgoing structures
         this.data.incoming.clear();
         this.data.outgoing.clear();
+        this.data.nodes.forEach(node => {
+            this.data.incoming.set(node.nodeId, new Map<NodeId, SocketsConnection>());
+            this.data.outgoing.set(node.nodeId, new Map<NodeId, SocketsConnection>());
+        });
+
+        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
         this.data.nodes.forEach(node => {
 
             node.choices.forEach(choiceId => {
@@ -183,16 +188,8 @@ export class NodeEditor {
                 line.setAttribute("y2", end.y.toString());
                 this.data.svgLayout!.appendChild(line);
 
-
                 // Create the incomign and outgoing records, storing the line and socket element refs
-                if (!this.data.incoming.has(choice.nodeId)) {
-                    this.data.incoming.set(choice.nodeId, new Map());
-                }
                 this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
-
-                if (!this.data.outgoing.has(node.nodeId)) {
-                    this.data.outgoing.set(node.nodeId, new Map());
-                }
                 this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
 
             });
