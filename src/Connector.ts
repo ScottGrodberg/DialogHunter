@@ -1,11 +1,12 @@
 import { Data } from "./Data";
+import { LineMaker } from "./LineMaker";
 
 export class Connector {
 
     line?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public data: Data) { }
+    constructor(public data: Data, public lineMaker: LineMaker) { }
 
     init() {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -37,14 +38,8 @@ export class Connector {
 
         const start = this.getSocketCenter(this.socketFrom);
 
-        this.line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        this.line.setAttribute("x1", start.x.toString());   // from
-        this.line.setAttribute("y1", start.y.toString());
-        this.line.setAttribute("x2", start.x.toString());   // to
-        this.line.setAttribute("y2", start.y.toString());
-        this.line.setAttribute("stroke", "black");
-        this.line.setAttribute("stroke-width", "2");
-        this.line.setAttribute("marker-end", "url(#arrow)");
+        this.line = this.lineMaker.makeLine(start);
+
         this.data.svgLayout!.appendChild(this.line);
     }
 

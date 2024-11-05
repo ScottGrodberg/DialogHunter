@@ -2,6 +2,7 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
+import { LineMaker } from "./LineMaker.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
@@ -32,7 +33,8 @@ export class Main {
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
-        const connector = new Connector(data);
+        const lineMaker = new LineMaker();
+        const connector = new Connector(data, lineMaker);
         const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
