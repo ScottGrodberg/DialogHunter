@@ -1,5 +1,6 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
+import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
 import { LineMaker } from "./LineMaker.js";
 import { NodeLayout } from "./NodeLayout.js";
@@ -9,7 +10,7 @@ import { Utility } from "./Utility.js";
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public nodeLayout: NodeLayout, public lineMaker: LineMaker) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public nodeLayout: NodeLayout, public lineMaker: LineMaker) { }
 
     makeEditor(): HTMLDivElement {
 

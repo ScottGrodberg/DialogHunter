@@ -52,7 +52,7 @@ export class Main {
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, lineMaker);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeLayout, lineMaker);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, lineMaker);
 
         this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
@@ -97,7 +97,7 @@ export class Main {
         divLayout.appendChild(buttonNew);
 
         // "Current node" indicator
-        const arrow = currentNode.makeCurrentArrow();
+        currentNode.makeCurrentArrow();
 
         // Element composition
         divLayout.appendChild(svgLayout);
