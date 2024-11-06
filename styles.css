@@ -16,3 +16,49 @@ p {
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
+
+.node {
+    padding: 10px;
+    background-color: black;
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 20px 9px;
+}
+
+.node-header {
+    width: 100%;
+    height: 3em;
+    background-color: blue;
+    cursor: pointer;
+}
+
+.node-body {
+    width: 100%;
+    min-height: 5em;
+    background-color: red;
+    padding-top: 0.4em;
+}
+
+.choice {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.socket {
+    border-radius: 50%;
+    background-color: white;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border: 1px solid black;
+    top: 10px;
+    cursor: pointer;
+}
+
+.socket-left {
+    left: -18px;
+}
+
+.socket-right {
+    left: calc(100% + 2px);
+}

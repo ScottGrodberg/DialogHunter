@@ -24,18 +24,12 @@ export class NodeLayout {
         const element = document.createElement("div");
         element.id = "node-" + nodeId;
         element.dataset.nodeId = nodeId;
+        element.classList.add("node");
         element.style.width = NodeLayout.DEFAULT_WIDTH + "px";
-        element.style.padding = "10px";
-        element.style.backgroundColor = "black";
-        element.style.position = "absolute";
-        element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
 
         const header = document.createElement("div");
         header.id = "node-header-" + nodeId;
-        header.style.width = "100%";
-        header.style.height = "3em";
-        header.style.backgroundColor = "blue";
-        header.style.cursor = "pointer";
+        header.classList.add("node-header");
 
         const headerText = document.createElement("p");
         headerText.id = "node-header-text-" + nodeId;
@@ -50,10 +44,7 @@ export class NodeLayout {
 
         const body = document.createElement("div");
         body.id = "node-body-" + nodeId;
-        body.style.width = "100%";
-        body.style.minHeight = "5em";
-        body.style.backgroundColor = "red";
-        body.style.paddingTop = "0.4em";
+        body.classList.add("node-body");
 
         header.addEventListener('pointerdown', this.ptrDown);
 
