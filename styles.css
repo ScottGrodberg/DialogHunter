@@ -1,3 +1,9 @@
+:root {
+    --node-background: #202936;
+    --node-header-background: #233651;
+    --node-body-background: #dcceaf;
+}
+
 button {
     cursor: pointer;
     user-select: none;
@@ -18,24 +24,27 @@ p {
 }
 
 .node {
-    padding: 10px;
-    background-color: black;
+    padding: 5px;
+    background-color: var(--node-background);
     position: absolute;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 20px 9px;
+    border-radius: 6px;
 }
 
 .node-header {
     width: 100%;
     height: 3em;
-    background-color: blue;
+    background-color: var(--node-header-background);
     cursor: pointer;
+    border-radius: 3px 3px 0 0;
 }
 
 .node-body {
     width: 100%;
     min-height: 5em;
-    background-color: red;
+    background-color: var(--node-body-background);
     padding-top: 0.4em;
+    border-radius: 0 0 3px 3px;
 }
 
 .choice {
@@ -56,9 +65,9 @@ p {
 }
 
 .socket-left {
-    left: -18px;
+    left: -11px;
 }
 
 .socket-right {
-    left: calc(100% + 2px);
+    left: calc(100% - 5px);
 }
