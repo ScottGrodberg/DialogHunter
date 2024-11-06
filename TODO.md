@@ -1,4 +1,3 @@
-* Option for "center layout on current node" 
 * Bezier curve svg connections
 * Pointer pan drag layout
 * Bugged drag xy,y2 not correct on pointer move (Needs triage)

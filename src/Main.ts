@@ -83,6 +83,7 @@ export class Main {
         const labelCenter = document.createElement("label");
         labelCenter.setAttribute("for", "input-center");
         labelCenter.innerHTML = "Center on current node";
+        labelCenter.title = "Make sure chrome://flags/#smooth-scrolling is set";
         divOptsWrapper.appendChild(labelCenter);
 
         const checkCenterOnCurrent = document.createElement("input");

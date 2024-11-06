@@ -8,10 +8,18 @@ export class CurrentNode {
     setCurrentNode(nodeId: NodeId) {
         this.data.currentNodeId = nodeId;
 
+        // position the arrow indicator
         const element = document.getElementById(`node-${nodeId}`)!;
         this.arrow!.style.display = "block";
         this.arrow!.setAttribute("x", element.style.left);
         this.arrow!.setAttribute("y", parseInt(element.style.top) - 30 + "px");
+
+        // scroll into view
+        const checkCenter = document.getElementById("input-center")! as HTMLInputElement;
+        if (!checkCenter.checked) {
+            return;
+        }
+        element.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
     }
 
     unsetCurrentNode() {
@@ -29,4 +37,5 @@ export class CurrentNode {
         this.arrow = svg;
         this.data.svgLayout!.appendChild(svg);
     }
+
 }
