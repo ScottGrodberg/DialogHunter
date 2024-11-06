@@ -73,6 +73,24 @@ export class Main {
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
 
+        // Options
+        const divOptsWrapper = document.createElement("div");
+        divOptsWrapper.style.position = "fixed";
+        divOptsWrapper.style.display = "flex";
+        divOptsWrapper.style.right = "40px";
+        divOptsWrapper.style.top = "20px";
+
+        const labelCenter = document.createElement("label");
+        labelCenter.setAttribute("for", "input-center");
+        labelCenter.innerHTML = "Center on current node";
+        divOptsWrapper.appendChild(labelCenter);
+
+        const checkCenterOnCurrent = document.createElement("input");
+        checkCenterOnCurrent.id = "input-center";
+        checkCenterOnCurrent.type = "checkbox";
+        divOptsWrapper.append(checkCenterOnCurrent);
+        divLayout.append(divOptsWrapper)
+
         // "Current node" indicator
         currentNode.makeCurrentArrow();
 
