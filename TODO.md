@@ -1,4 +1,3 @@
-* Delete node button handler
 * Rounded edges and colors for nodes
 * Option for "center layout on current node" 
 * Bezier curve svg connections

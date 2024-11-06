@@ -74,7 +74,7 @@ export class NodeEditor {
         const buttonDelete = document.createElement("button");
         buttonDelete.innerHTML = "X";
         buttonDelete.onclick = () => {
-            console.log(`TODO: delete the current node`);
+            this.deleteNode();
         };
         div.append(buttonDelete);
         return div;
@@ -214,7 +214,55 @@ export class NodeEditor {
 
             });
         });
+    }
 
+    /** Deletes the current node */
+    deleteNode() {
+        const nodeId = this.data.currentNodeId!;
 
+        // Remove from layout dom
+        this.deleteFromLayout(nodeId);
+
+        // Remove from editor dom
+        this.deleteFromEditor();
+
+        // Remove from structures
+        const node = this.data.nodes.get(nodeId)!;
+        node.choices.forEach(choiceId => {
+            this.data.choices.delete(choiceId);
+        });
+        this.data.nodes.delete(nodeId);
+
+        // Unset refs
+        if (this.data.head === nodeId) {
+            this.data.head = undefined;
+        }
+        this.currentNode.unsetCurrentNode();
+
+        // update output in editor pane
+        this.data.dump();
+    }
+
+    deleteFromLayout(nodeId: NodeId) {
+
+        this.data.incoming.get(nodeId)!.forEach(_sc => {
+            _sc.line.remove();
+        });
+        this.data.incoming.delete(nodeId);
+        this.data.outgoing.get(nodeId)!.forEach(_sc => {
+            _sc.line.remove();
+        });
+        this.data.outgoing.delete(nodeId);
+        const element = document.getElementById(`node-${nodeId}`)!;
+        element.remove();
+    }
+
+    deleteFromEditor() {
+        const header = document.querySelector(`#node-editor-header textarea`)! as HTMLTextAreaElement;
+        header.value = ``;
+        const destination = document.getElementById(`node-editor-body`)!;
+        destination.innerHTML = ``;
+        const editor = document.getElementById("node-editor")!;
+        editor.style.display = "none";
     }
 }
