@@ -33,7 +33,7 @@ export class Main {
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
         divLayoutWrapper.id = "div-layout-wrapper";
-        divLayoutWrapper.style.height = "50%";
+        divLayoutWrapper.style.height = "48.5%";
         divLayoutWrapper.style.overflow = "scroll";
         data.divLayoutWrapper = divLayoutWrapper;
         // Layout inner
@@ -59,6 +59,22 @@ export class Main {
         buttonNew.style.left = "20px";
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
+        // Options
+        const divOptsWrapper = document.createElement("div");
+        divOptsWrapper.style.position = "fixed";
+        divOptsWrapper.style.display = "flex";
+        divOptsWrapper.style.right = "40px";
+        divOptsWrapper.style.top = "20px";
+        const labelCenter = document.createElement("label");
+        labelCenter.setAttribute("for", "input-center");
+        labelCenter.innerHTML = "Center on current node";
+        labelCenter.title = "Make sure chrome://flags/#smooth-scrolling is set";
+        divOptsWrapper.appendChild(labelCenter);
+        const checkCenterOnCurrent = document.createElement("input");
+        checkCenterOnCurrent.id = "input-center";
+        checkCenterOnCurrent.type = "checkbox";
+        divOptsWrapper.append(checkCenterOnCurrent);
+        divLayout.append(divOptsWrapper);
         // "Current node" indicator
         currentNode.makeCurrentArrow();
         // Element composition
@@ -78,7 +94,7 @@ export class Main {
         // Editor wrapper
         const divEditorWrapper = document.createElement("div");
         divEditorWrapper.id = "div-editor-wrapper";
-        divEditorWrapper.style.height = "50%";
+        divEditorWrapper.style.height = "48.5%";
         data.divEditorWrapper = divEditorWrapper;
         const divSidebar = nodeEditor.makeSidebar();
         const divOutput = nodeEditor.makeOutput();
