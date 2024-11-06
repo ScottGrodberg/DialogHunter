@@ -13,28 +13,6 @@ const svgns = "http://www.w3.org/2000/svg";
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
 });
-// App-wide styles, should prob just be element selectors here
-const style = document.createElement('style');
-style.innerHTML = `
-    button {
-        cursor: pointer;
-        user-select: none;
-    }
-    p { 
-        margin: 0 0 0.8em 0;
-        line-height:1.3;
-        height:2.5em;
-        padding: 0 0.2em;
-        overflow:hidden;
-
-        /* ellipsis after two lines */
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        text-overflow: ellipsis;
-    }
-`;
-document.head.appendChild(style);
 export class Main {
     constructor() {
         // Begin composition root
@@ -46,7 +24,7 @@ export class Main {
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, lineMaker);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, nodeLayout, lineMaker);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, lineMaker);
         this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
         connector.init();
@@ -82,7 +60,7 @@ export class Main {
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
         // "Current node" indicator
-        const arrow = currentNode.makeCurrentArrow();
+        currentNode.makeCurrentArrow();
         // Element composition
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);

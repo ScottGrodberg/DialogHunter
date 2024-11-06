@@ -1,27 +1,21 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor } from "./ChoiceMaker.js";
 export class NodeEditor {
-    constructor(rowMaker, utility, data, choiceMaker, nodeLayout, lineMaker) {
+    constructor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, lineMaker) {
         this.rowMaker = rowMaker;
         this.utility = utility;
         this.data = data;
         this.choiceMaker = choiceMaker;
+        this.currentNode = currentNode;
         this.nodeLayout = nodeLayout;
         this.lineMaker = lineMaker;
     }
     makeEditor() {
         const element = document.createElement("div");
         element.id = "node-editor";
-        element.style.width = "40%";
-        element.style.padding = "10px";
-        element.style.backgroundColor = "black";
-        element.style.position = "absolute";
-        element.style.left = "10%";
-        element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
         element.style.display = "none";
         const header = document.createElement("div");
         header.id = "node-editor-header";
-        header.style.backgroundColor = "blue";
         const row = this.rowMaker.row();
         const headerText = document.createElement("textarea");
         headerText.style.margin = "5px";
@@ -38,16 +32,11 @@ export class NodeEditor {
         header.appendChild(row);
         const body = document.createElement("div");
         body.id = "node-editor-body";
-        body.style.width = "100%";
-        body.style.minHeight = "120px";
-        body.style.backgroundColor = "red";
         const footer = document.createElement("div");
         footer.id = "node-editor-footer";
-        footer.style.width = "100%";
-        footer.style.backgroundColor = "green";
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+";
-        buttonAdd.style.border = "1px solid black";
+        buttonAdd.style.margin = "0 0 3px 5px";
         buttonAdd.onclick = () => this.addChoice(body);
         footer.appendChild(buttonAdd);
         element.appendChild(header);
@@ -61,7 +50,7 @@ export class NodeEditor {
         const buttonDelete = document.createElement("button");
         buttonDelete.innerHTML = "X";
         buttonDelete.onclick = () => {
-            console.log(`TODO: delete the current node`);
+            this.deleteNode();
         };
         div.append(buttonDelete);
         return div;
@@ -177,6 +166,47 @@ export class NodeEditor {
                 this.data.outgoing.get(node.nodeId).set(choice.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
             });
         });
+    }
+    /** Deletes the current node */
+    deleteNode() {
+        const nodeId = this.data.currentNodeId;
+        // Remove from layout dom
+        this.deleteFromLayout(nodeId);
+        // Remove from editor dom
+        this.deleteFromEditor();
+        // Remove from structures
+        const node = this.data.nodes.get(nodeId);
+        node.choices.forEach(choiceId => {
+            this.data.choices.delete(choiceId);
+        });
+        this.data.nodes.delete(nodeId);
+        // Unset refs
+        if (this.data.head === nodeId) {
+            this.data.head = undefined;
+        }
+        this.currentNode.unsetCurrentNode();
+        // update output in editor pane
+        this.data.dump();
+    }
+    deleteFromLayout(nodeId) {
+        this.data.incoming.get(nodeId).forEach(_sc => {
+            _sc.line.remove();
+        });
+        this.data.incoming.delete(nodeId);
+        this.data.outgoing.get(nodeId).forEach(_sc => {
+            _sc.line.remove();
+        });
+        this.data.outgoing.delete(nodeId);
+        const element = document.getElementById(`node-${nodeId}`);
+        element.remove();
+    }
+    deleteFromEditor() {
+        const header = document.querySelector(`#node-editor-header textarea`);
+        header.value = ``;
+        const destination = document.getElementById(`node-editor-body`);
+        destination.innerHTML = ``;
+        const editor = document.getElementById("node-editor");
+        editor.style.display = "none";
     }
 }
 //# sourceMappingURL=NodeEditor.js.map
