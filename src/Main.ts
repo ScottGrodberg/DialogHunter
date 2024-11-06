@@ -106,9 +106,13 @@ export class Main {
 
         // Start with one interchange
         const nodeFirst = this.newNode(nodeMaker, utility, data);
-        nodeFirst.style.top = "66px";
-        nodeFirst.style.left = "100px";
         data.head = nodeFirst.dataset.nodeId;
+
+        // Special starting position for first node only
+        const node = data.nodes.get(data.head!)!;
+        node.position = { top: 66, left: 100 };
+        nodeFirst.style.top = node.position.top + "px";
+        nodeFirst.style.left = node.position.top + "px";
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
