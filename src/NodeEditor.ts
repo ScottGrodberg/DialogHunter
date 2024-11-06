@@ -16,17 +16,10 @@ export class NodeEditor {
 
         const element = document.createElement("div");
         element.id = "node-editor";
-        element.style.width = "40%";
-        element.style.padding = "10px";
-        element.style.backgroundColor = "black";
-        element.style.position = "absolute";
-        element.style.left = "10%";
-        element.style.boxShadow = "0 0 20px 9px rgba(0, 0, 0, 0.25)";
         element.style.display = "none";
 
         const header = document.createElement("div");
         header.id = "node-editor-header";
-        header.style.backgroundColor = "blue";
 
         const row = this.rowMaker.row();
         const headerText = document.createElement("textarea");
@@ -46,18 +39,13 @@ export class NodeEditor {
 
         const body = document.createElement("div");
         body.id = "node-editor-body";
-        body.style.width = "100%";
-        body.style.minHeight = "120px";
-        body.style.backgroundColor = "red";
 
         const footer = document.createElement("div");
         footer.id = "node-editor-footer";
-        footer.style.width = "100%";
-        footer.style.backgroundColor = "green";
 
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+";
-        buttonAdd.style.border = "1px solid black";
+        buttonAdd.style.margin = "0 0 3px 5px";
         buttonAdd.onclick = () => this.addChoice(body);
         footer.appendChild(buttonAdd);
 

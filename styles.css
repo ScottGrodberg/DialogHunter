@@ -73,3 +73,30 @@ p {
 .socket-right {
     left: calc(100% - 5px);
 }
+
+#node-editor {
+    width: 40%;
+    padding: 5px;
+    background-color: var(--node-background);
+    position: absolute;
+    left: 10%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 20px 9px;
+    border-radius: var(--border-radius-outer);
+}
+
+#node-editor-header {
+    background-color: var(--node-header-background);
+    border-radius: var(--border-radius-inner) var(--border-radius-inner) 0 0;
+}
+
+#node-editor-body {
+    width: 100%;
+    min-height: 120px;
+    background-color: var(--node-body-background);
+}
+
+#node-editor-footer {
+    width: 100%;
+    background-color: var(--node-body-background);
+    border-radius: 0 0 var(--border-radius-inner) var(--border-radius-inner);
+}
