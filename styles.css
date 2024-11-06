@@ -2,6 +2,8 @@
     --node-background: #202936;
     --node-header-background: #233651;
     --node-body-background: #dcceaf;
+    --border-radius-outer: 6px;
+    --border-radius-inner: 3px;
 }
 
 button {
@@ -28,7 +30,7 @@ p {
     background-color: var(--node-background);
     position: absolute;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 20px 9px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-outer);
 }
 
 .node-header {
@@ -36,7 +38,7 @@ p {
     height: 3em;
     background-color: var(--node-header-background);
     cursor: pointer;
-    border-radius: 3px 3px 0 0;
+    border-radius: var(--border-radius-inner) var(--border-radius-inner) 0 0;
 }
 
 .node-body {
@@ -44,7 +46,7 @@ p {
     min-height: 5em;
     background-color: var(--node-body-background);
     padding-top: 0.4em;
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 var(--border-radius-inner) var(--border-radius-inner);
 }
 
 .choice {
