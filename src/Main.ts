@@ -43,7 +43,7 @@ export class Main {
         // Layout wrapper
         const divLayoutWrapper = document.createElement("div");
         divLayoutWrapper.id = "div-layout-wrapper";
-        divLayoutWrapper.style.height = "50%";
+        divLayoutWrapper.style.height = "48.5%";
         divLayoutWrapper.style.overflow = "scroll";
         data.divLayoutWrapper = divLayoutWrapper;
 
@@ -96,7 +96,7 @@ export class Main {
         // Editor wrapper
         const divEditorWrapper = document.createElement("div");
         divEditorWrapper.id = "div-editor-wrapper";
-        divEditorWrapper.style.height = "50%";
+        divEditorWrapper.style.height = "48.5%";
         data.divEditorWrapper = divEditorWrapper;
 
         const divSidebar = nodeEditor.makeSidebar();
