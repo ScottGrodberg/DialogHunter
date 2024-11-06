@@ -81,17 +81,20 @@ export class Main {
         buttonNew.style.left = "20px";
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
-        // Start with one interchange
-        const nodeFirst = this.newNode(nodeMaker, utility, data);
-        nodeFirst.style.top = "66px";
-        nodeFirst.style.left = "100px";
-        data.head = nodeFirst.dataset.nodeId;
         // "Current node" indicator
         const arrow = currentNode.makeCurrentArrow();
         // Element composition
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
+        // Start with one interchange
+        const nodeFirst = this.newNode(nodeMaker, utility, data);
+        data.head = nodeFirst.dataset.nodeId;
+        // Special starting position for first node only
+        const node = data.nodes.get(data.head);
+        node.position = { top: 66, left: 100 };
+        nodeFirst.style.top = node.position.top + "px";
+        nodeFirst.style.left = node.position.top + "px";
     }
     composeEditor(data, nodeEditor) {
         // Editor wrapper
