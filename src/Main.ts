@@ -96,12 +96,6 @@ export class Main {
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
         divLayout.appendChild(buttonNew);
 
-        // Start with one interchange
-        const nodeFirst = this.newNode(nodeMaker, utility, data);
-        nodeFirst.style.top = "66px";
-        nodeFirst.style.left = "100px";
-        data.head = nodeFirst.dataset.nodeId;
-
         // "Current node" indicator
         const arrow = currentNode.makeCurrentArrow();
 
@@ -109,6 +103,12 @@ export class Main {
         divLayout.appendChild(svgLayout);
         divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
+
+        // Start with one interchange
+        const nodeFirst = this.newNode(nodeMaker, utility, data);
+        nodeFirst.style.top = "66px";
+        nodeFirst.style.left = "100px";
+        data.head = nodeFirst.dataset.nodeId;
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
