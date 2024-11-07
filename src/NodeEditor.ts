@@ -47,7 +47,7 @@ export class NodeEditor {
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+ Add Choice";
         buttonAdd.style.margin = "0 0 3px 5px";
-        buttonAdd.onclick = () => this.addChoice(body);
+        buttonAdd.onclick = () => this.addChoice(body, "Change this text");
         footer.appendChild(buttonAdd);
 
         element.appendChild(header);
@@ -107,9 +107,9 @@ export class NodeEditor {
         return divOutputWrapper;
     }
 
-    addChoice(body: HTMLElement) {
+    addChoice(body: HTMLElement, text: string) {
         // data
-        const choice = new Choice(this.utility.generateUid(8));
+        const choice = new Choice(this.utility.generateUid(8), text);
         this.data.choices.set(choice.choiceId, choice);
         this.data.nodes.get(this.data.currentNodeId!)!.choices.push(choice.choiceId);
 
