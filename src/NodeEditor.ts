@@ -113,7 +113,7 @@ export class NodeEditor {
         return divOutputWrapper;
     }
 
-    addChoice(body: HTMLElement, text: string) {
+    addChoice(body: HTMLElement, text: string): HTMLElement {
         // data
         const choice = new Choice(this.utility.generateUid(8), text);
         this.data.choices.set(choice.choiceId, choice);
@@ -126,6 +126,8 @@ export class NodeEditor {
         // add the choice to the node in layout
         const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
         this.choiceMaker.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
+
+        return element;
     }
 
     saveToStorage() {
@@ -272,8 +274,10 @@ export class NodeEditor {
 
         // Determine the threshold and create the conditions to evaluate
         const t = parseInt(m[1]);
-        this.addChoice(body, `>= ${t}`);
-        this.addChoice(body, `< ${t}`);
+        const choiceGte = this.addChoice(body, `>= ${t}`);
+        choiceGte.getElementsByTagName("textarea")![0].setAttribute("disabled", "true");
+        const choiceLt = this.addChoice(body, `< ${t}`);
+        choiceLt.getElementsByTagName("textarea")![0].setAttribute("disabled", "true");
 
         return true;
     }
