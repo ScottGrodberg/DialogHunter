@@ -103,6 +103,9 @@ export class ChoiceMaker {
                 return;
             }
             this.changeNode(nodeId);
+
+            this.roll(nodeId);
+
         };
         return arrow;
     }
@@ -174,5 +177,23 @@ export class ChoiceMaker {
         document.getElementById("node-editor")!.style.display = "block";
 
         this.currentNode.setCurrentNode(nodeId);
+    }
+
+    roll(nodeId: NodeId) {
+        const node = this.data.nodes.get(nodeId)!;
+        if (!node.text.startsWith("ROLL")) {
+            return;
+        }
+        const t = node.text.match(/T=(\d{1,2})/)!;
+        const i = Math.ceil(Math.random() * 100);
+        // FIXME: This works on a hardcoded choice ordinal, 0 or 1.
+        //        0 is assumed to be the gte eval, 1 is assumed to be the lt eval
+        let nodeIdNext: NodeId;
+        if (i >= parseInt(t[1])) {
+            nodeIdNext = this.data.choices.get(node.choices[0])!.nodeId!;
+        } else {
+            nodeIdNext = this.data.choices.get(node.choices[1])!.nodeId!;
+        }
+        this.changeNode(nodeIdNext);
     }
 }
