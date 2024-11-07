@@ -35,7 +35,7 @@ export class NodeEditor {
         const footer = document.createElement("div");
         footer.id = "node-editor-footer";
         const buttonAdd = document.createElement("button");
-        buttonAdd.innerHTML = "+";
+        buttonAdd.innerHTML = "+ Add Choice";
         buttonAdd.style.margin = "0 0 3px 5px";
         buttonAdd.onclick = () => this.addChoice(body);
         footer.appendChild(buttonAdd);
@@ -48,7 +48,7 @@ export class NodeEditor {
         const div = document.createElement("div");
         div.style.margin = "20px 0 0 20px";
         const buttonDelete = document.createElement("button");
-        buttonDelete.innerHTML = "X";
+        buttonDelete.innerHTML = "X Delete Node";
         buttonDelete.onclick = () => {
             this.deleteNode();
         };
