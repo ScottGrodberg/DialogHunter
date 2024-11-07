@@ -106,7 +106,7 @@ export class Main {
     newNode(nodeLayout, utility, data) {
         const divLayout = data.divLayout;
         const divLayoutWrapper = data.divLayoutWrapper;
-        const node = new Node(utility.generateUid(8));
+        const node = new Node(utility.generateUid(8), "Change this text, it can be a description or monologue or question");
         const element = nodeLayout.node(node.nodeId);
         // Set the node's position
         const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;

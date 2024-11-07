@@ -1,1 +1,1 @@
-{"version":3,"file":"Choice.js","sourceRoot":"","sources":["../src/Choice.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,MAAM;IAMf,YAAmB,QAAkB;QAAlB,aAAQ,GAAR,QAAQ,CAAU;IAAI,CAAC;CAE7C"}
+{"version":3,"file":"Choice.js","sourceRoot":"","sources":["../src/Choice.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,MAAM;IAKf,YAAmB,QAAkB,EAAS,IAAY;QAAvC,aAAQ,GAAR,QAAQ,CAAU;QAAS,SAAI,GAAJ,IAAI,CAAQ;IAAI,CAAC;CAElE"}

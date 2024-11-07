@@ -22,11 +22,17 @@ export class NodeEditor {
         headerText.style.width = "calc(100% - 10px)";
         headerText.onchange = (event) => {
             const text = event.target.value;
+            if (text.startsWith("ROLL")) {
+                if (!this.processRollNode(body, text)) {
+                    return;
+                }
+            }
             // update the text
             this.data.nodes.get(this.data.currentNodeId).text = text;
             const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`);
             header.innerHTML = text;
             header.title = text;
+            this.data.dump();
         };
         row.append(headerText);
         header.appendChild(row);
@@ -37,7 +43,7 @@ export class NodeEditor {
         const buttonAdd = document.createElement("button");
         buttonAdd.innerHTML = "+ Add Choice";
         buttonAdd.style.margin = "0 0 3px 5px";
-        buttonAdd.onclick = () => this.addChoice(body);
+        buttonAdd.onclick = () => this.addChoice(body, "Change this text");
         footer.appendChild(buttonAdd);
         element.appendChild(header);
         element.appendChild(body);
@@ -87,9 +93,9 @@ export class NodeEditor {
         divOutputWrapper.append(divOutput, buttonCopy, buttonSave, buttonLoad);
         return divOutputWrapper;
     }
-    addChoice(body) {
+    addChoice(body, text) {
         // data
-        const choice = new Choice(this.utility.generateUid(8));
+        const choice = new Choice(this.utility.generateUid(8), text);
         this.data.choices.set(choice.choiceId, choice);
         this.data.nodes.get(this.data.currentNodeId).choices.push(choice.choiceId);
         // add the choice to the editor
@@ -98,6 +104,7 @@ export class NodeEditor {
         // add the choice to the node in layout
         const destination = document.getElementById(`node-body-${this.data.currentNodeId}`);
         this.choiceMaker.update(this.data.currentNodeId, destination, ChoiceFor.LAYOUT);
+        return element;
     }
     saveToStorage() {
         localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
@@ -207,6 +214,22 @@ export class NodeEditor {
         destination.innerHTML = ``;
         const editor = document.getElementById("node-editor");
         editor.style.display = "none";
+    }
+    processRollNode(body, text) {
+        // The "random roll" feature is being prototyped and the text fields are being appropriated for this.
+        // If its a roll, the text must be in this specific format.
+        const m = text.match(/ROLL 1d100, T=(\d{1,2})/);
+        if (!m) {
+            console.error(`For a roll node, text must be in the format "ROLL 1d100, T=n" where n is an integer between 1 and 100 inclusive`);
+            return false;
+        }
+        // Determine the threshold and create the conditions to evaluate
+        const t = parseInt(m[1]);
+        const choiceGte = this.addChoice(body, `>= ${t}`);
+        choiceGte.getElementsByTagName("textarea")[0].setAttribute("disabled", "true");
+        const choiceLt = this.addChoice(body, `< ${t}`);
+        choiceLt.getElementsByTagName("textarea")[0].setAttribute("disabled", "true");
+        return true;
     }
 }
 //# sourceMappingURL=NodeEditor.js.map

@@ -1,6 +1,7 @@
 export class Node {
-    constructor(nodeId) {
+    constructor(nodeId, text) {
         this.nodeId = nodeId;
+        this.text = text;
         this.choices = new Array();
     }
 }
