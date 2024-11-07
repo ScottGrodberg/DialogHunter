@@ -65,7 +65,7 @@ export class Main {
         // Add new node button
         const buttonNew = document.createElement("button");
         buttonNew.id = "button-new-node";
-        buttonNew.innerHTML = "+";
+        buttonNew.innerHTML = "+ Add Node";
         buttonNew.style.position = "fixed";
         buttonNew.style.zIndex = "1";
         buttonNew.style.top = "20px";
