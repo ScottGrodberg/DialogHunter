@@ -104,9 +104,14 @@ export class ChoiceMaker {
             node.choices = node.choices.filter(_choiceId => _choiceId !== choiceId);
             // Delete the connection
             if (nodeIdTo) {
-                const node = this.data.outgoing.get(nodeId);
-                node.get(nodeIdTo).line.remove(); // remove the line
-                node.delete(nodeIdTo); // delete the outgoing connection                
+                // Delete the outgoing connection                
+                const nodeOut = this.data.outgoing.get(nodeId);
+                nodeOut.get(nodeIdTo).line.remove(); // remove the line
+                nodeOut.delete(nodeIdTo);
+                // Delete the incoming connection
+                const nodeIn = this.data.incoming.get(nodeIdTo);
+                nodeIn.get(nodeId).line.remove(); // remove the line
+                nodeIn.delete(nodeId);
             }
             const destination = document.getElementById(`node-body-${nodeId}`);
             this.update(nodeId, destination, ChoiceFor.LAYOUT);
