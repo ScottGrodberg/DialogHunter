@@ -33,6 +33,7 @@ export class NodeEditor {
             const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`)!;
             header.innerHTML = text;
             header.title = text;
+            this.data.dump();
         };
         row.append(headerText);
         header.appendChild(row);
