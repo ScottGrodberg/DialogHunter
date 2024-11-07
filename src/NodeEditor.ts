@@ -28,6 +28,12 @@ export class NodeEditor {
         headerText.onchange = (event: Event) => {
             const text = (event.target as HTMLTextAreaElement).value;
 
+            if (text.startsWith("ROLL")) {
+                if (!this.processRollNode(body, text)) {
+                    return;
+                }
+            }
+
             // update the text
             this.data.nodes.get(this.data.currentNodeId!)!.text = text;
             const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`)!;
@@ -254,4 +260,22 @@ export class NodeEditor {
         const editor = document.getElementById("node-editor")!;
         editor.style.display = "none";
     }
+
+    processRollNode(body: HTMLElement, text: string): boolean {
+        // The "random roll" feature is being prototyped and the text fields are being appropriated for this.
+        // If its a roll, the text must be in this specific format.
+        const m = text.match(/ROLL 1d100, T=(\d{1,2})/);
+        if (!m) {
+            console.error(`For a roll node, text must be in the format "ROLL 1d100, T=n" where n is an integer between 1 and 100 inclusive`);
+            return false;
+        }
+
+        // Determine the threshold and create the conditions to evaluate
+        const t = parseInt(m[1]);
+        this.addChoice(body, `>= ${t}`);
+        this.addChoice(body, `< ${t}`);
+
+        return true;
+    }
+
 }
