@@ -66,10 +66,10 @@ export class ChoiceMaker {
     makeResponse(choiceId: ChoiceId) {
         const response = document.createElement("textarea");
         response.style.resize = "vertical";
-        response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        response.innerHTML = this.data.choices.get(choiceId)!.text!;
         response.title = response.innerHTML;
         response.onchange = () => {
-            this.data.choices.get(choiceId)!.response = response.value;
+            this.data.choices.get(choiceId)!.text = response.value;
             const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
             this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
         };
@@ -78,7 +78,7 @@ export class ChoiceMaker {
 
     makeResponseReadOnly(choiceId: ChoiceId) {
         const response = document.createElement("p");
-        response.innerHTML = this.data.choices.get(choiceId)!.response!;
+        response.innerHTML = this.data.choices.get(choiceId)!.text!;
         response.title = response.innerHTML;
         return response;
     }

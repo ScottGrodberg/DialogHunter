@@ -3,7 +3,7 @@ import { ChoiceId, NodeId } from "./Data";
 export class Choice {
 
     key?: string;         // shortcut or hot key, should be unique among all choices for a node
-    response?: string;    // the text of the response
+    text?: string;
     nodeId?: NodeId;     // this choice links to this nodeId
 
     constructor(public choiceId: ChoiceId) { }
