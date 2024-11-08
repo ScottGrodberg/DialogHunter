@@ -164,9 +164,7 @@ export class NodeEditor {
                 socketToLeft.style.display = "block";
                 const start = this.lineMaker.getSocketCenter(socketFromRight);
                 const end = this.lineMaker.getSocketCenter(socketToLeft);
-                const line = this.lineMaker.makeLine(start);
-                line.setAttribute("x2", end.x.toString());
-                line.setAttribute("y2", end.y.toString());
+                const line = this.lineMaker.makeLine(start, end);
                 this.data.svgLayout.appendChild(line);
                 // Create the incomign and outgoing records, storing the line and socket element refs
                 this.data.incoming.get(choice.nodeId).set(node.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });

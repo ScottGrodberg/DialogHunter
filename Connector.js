@@ -27,15 +27,16 @@ export class Connector {
             }
         });
         const start = this.lineMaker.getSocketCenter(this.socketFrom);
-        this.line = this.lineMaker.makeLine(start);
+        this.line = this.lineMaker.makeLine(start, start);
         this.data.svgLayout.appendChild(this.line);
     }
     onPointerMove(event) {
         if (!this.line || !this.socketFrom) {
             return;
         }
-        this.line.setAttribute("x2", event.clientX.toString());
-        this.line.setAttribute("y2", event.clientY.toString());
+        const oldPathData = this.line.getAttribute("d").split(" ");
+        const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${event.clientX} ${event.clientY}`;
+        this.line.setAttribute("d", newPathData);
     }
     /**
      * TODO: Bezier curve for this.lines: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
@@ -57,8 +58,9 @@ export class Connector {
             this.data.incoming.get(validConnection.nodeIdTo).set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
             // ui
             const end = this.lineMaker.getSocketCenter(socketTo);
-            this.line.setAttribute("x2", end.x.toString());
-            this.line.setAttribute("y2", end.y.toString());
+            const oldPathData = this.line.getAttribute("d").split(" ");
+            const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${end.x} ${end.y}`;
+            this.line.setAttribute("d", newPathData);
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
             // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
             const choice = document.querySelector(`#node-editor-body #choice-${choiceId} button:nth-child(3)`);
