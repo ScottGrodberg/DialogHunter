@@ -49,35 +49,10 @@ export class Connector {
         if (!this.path || !this.socketFrom) {
             return;
         }
-        const oldPathData = this.path.getAttribute("d")!.split(/(?:,| )+/);
 
-        const startX = parseFloat(oldPathData[1]);
-        const startY = parseFloat(oldPathData[2]);
-        const endX = event.clientX;
-        const endY = event.clientY;
-
-        let X1, Y1, X2, Y2;
-        if (event.clientX > startX) {
-            // line goes to the right
-            X1 = startX + (endX - startX) * 0.5;
-            Y1 = startY;
-            X2 = X1;
-            Y2 = endY;
-        } else {
-            // line goes to the left
-            X1 = endX + (startX - endX) * 0.5;
-            Y1 = startY;
-            X2 = X1;
-            Y2 = endY;
-        }
-
-        const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
-        this.path.setAttribute("d", newPathData);
+        this.setPathCurvePoints(event.clientX, event.clientY);
     }
 
-    /**
-     * TODO: Bezier curve for this.paths: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
-     */
     onPointerUp(event: PointerEvent) {
         if (!this.path || !this.socketFrom) {
             return;
@@ -98,9 +73,8 @@ export class Connector {
 
             // ui
             const end = this.pathMaker.getSocketCenter(socketTo);
-            const oldPathData = this.path.getAttribute("d")!.split(" ");
-            const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${end.x} ${end.y}`;
-            this.path.setAttribute("d", newPathData);
+            this.setPathCurvePoints(end.x, end.y);
+
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
             // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
@@ -124,6 +98,38 @@ export class Connector {
             }
         });
         this.data.divLayout!.style.userSelect = "initial";
+    }
+
+    /**
+     * @param x ending x
+     * @param y ending y
+     */
+    setPathCurvePoints(x: number, y: number) {
+
+        const oldPathData = this.path!.getAttribute("d")!.split(/(?:,| )+/);
+
+        const startX = parseFloat(oldPathData[1]);
+        const startY = parseFloat(oldPathData[2]);
+        const endX = x;
+        const endY = y;
+
+        let X1, Y1, X2, Y2;
+        if (endX > startX) {
+            // line goes to the right
+            X1 = startX + (endX - startX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        } else {
+            // line goes to the left
+            X1 = endX + (startX - endX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        }
+
+        const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
+        this.path!.setAttribute("d", newPathData);
     }
 
     removeExistingConnection() {
