@@ -1,14 +1,14 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor } from "./ChoiceMaker.js";
 export class NodeEditor {
-    constructor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, lineMaker) {
+    constructor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, pathMaker) {
         this.rowMaker = rowMaker;
         this.utility = utility;
         this.data = data;
         this.choiceMaker = choiceMaker;
         this.currentNode = currentNode;
         this.nodeLayout = nodeLayout;
-        this.lineMaker = lineMaker;
+        this.pathMaker = pathMaker;
     }
     makeEditor() {
         const element = document.createElement("div");
@@ -118,7 +118,7 @@ export class NodeEditor {
         });
         this.data.incoming.forEach(_map => {
             _map.forEach(_sc => {
-                _sc.line.remove();
+                _sc.path.remove();
             });
         });
         // Load the basic data from storage
@@ -146,7 +146,7 @@ export class NodeEditor {
             this.data.incoming.set(node.nodeId, new Map());
             this.data.outgoing.set(node.nodeId, new Map());
         });
-        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
+        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the path
         this.data.nodes.forEach(node => {
             node.choices.forEach(choiceId => {
                 const choice = this.data.choices.get(choiceId);
@@ -159,16 +159,16 @@ export class NodeEditor {
                 // get the to sockets
                 const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`);
                 const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`);
-                // Draw the line
-                // FIXME: This assumes outgoing lines go from the right of the source node to the left of the incoming node
+                // Draw the path
+                // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
                 socketToLeft.style.display = "block";
-                const start = this.lineMaker.getSocketCenter(socketFromRight);
-                const end = this.lineMaker.getSocketCenter(socketToLeft);
-                const line = this.lineMaker.makeLine(start, end);
-                this.data.svgLayout.appendChild(line);
-                // Create the incomign and outgoing records, storing the line and socket element refs
-                this.data.incoming.get(choice.nodeId).set(node.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
-                this.data.outgoing.get(node.nodeId).set(choice.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
+                const start = this.pathMaker.getSocketCenter(socketFromRight);
+                const end = this.pathMaker.getSocketCenter(socketToLeft);
+                const path = this.pathMaker.makePath(start, end);
+                this.data.svgLayout.appendChild(path);
+                // Create the incomign and outgoing records, storing the path and socket element refs
+                this.data.incoming.get(choice.nodeId).set(node.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
+                this.data.outgoing.get(node.nodeId).set(choice.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
             });
         });
     }
@@ -195,11 +195,11 @@ export class NodeEditor {
     }
     deleteFromLayout(nodeId) {
         this.data.incoming.get(nodeId).forEach(_sc => {
-            _sc.line.remove();
+            _sc.path.remove();
         });
         this.data.incoming.delete(nodeId);
         this.data.outgoing.get(nodeId).forEach(_sc => {
-            _sc.line.remove();
+            _sc.path.remove();
         });
         this.data.outgoing.delete(nodeId);
         const element = document.getElementById(`node-${nodeId}`);
