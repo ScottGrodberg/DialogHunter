@@ -49,8 +49,29 @@ export class Connector {
         if (!this.path || !this.socketFrom) {
             return;
         }
-        const oldPathData = this.path.getAttribute("d")!.split(" ");
-        const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${event.clientX} ${event.clientY}`;
+        const oldPathData = this.path.getAttribute("d")!.split(/(?:,| )+/);
+
+        const startX = parseFloat(oldPathData[1]);
+        const startY = parseFloat(oldPathData[2]);
+        const endX = event.clientX;
+        const endY = event.clientY;
+
+        let X1, Y1, X2, Y2;
+        if (event.clientX > startX) {
+            // line goes to the right
+            X1 = startX + (endX - startX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        } else {
+            // line goes to the left
+            X1 = endX + (startX - endX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        }
+
+        const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
         this.path.setAttribute("d", newPathData);
     }
 
