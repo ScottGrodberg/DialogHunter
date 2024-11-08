@@ -32,7 +32,7 @@ export class CurrentNode {
         svg.style.display = "none";
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
         arrow.setAttribute("d", "M 30 0 L 140 0 L 140 7 L 85 20 L 30 7 Z");
-        arrow.setAttribute("fill", getComputedStyle(document.documentElement).getPropertyValue('--node-background'));
+        arrow.setAttribute("fill", "#00b2a3");
         svg.appendChild(arrow);
         this.arrow = svg;
         this.data.svgLayout!.appendChild(svg);
