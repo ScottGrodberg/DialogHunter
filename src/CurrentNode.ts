@@ -11,7 +11,7 @@ export class CurrentNode {
         // position the arrow indicator
         const element = document.getElementById(`node-${nodeId}`)!;
         this.arrow!.style.display = "block";
-        this.arrow!.setAttribute("x", element.style.left);
+        this.arrow!.setAttribute("x", parseInt(element.style.left) - 5 + "px");
         this.arrow!.setAttribute("y", parseInt(element.style.top) - 30 + "px");
 
         // scroll into view
@@ -31,8 +31,8 @@ export class CurrentNode {
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.style.display = "none";
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        arrow.setAttribute("d", "M 0 0 L 170 0 L 85 20 Z");
-        arrow.setAttribute("fill", "black");
+        arrow.setAttribute("d", "M 30 0 L 140 0 L 140 7 L 85 20 L 30 7 Z");
+        arrow.setAttribute("fill", getComputedStyle(document.documentElement).getPropertyValue('--node-background'));
         svg.appendChild(arrow);
         this.arrow = svg;
         this.data.svgLayout!.appendChild(svg);
