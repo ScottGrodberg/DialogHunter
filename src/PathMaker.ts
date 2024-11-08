@@ -1,17 +1,17 @@
 import { Data } from "./Data";
 
-export class LineMaker {
+export class PathMaker {
 
     constructor(public data: Data) { }
 
-    makeLine(start: { x: number, y: number }, end: { x: number, y: number }) {
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    makePath(start: { x: number, y: number }, end: { x: number, y: number }) {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         const newPathData = `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
-        line.setAttribute("d", newPathData);
-        line.setAttribute("stroke", "black");
-        line.setAttribute("stroke-width", "2");
-        line.setAttribute("marker-end", "url(#arrow)");
-        return line;
+        path.setAttribute("d", newPathData);
+        path.setAttribute("stroke", "black");
+        path.setAttribute("stroke-width", "2");
+        path.setAttribute("marker-end", "url(#arrow)");
+        return path;
     }
 
     getSocketCenter(socket: HTMLElement) {

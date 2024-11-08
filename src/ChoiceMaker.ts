@@ -131,12 +131,12 @@ export class ChoiceMaker {
             if (nodeIdTo) {
                 // Delete the outgoing connection                
                 const nodeOut = this.data.outgoing.get(nodeId)!;
-                nodeOut.get(nodeIdTo)!.line.remove(); // remove the line
+                nodeOut.get(nodeIdTo)!.path.remove(); // remove the path
                 nodeOut.delete(nodeIdTo);
 
                 // Delete the incoming connection
                 const nodeIn = this.data.incoming.get(nodeIdTo)!;
-                nodeIn.get(nodeId)!.line.remove(); // remove the line
+                nodeIn.get(nodeId)!.path.remove(); // remove the path
                 nodeIn.delete(nodeId);
             }
 

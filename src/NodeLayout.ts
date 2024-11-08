@@ -2,7 +2,7 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId } from "./Data.js";
-import { LineMaker } from "./LineMaker.js";
+import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -13,7 +13,7 @@ export class NodeLayout {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector, public lineMaker: LineMaker) {
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector, public pathMaker: PathMaker) {
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
@@ -81,22 +81,22 @@ export class NodeLayout {
         nodeElement.style.top = newY + "px";
         this.data.nodes.get(nodeElement.dataset.nodeId)!.position = { left: newX, top: newY };
 
-        // TODO: get the incoming and outgoing lines by nodeId.
+        // TODO: get the incoming and outgoing paths by nodeId.
         const nodeId = nodeElement.dataset.nodeId;
 
         this.data.incoming.get(nodeId)?.forEach(socketsConnection => {
-            // set the line ending coords
-            const socketCenter = this.lineMaker.getSocketCenter(socketsConnection.socketTo);
-            const oldPathData = socketsConnection.line.getAttribute("d")!.split(" ");
+            // set the path ending coords
+            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketTo);
+            const oldPathData = socketsConnection.path.getAttribute("d")!.split(" ");
             const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${socketCenter.x} ${socketCenter.y}`;
-            socketsConnection.line.setAttribute("d", newPathData);
+            socketsConnection.path.setAttribute("d", newPathData);
         });
         this.data.outgoing.get(nodeId)?.forEach(socketsConnection => {
-            // set the line beginning coords
-            const socketCenter = this.lineMaker.getSocketCenter(socketsConnection.socketFrom);
-            const oldPathData = socketsConnection.line.getAttribute("d")!.split(" ");
+            // set the path beginning coords
+            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketFrom);
+            const oldPathData = socketsConnection.path.getAttribute("d")!.split(" ");
             const newPathData = `M ${socketCenter.x} ${socketCenter.y} L ${oldPathData[4]} ${oldPathData[5]}`;
-            socketsConnection.line.setAttribute("d", newPathData);
+            socketsConnection.path.setAttribute("d", newPathData);
         });
     }
 

@@ -3,11 +3,11 @@ import { Node } from "./Node";
 
 export type NodeId = string;
 export type ChoiceId = string;
-export type Line = SVGElement;
+export type Path = SVGElement;
 
 export type SocketsConnection = {
     socketFrom: HTMLElement;
-    line: Line;
+    path: Path;
     socketTo: HTMLElement;
 }
 export class Data {

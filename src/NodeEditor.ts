@@ -2,15 +2,15 @@ import { Choice } from "./Choice.js";
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
-import { LineMaker } from "./LineMaker.js";
 import { NodeLayout } from "./NodeLayout.js";
+import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public nodeLayout: NodeLayout, public lineMaker: LineMaker) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public nodeLayout: NodeLayout, public pathMaker: PathMaker) { }
 
     makeEditor(): HTMLDivElement {
 
@@ -143,7 +143,7 @@ export class NodeEditor {
         });
         this.data.incoming.forEach(_map => {
             _map.forEach(_sc => {
-                _sc.line.remove();
+                _sc.path.remove();
             });
         })
 
@@ -178,7 +178,7 @@ export class NodeEditor {
             this.data.outgoing.set(node.nodeId, new Map<NodeId, SocketsConnection>());
         });
 
-        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the line
+        // For each choice linked to a node, create a corresponding incoming and outgoing record and draw the path
         this.data.nodes.forEach(node => {
 
             node.choices.forEach(choiceId => {
@@ -195,17 +195,17 @@ export class NodeEditor {
                 const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`) as HTMLElement;
                 const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`) as HTMLElement;
 
-                // Draw the line
-                // FIXME: This assumes outgoing lines go from the right of the source node to the left of the incoming node
+                // Draw the path
+                // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
                 socketToLeft.style.display = "block";
-                const start = this.lineMaker.getSocketCenter(socketFromRight);
-                const end = this.lineMaker.getSocketCenter(socketToLeft)!;
-                const line = this.lineMaker.makeLine(start, end);
-                this.data.svgLayout!.appendChild(line);
+                const start = this.pathMaker.getSocketCenter(socketFromRight);
+                const end = this.pathMaker.getSocketCenter(socketToLeft)!;
+                const path = this.pathMaker.makePath(start, end);
+                this.data.svgLayout!.appendChild(path);
 
-                // Create the incomign and outgoing records, storing the line and socket element refs
-                this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
-                this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom: socketFromRight, line, socketTo: socketToLeft });
+                // Create the incomign and outgoing records, storing the path and socket element refs
+                this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
+                this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
 
             });
         });
@@ -241,11 +241,11 @@ export class NodeEditor {
     deleteFromLayout(nodeId: NodeId) {
 
         this.data.incoming.get(nodeId)!.forEach(_sc => {
-            _sc.line.remove();
+            _sc.path.remove();
         });
         this.data.incoming.delete(nodeId);
         this.data.outgoing.get(nodeId)!.forEach(_sc => {
-            _sc.line.remove();
+            _sc.path.remove();
         });
         this.data.outgoing.delete(nodeId);
         const element = document.getElementById(`node-${nodeId}`)!;

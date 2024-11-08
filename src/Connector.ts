@@ -1,12 +1,12 @@
 import { Data } from "./Data";
-import { LineMaker } from "./LineMaker";
+import { PathMaker } from "./PathMaker";
 
 export class Connector {
 
-    line?: SVGElement;
+    path?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public data: Data, public lineMaker: LineMaker) { }
+    constructor(public data: Data, public pathMaker: PathMaker) { }
 
     init() {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -38,48 +38,48 @@ export class Connector {
             }
         });
 
-        const start = this.lineMaker.getSocketCenter(this.socketFrom);
+        const start = this.pathMaker.getSocketCenter(this.socketFrom);
 
-        this.line = this.lineMaker.makeLine(start, start);
+        this.path = this.pathMaker.makePath(start, start);
 
-        this.data.svgLayout!.appendChild(this.line);
+        this.data.svgLayout!.appendChild(this.path);
     }
 
     onPointerMove(event: PointerEvent) {
-        if (!this.line || !this.socketFrom) {
+        if (!this.path || !this.socketFrom) {
             return;
         }
-        const oldPathData = this.line.getAttribute("d")!.split(" ");
+        const oldPathData = this.path.getAttribute("d")!.split(" ");
         const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${event.clientX} ${event.clientY}`;
-        this.line.setAttribute("d", newPathData);
+        this.path.setAttribute("d", newPathData);
     }
 
     /**
-     * TODO: Bezier curve for this.lines: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
+     * TODO: Bezier curve for this.paths: https://www.w3.org/TR/SVG2/paths.html#PathDataQuadraticBezierCommands
      */
     onPointerUp(event: PointerEvent) {
-        if (!this.line || !this.socketFrom) {
+        if (!this.path || !this.socketFrom) {
             return;
         }
 
         const socketTo = event.target as HTMLElement;
         const validConnection = this.validateConnection(socketTo);
         if (validConnection === false) {
-            this.line.remove();
+            this.path.remove();
         } else {
 
             const choiceId = this.socketFrom.dataset.choiceId!;
 
             // data
             this.data.choices.get(choiceId)!.nodeId = validConnection.nodeIdTo;
-            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, line: this.line, socketTo });
-            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, line: this.line, socketTo });
+            this.data.outgoing.get(validConnection.nodeIdFrom)!.set(validConnection.nodeIdTo, { socketFrom: this.socketFrom, path: this.path, socketTo });
+            this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, path: this.path, socketTo });
 
             // ui
-            const end = this.lineMaker.getSocketCenter(socketTo);
-            const oldPathData = this.line.getAttribute("d")!.split(" ");
+            const end = this.pathMaker.getSocketCenter(socketTo);
+            const oldPathData = this.path.getAttribute("d")!.split(" ");
             const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${end.x} ${end.y}`;
-            this.line.setAttribute("d", newPathData);
+            this.path.setAttribute("d", newPathData);
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
             // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
@@ -88,7 +88,7 @@ export class Connector {
                 choice.style.visibility = "visible";
             }
         }
-        this.line = undefined;
+        this.path = undefined;
         this.socketFrom = undefined;
 
         // Hide the node sockets and show the choice sockets
@@ -122,12 +122,12 @@ export class Connector {
         // Delete the incoming and outgoing connections
         const nodeFrom = this.data.outgoing.get(nodeIdFrom);
         const nodeTo = nodeFrom!.get(nodeIdTo);
-        const line = nodeTo!.line;
+        const path = nodeTo!.path;
         nodeFrom!.delete(nodeIdTo);
         this.data.incoming.get(nodeIdTo)?.delete(nodeIdFrom);
 
-        // Remove the line from the dom
-        line.remove();
+        // Remove the path from the dom
+        path.remove();
     }
 
     /** Determine a set of connected sockets, whether they are an incoming or outgoing socket */

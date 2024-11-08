@@ -2,10 +2,10 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
-import { LineMaker } from "./LineMaker.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
+import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -23,13 +23,13 @@ export class Main {
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
-        const lineMaker = new LineMaker(data);
-        const connector = new Connector(data, lineMaker);
+        const pathMaker = new PathMaker(data);
+        const connector = new Connector(data, pathMaker);
         const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
-        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, lineMaker);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, lineMaker);
+        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, pathMaker);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, pathMaker);
 
         this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
