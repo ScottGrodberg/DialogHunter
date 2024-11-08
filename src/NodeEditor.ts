@@ -187,6 +187,7 @@ export class NodeEditor {
                     return; // no linkage
                 }
 
+                const nodeTo = this.data.nodes.get(choice.nodeId)!;
                 // get the from sockets
                 const socketFromLeft = document.querySelector(`#choice-${choiceId} :nth-child(1)`) as HTMLElement;
                 const socketFromRight = document.querySelector(`#choice-${choiceId} :nth-child(3)`) as HTMLElement;
@@ -196,9 +197,15 @@ export class NodeEditor {
                 const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`) as HTMLElement;
 
                 // Draw the path
-                // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
-                const socketFrom = socketFromRight;
-                const socketTo = socketToLeft;
+                // Determine if we are drawing from left to right or  right to left
+                let socketFrom, socketTo;
+                if (node.position!.left < nodeTo.position!.left) {
+                    socketFrom = socketFromRight;
+                    socketTo = socketToLeft;
+                } else {
+                    socketFrom = socketFromLeft;
+                    socketTo = socketToRight;
+                }
                 socketTo.style.display = "block";
                 const start = this.connector.getSocketCenter(socketFrom);
                 const end = this.connector.getSocketCenter(socketTo)!;
