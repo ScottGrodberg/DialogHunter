@@ -77,6 +77,7 @@ export class Main {
         divOptsWrapper.style.display = "flex";
         divOptsWrapper.style.right = "40px";
         divOptsWrapper.style.top = "20px";
+        divOptsWrapper.style.zIndex = "1";
 
         const labelCenter = document.createElement("label");
         labelCenter.setAttribute("for", "input-center");
