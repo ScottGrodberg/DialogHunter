@@ -18,6 +18,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 export class Main {
 
+    zoomScaleFactor = 1.0;
+
     constructor() {
         // Begin composition root
         const data = new Data();
@@ -90,6 +92,20 @@ export class Main {
         checkCenterOnCurrent.type = "checkbox";
         divOptsWrapper.append(checkCenterOnCurrent);
         divLayout.append(divOptsWrapper)
+
+        divLayout.onwheel = (event: WheelEvent) => {
+            if (!event.ctrlKey) {
+                return;
+            }
+            if (event.deltaY > 0) {
+                this.zoomScaleFactor -= 0.1;
+            } else {
+                this.zoomScaleFactor += 0.1;
+            }
+            divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
+            event.stopPropagation();
+            event.preventDefault();
+        };
 
         // "Current node" indicator
         currentNode.makeCurrentArrow();
