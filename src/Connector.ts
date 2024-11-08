@@ -19,8 +19,7 @@ export class Connector {
 
     makePath(start: { x: number, y: number }, end: { x: number, y: number }) {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const newPathData = `M ${start.x} ${start.y} C ${start.x} ${start.y}, ${end.x} ${end.y}, ${end.x} ${end.y}`;
-        path.setAttribute("d", newPathData);
+        this.setPathPoints(path, start.x, start.y, end.x, end.y);
         path.setAttribute("stroke", "black");
         path.setAttribute("stroke-width", "2");
         path.setAttribute("fill", "none");
