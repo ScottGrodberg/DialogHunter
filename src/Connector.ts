@@ -1,4 +1,4 @@
-import { Data } from "./Data";
+import { Data, Path } from "./Data";
 import { PathMaker } from "./PathMaker";
 
 export class Connector {
@@ -50,7 +50,7 @@ export class Connector {
             return;
         }
 
-        this.setPathCurvePoints(event.clientX, event.clientY);
+        this.setPathCurvePoints(this.path, event.clientX, event.clientY);
     }
 
     onPointerUp(event: PointerEvent) {
@@ -73,7 +73,7 @@ export class Connector {
 
             // ui
             const end = this.pathMaker.getSocketCenter(socketTo);
-            this.setPathCurvePoints(end.x, end.y);
+            this.setPathCurvePoints(this.path, end.x, end.y);
 
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
@@ -104,9 +104,9 @@ export class Connector {
      * @param x ending x
      * @param y ending y
      */
-    setPathCurvePoints(x: number, y: number) {
+    setPathCurvePoints(path: Path, x: number, y: number) {
 
-        const oldPathData = this.path!.getAttribute("d")!.split(/(?:,| )+/);
+        const oldPathData = path.getAttribute("d")!.split(/(?:,| )+/);
 
         const startX = parseFloat(oldPathData[1]);
         const startY = parseFloat(oldPathData[2]);
@@ -129,7 +129,7 @@ export class Connector {
         }
 
         const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
-        this.path!.setAttribute("d", newPathData);
+        path.setAttribute("d", newPathData);
     }
 
     removeExistingConnection() {
