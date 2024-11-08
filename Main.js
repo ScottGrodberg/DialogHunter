@@ -5,7 +5,6 @@ import { Data } from "./Data.js";
 import { Node } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
-import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 const svgns = "http://www.w3.org/2000/svg";
@@ -18,13 +17,12 @@ export class Main {
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
-        const pathMaker = new PathMaker(data);
-        const connector = new Connector(data, pathMaker);
+        const connector = new Connector(data);
         const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
-        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector, pathMaker);
-        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, nodeLayout, pathMaker);
+        const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
+        const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, connector, nodeLayout);
         this.composeLayout(data, utility, nodeLayout, currentNode);
         this.composeEditor(data, nodeEditor);
         connector.init();

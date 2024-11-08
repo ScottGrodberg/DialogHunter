@@ -1,12 +1,11 @@
 export class NodeLayout {
-    constructor(rowMaker, utility, data, choiceMaker, currentNode, connector, pathMaker) {
+    constructor(rowMaker, utility, data, choiceMaker, currentNode, connector) {
         this.rowMaker = rowMaker;
         this.utility = utility;
         this.data = data;
         this.choiceMaker = choiceMaker;
         this.currentNode = currentNode;
         this.connector = connector;
-        this.pathMaker = pathMaker;
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
@@ -66,12 +65,12 @@ export class NodeLayout {
         const nodeId = nodeElement.dataset.nodeId;
         (_a = this.data.incoming.get(nodeId)) === null || _a === void 0 ? void 0 : _a.forEach(socketsConnection => {
             // set the path ending coords
-            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketTo);
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketTo);
             this.connector.setPathEndPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
         (_b = this.data.outgoing.get(nodeId)) === null || _b === void 0 ? void 0 : _b.forEach(socketsConnection => {
             // set the path beginning coords
-            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketFrom);
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketFrom);
             this.connector.setPathStartPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
     }
