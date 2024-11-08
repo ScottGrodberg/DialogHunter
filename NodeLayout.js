@@ -83,7 +83,7 @@ export class NodeLayout {
         // Update node position        
         const node = element.parentElement;
         const nodeId = node.dataset.nodeId;
-        this.data.nodes.get(nodeId).position = { left: node.style.left, top: node.style.top };
+        this.data.nodes.get(nodeId).position = { left: parseFloat(node.style.left), top: parseFloat(node.style.top) };
     }
     loadNodeIntoEditor(event) {
         event.stopPropagation();

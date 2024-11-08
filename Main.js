@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 export class Main {
     constructor() {
+        this.zoomScaleFactor = 1.0;
         // Begin composition root
         const data = new Data();
         const utility = new Utility();
@@ -56,13 +57,14 @@ export class Main {
         buttonNew.style.top = "20px";
         buttonNew.style.left = "20px";
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
-        divLayout.appendChild(buttonNew);
+        divLayoutWrapper.appendChild(buttonNew);
         // Options
         const divOptsWrapper = document.createElement("div");
         divOptsWrapper.style.position = "fixed";
         divOptsWrapper.style.display = "flex";
         divOptsWrapper.style.right = "40px";
         divOptsWrapper.style.top = "20px";
+        divOptsWrapper.style.zIndex = "1";
         const labelCenter = document.createElement("label");
         labelCenter.setAttribute("for", "input-center");
         labelCenter.innerHTML = "Center on current node";
@@ -72,7 +74,21 @@ export class Main {
         checkCenterOnCurrent.id = "input-center";
         checkCenterOnCurrent.type = "checkbox";
         divOptsWrapper.append(checkCenterOnCurrent);
-        divLayout.append(divOptsWrapper);
+        divLayoutWrapper.append(divOptsWrapper);
+        divLayout.onwheel = (event) => {
+            if (!event.ctrlKey) {
+                return;
+            }
+            if (event.deltaY > 0) {
+                this.zoomScaleFactor -= 0.1;
+            }
+            else {
+                this.zoomScaleFactor += 0.1;
+            }
+            divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
+            event.stopPropagation();
+            event.preventDefault();
+        };
         // "Current node" indicator
         currentNode.makeCurrentArrow();
         // Element composition

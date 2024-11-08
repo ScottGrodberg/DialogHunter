@@ -128,8 +128,8 @@ export class NodeEditor {
         this.data.nodes.forEach(node => {
             // add the node to the layout
             const element = this.nodeLayout.node(node.nodeId);
-            element.style.left = node.position.left.toString();
-            element.style.top = node.position.top.toString();
+            element.style.left = node.position.left + "px";
+            element.style.top = node.position.top + "px";
             this.data.divLayout.appendChild(element);
             // update the text of node
             const header = document.getElementById(`node-header-text-${node.nodeId}`);
@@ -153,6 +153,7 @@ export class NodeEditor {
                 if (!choice.nodeId) {
                     return; // no linkage
                 }
+                const nodeTo = this.data.nodes.get(choice.nodeId);
                 // get the from sockets
                 const socketFromLeft = document.querySelector(`#choice-${choiceId} :nth-child(1)`);
                 const socketFromRight = document.querySelector(`#choice-${choiceId} :nth-child(3)`);
@@ -160,15 +161,24 @@ export class NodeEditor {
                 const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`);
                 const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`);
                 // Draw the path
-                // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
-                socketToLeft.style.display = "block";
-                const start = this.connector.getSocketCenter(socketFromRight);
-                const end = this.connector.getSocketCenter(socketToLeft);
+                // Determine if we are drawing from left to right or  right to left
+                let socketFrom, socketTo;
+                if (node.position.left < nodeTo.position.left) {
+                    socketFrom = socketFromRight;
+                    socketTo = socketToLeft;
+                }
+                else {
+                    socketFrom = socketFromLeft;
+                    socketTo = socketToRight;
+                }
+                socketTo.style.display = "block";
+                const start = this.connector.getSocketCenter(socketFrom);
+                const end = this.connector.getSocketCenter(socketTo);
                 const path = this.connector.makePath(start, end);
                 this.data.svgLayout.appendChild(path);
                 // Create the incomign and outgoing records, storing the path and socket element refs
-                this.data.incoming.get(choice.nodeId).set(node.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
-                this.data.outgoing.get(node.nodeId).set(choice.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
+                this.data.incoming.get(choice.nodeId).set(node.nodeId, { socketFrom, path, socketTo });
+                this.data.outgoing.get(node.nodeId).set(choice.nodeId, { socketFrom, path, socketTo });
             });
         });
     }

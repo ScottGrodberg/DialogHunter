@@ -1,6 +1,7 @@
 export class Connector {
     constructor(data) {
         this.data = data;
+        this.ARROWHEAD_MARKER_WIDTH = 15;
     }
     init() {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -117,16 +118,18 @@ export class Connector {
         let X1, Y1, X2, Y2;
         if (endX > startX) {
             // line goes to the right
-            X1 = startX + (endX - startX) * 0.33;
+            const ctrlDistance = (endX - startX) * 0.50;
+            X1 = startX + ctrlDistance;
             Y1 = startY;
-            X2 = endX - (endX - startX) * 0.33;
+            X2 = endX - ctrlDistance;
             Y2 = endY;
         }
         else {
             // line goes to the left
-            X1 = startX - (startX - endX) * 0.33;
+            const ctrlDistance = (startX - endX) * 0.50;
+            X1 = startX - ctrlDistance;
             Y1 = startY;
-            X2 = endX + (startX - endX) * 0.33;
+            X2 = endX + ctrlDistance;
             Y2 = endY;
         }
         const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
@@ -197,14 +200,14 @@ export class Connector {
     createArrowMarker() {
         const arrowMarker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
         arrowMarker.setAttribute("id", "arrow");
-        arrowMarker.setAttribute("markerWidth", "15");
+        arrowMarker.setAttribute("markerWidth", `${this.ARROWHEAD_MARKER_WIDTH}`);
         arrowMarker.setAttribute("markerHeight", "7");
-        arrowMarker.setAttribute("refX", "13");
+        arrowMarker.setAttribute("refX", `${this.ARROWHEAD_MARKER_WIDTH - 2}`);
         arrowMarker.setAttribute("refY", "3");
         arrowMarker.setAttribute("orient", "auto-start-reverse");
         arrowMarker.setAttribute("markerUnits", "strokeWidth");
         const arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        arrowPath.setAttribute("d", "M0,0 L15,3 L0,6 Z");
+        arrowPath.setAttribute("d", `M0,0 L${this.ARROWHEAD_MARKER_WIDTH},3 L0,6 Z`);
         arrowPath.setAttribute("fill", "black");
         arrowMarker.appendChild(arrowPath);
         return arrowMarker;
