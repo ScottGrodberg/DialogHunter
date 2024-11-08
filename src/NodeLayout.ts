@@ -87,12 +87,12 @@ export class NodeLayout {
         this.data.incoming.get(nodeId)?.forEach(socketsConnection => {
             // set the path ending coords
             const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketTo);
-            this.connector.setPathCurvePoints(socketsConnection.path, socketCenter.x, socketCenter.y);
+            this.connector.setPathEndPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
         this.data.outgoing.get(nodeId)?.forEach(socketsConnection => {
             // set the path beginning coords
             const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketFrom);
-            this.connector.setPathCurvePoints(socketsConnection.path, socketCenter.x, socketCenter.y);
+            this.connector.setPathStartPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
     }
 

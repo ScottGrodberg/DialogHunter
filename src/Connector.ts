@@ -50,7 +50,7 @@ export class Connector {
             return;
         }
 
-        this.setPathCurvePoints(this.path, event.clientX, event.clientY);
+        this.setPathEndPoint(this.path, event.clientX, event.clientY);
     }
 
     onPointerUp(event: PointerEvent) {
@@ -73,7 +73,7 @@ export class Connector {
 
             // ui
             const end = this.pathMaker.getSocketCenter(socketTo);
-            this.setPathCurvePoints(this.path, end.x, end.y);
+            this.setPathEndPoint(this.path, end.x, end.y);
 
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
@@ -104,7 +104,7 @@ export class Connector {
      * @param x ending x
      * @param y ending y
      */
-    setPathCurvePoints(path: Path, x: number, y: number) {
+    setPathEndPoint(path: Path, x: number, y: number) {
 
         const oldPathData = path.getAttribute("d")!.split(/(?:,| )+/);
 
@@ -131,6 +131,35 @@ export class Connector {
         const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
         path.setAttribute("d", newPathData);
     }
+
+    setPathStartPoint(path: Path, x: number, y: number) {
+
+        const oldPathData = path.getAttribute("d")!.split(/(?:,| )+/);
+
+        const startX = x;
+        const startY = y;
+        const endX = parseFloat(oldPathData[8]);
+        const endY = parseFloat(oldPathData[9]);
+
+        let X1, Y1, X2, Y2;
+        if (endX > startX) {
+            // line goes to the right
+            X1 = startX + (endX - startX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        } else {
+            // line goes to the left
+            X1 = endX + (startX - endX) * 0.5;
+            Y1 = startY;
+            X2 = X1;
+            Y2 = endY;
+        }
+
+        const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
+        path.setAttribute("d", newPathData);
+    }
+
 
     removeExistingConnection() {
         const choiceIdFrom = this.socketFrom?.dataset.choiceId!;
