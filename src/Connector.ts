@@ -68,7 +68,11 @@ export class Connector {
             return;
         }
 
-        this.setPathEndPoint(this.path, event.clientX, event.clientY);
+        this.setPathEndPoint(
+            this.path,
+            event.clientX + this.data.divLayoutWrapper!.scrollLeft,
+            event.clientY + this.data.divLayoutWrapper!.scrollTop
+        );
     }
 
     onPointerUp(event: PointerEvent) {
