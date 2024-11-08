@@ -87,14 +87,16 @@ export class NodeLayout {
         this.data.incoming.get(nodeId)?.forEach(socketsConnection => {
             // set the line ending coords
             const socketCenter = this.lineMaker.getSocketCenter(socketsConnection.socketTo);
-            socketsConnection.line.setAttribute("x2", socketCenter.x + "px");
-            socketsConnection.line.setAttribute("y2", socketCenter.y + "px");
+            const oldPathData = socketsConnection.line.getAttribute("d")!.split(" ");
+            const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${socketCenter.x} ${socketCenter.y}`;
+            socketsConnection.line.setAttribute("d", newPathData);
         });
         this.data.outgoing.get(nodeId)?.forEach(socketsConnection => {
             // set the line beginning coords
             const socketCenter = this.lineMaker.getSocketCenter(socketsConnection.socketFrom);
-            socketsConnection.line.setAttribute("x1", socketCenter.x + "px");
-            socketsConnection.line.setAttribute("y1", socketCenter.y + "px");
+            const oldPathData = socketsConnection.line.getAttribute("d")!.split(" ");
+            const newPathData = `M ${socketCenter.x} ${socketCenter.y} L ${oldPathData[4]} ${oldPathData[5]}`;
+            socketsConnection.line.setAttribute("d", newPathData);
         });
     }
 

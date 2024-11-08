@@ -40,7 +40,7 @@ export class Connector {
 
         const start = this.lineMaker.getSocketCenter(this.socketFrom);
 
-        this.line = this.lineMaker.makeLine(start);
+        this.line = this.lineMaker.makeLine(start, start);
 
         this.data.svgLayout!.appendChild(this.line);
     }
@@ -49,9 +49,9 @@ export class Connector {
         if (!this.line || !this.socketFrom) {
             return;
         }
-
-        this.line.setAttribute("x2", event.clientX.toString());
-        this.line.setAttribute("y2", event.clientY.toString());
+        const oldPathData = this.line.getAttribute("d")!.split(" ");
+        const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${event.clientX} ${event.clientY}`;
+        this.line.setAttribute("d", newPathData);
     }
 
     /**
@@ -77,8 +77,9 @@ export class Connector {
 
             // ui
             const end = this.lineMaker.getSocketCenter(socketTo);
-            this.line.setAttribute("x2", end.x.toString());
-            this.line.setAttribute("y2", end.y.toString());
+            const oldPathData = this.line.getAttribute("d")!.split(" ");
+            const newPathData = `M ${oldPathData[1]} ${oldPathData[2]} L ${end.x} ${end.y}`;
+            this.line.setAttribute("d", newPathData);
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);
 
             // Look at the editor, find the moveNextArrow for the choice that correspods to the socketFrom, and enable it
