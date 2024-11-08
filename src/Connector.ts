@@ -113,23 +113,7 @@ export class Connector {
         const endX = x;
         const endY = y;
 
-        let X1, Y1, X2, Y2;
-        if (endX > startX) {
-            // line goes to the right
-            X1 = startX + (endX - startX) * 0.5;
-            Y1 = startY;
-            X2 = X1;
-            Y2 = endY;
-        } else {
-            // line goes to the left
-            X1 = endX + (startX - endX) * 0.5;
-            Y1 = startY;
-            X2 = X1;
-            Y2 = endY;
-        }
-
-        const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
-        path.setAttribute("d", newPathData);
+        this.setPathPoints(path, startX, startY, endX, endY);
     }
 
     setPathStartPoint(path: Path, x: number, y: number) {
@@ -141,6 +125,11 @@ export class Connector {
         const endX = parseFloat(oldPathData[8]);
         const endY = parseFloat(oldPathData[9]);
 
+        this.setPathPoints(path, startX, startY, endX, endY);
+    }
+
+    setPathPoints(path: Path, startX: number, startY: number, endX: number, endY: number) {
+
         let X1, Y1, X2, Y2;
         if (endX > startX) {
             // line goes to the right
@@ -159,7 +148,6 @@ export class Connector {
         const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
         path.setAttribute("d", newPathData);
     }
-
 
     removeExistingConnection() {
         const choiceIdFrom = this.socketFrom?.dataset.choiceId!;
