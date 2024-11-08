@@ -156,7 +156,7 @@ export class Connector {
         let X1, Y1, X2, Y2;
         if (endX > startX) {
             // line goes to the right
-            const ctrlDistance = (endX - startX) * 0.33;
+            const ctrlDistance = (endX - startX) * 0.50;
             X1 = startX + ctrlDistance
             Y1 = startY;
             X2 = endX - ctrlDistance;
@@ -164,7 +164,7 @@ export class Connector {
 
         } else {
             // line goes to the left
-            const ctrlDistance = (startX - endX) * 0.33;
+            const ctrlDistance = (startX - endX) * 0.50;
             X1 = startX - ctrlDistance;
             Y1 = startY;
             X2 = endX + ctrlDistance;
