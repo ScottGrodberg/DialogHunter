@@ -197,15 +197,17 @@ export class NodeEditor {
 
                 // Draw the path
                 // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
-                socketToLeft.style.display = "block";
-                const start = this.connector.getSocketCenter(socketFromRight);
-                const end = this.connector.getSocketCenter(socketToLeft)!;
+                const socketFrom = socketFromRight;
+                const socketTo = socketToLeft;
+                socketTo.style.display = "block";
+                const start = this.connector.getSocketCenter(socketFrom);
+                const end = this.connector.getSocketCenter(socketTo)!;
                 const path = this.connector.makePath(start, end);
                 this.data.svgLayout!.appendChild(path);
 
                 // Create the incomign and outgoing records, storing the path and socket element refs
-                this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
-                this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom: socketFromRight, path: path, socketTo: socketToLeft });
+                this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom, path, socketTo });
+                this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom, path, socketTo });
 
             });
         });
