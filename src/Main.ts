@@ -71,7 +71,7 @@ export class Main {
         buttonNew.style.top = "20px";
         buttonNew.style.left = "20px";
         buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
-        divLayout.appendChild(buttonNew);
+        divLayoutWrapper.appendChild(buttonNew);
 
         // Options
         const divOptsWrapper = document.createElement("div");
@@ -91,7 +91,7 @@ export class Main {
         checkCenterOnCurrent.id = "input-center";
         checkCenterOnCurrent.type = "checkbox";
         divOptsWrapper.append(checkCenterOnCurrent);
-        divLayout.append(divOptsWrapper)
+        divLayoutWrapper.append(divOptsWrapper)
 
         divLayout.onwheel = (event: WheelEvent) => {
             if (!event.ctrlKey) {
