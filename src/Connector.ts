@@ -1,12 +1,11 @@
 import { Data, Path } from "./Data";
-import { PathMaker } from "./PathMaker";
 
 export class Connector {
 
     path?: SVGElement;
     socketFrom?: HTMLElement;
 
-    constructor(public data: Data, public pathMaker: PathMaker) { }
+    constructor(public data: Data) { }
 
     init() {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -16,6 +15,26 @@ export class Connector {
         this.data.divLayout!.addEventListener('pointerup', this.onPointerUp.bind(this));
         this.data.divLayout!.addEventListener('pointermove', this.onPointerMove.bind(this));
 
+    }
+
+    makePath(start: { x: number, y: number }, end: { x: number, y: number }) {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const newPathData = `M ${start.x} ${start.y} C ${start.x} ${start.y}, ${end.x} ${end.y}, ${end.x} ${end.y}`;
+        path.setAttribute("d", newPathData);
+        path.setAttribute("stroke", "black");
+        path.setAttribute("stroke-width", "2");
+        path.setAttribute("fill", "none");
+        path.setAttribute("marker-end", "url(#arrow)");
+        return path;
+    }
+
+    getSocketCenter(socket: HTMLElement) {
+        const rect = socket.getBoundingClientRect();
+        const svgRect = this.data.svgLayout!.getBoundingClientRect();
+        return {
+            x: rect.left + rect.width / 2 - svgRect.left,
+            y: rect.top + rect.height / 2 - svgRect.top,
+        };
     }
 
     onPointerDown(event: PointerEvent) {
@@ -38,9 +57,9 @@ export class Connector {
             }
         });
 
-        const start = this.pathMaker.getSocketCenter(this.socketFrom);
+        const start = this.getSocketCenter(this.socketFrom);
 
-        this.path = this.pathMaker.makePath(start, start);
+        this.path = this.makePath(start, start);
 
         this.data.svgLayout!.appendChild(this.path);
     }
@@ -72,7 +91,7 @@ export class Connector {
             this.data.incoming.get(validConnection.nodeIdTo)!.set(validConnection.nodeIdFrom, { socketFrom: this.socketFrom, path: this.path, socketTo });
 
             // ui
-            const end = this.pathMaker.getSocketCenter(socketTo);
+            const end = this.getSocketCenter(socketTo);
             this.setPathEndPoint(this.path, end.x, end.y);
 
             this.socketFrom.removeEventListener('pointerdown', this.onPointerDown);

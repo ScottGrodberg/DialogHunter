@@ -2,7 +2,6 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId } from "./Data.js";
-import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -13,7 +12,7 @@ export class NodeLayout {
     ptrMove: (event: any) => void;
     ptrUp: (event: any) => void;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector, public pathMaker: PathMaker) {
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector) {
         this.ptrDown = this.onPointerDown.bind(this);
         this.ptrMove = this.onPointerMove.bind(this);
         this.ptrUp = this.onPointerUp.bind(this);
@@ -86,12 +85,12 @@ export class NodeLayout {
 
         this.data.incoming.get(nodeId)?.forEach(socketsConnection => {
             // set the path ending coords
-            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketTo);
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketTo);
             this.connector.setPathEndPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
         this.data.outgoing.get(nodeId)?.forEach(socketsConnection => {
             // set the path beginning coords
-            const socketCenter = this.pathMaker.getSocketCenter(socketsConnection.socketFrom);
+            const socketCenter = this.connector.getSocketCenter(socketsConnection.socketFrom);
             this.connector.setPathStartPoint(socketsConnection.path, socketCenter.x, socketCenter.y);
         });
     }

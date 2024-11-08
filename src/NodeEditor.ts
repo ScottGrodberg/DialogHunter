@@ -1,16 +1,16 @@
 import { Choice } from "./Choice.js";
 import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
+import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
 import { NodeLayout } from "./NodeLayout.js";
-import { PathMaker } from "./PathMaker.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeEditor {
     nodeId?: number;
 
-    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public nodeLayout: NodeLayout, public pathMaker: PathMaker) { }
+    constructor(public rowMaker: RowMaker, public utility: Utility, public data: Data, public choiceMaker: ChoiceMaker, public currentNode: CurrentNode, public connector: Connector, public nodeLayout: NodeLayout) { }
 
     makeEditor(): HTMLDivElement {
 
@@ -198,9 +198,9 @@ export class NodeEditor {
                 // Draw the path
                 // FIXME: This assumes outgoing paths go from the right of the source node to the left of the incoming node
                 socketToLeft.style.display = "block";
-                const start = this.pathMaker.getSocketCenter(socketFromRight);
-                const end = this.pathMaker.getSocketCenter(socketToLeft)!;
-                const path = this.pathMaker.makePath(start, end);
+                const start = this.connector.getSocketCenter(socketFromRight);
+                const end = this.connector.getSocketCenter(socketToLeft)!;
+                const path = this.connector.makePath(start, end);
                 this.data.svgLayout!.appendChild(path);
 
                 // Create the incomign and outgoing records, storing the path and socket element refs
