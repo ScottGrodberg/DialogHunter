@@ -50,7 +50,7 @@ export class Connector {
         if (!this.path || !this.socketFrom) {
             return;
         }
-        this.setPathEndPoint(this.path, event.clientX, event.clientY);
+        this.setPathEndPoint(this.path, event.clientX + this.data.divLayoutWrapper.scrollLeft, event.clientY + this.data.divLayoutWrapper.scrollTop);
     }
     onPointerUp(event) {
         if (!this.path || !this.socketFrom) {
@@ -117,16 +117,16 @@ export class Connector {
         let X1, Y1, X2, Y2;
         if (endX > startX) {
             // line goes to the right
-            X1 = startX + (endX - startX) * 0.5;
+            X1 = startX + (endX - startX) * 0.33;
             Y1 = startY;
-            X2 = X1;
+            X2 = endX - (endX - startX) * 0.33;
             Y2 = endY;
         }
         else {
             // line goes to the left
-            X1 = endX + (startX - endX) * 0.5;
+            X1 = startX - (startX - endX) * 0.33;
             Y1 = startY;
-            X2 = X1;
+            X2 = endX + (startX - endX) * 0.33;
             Y2 = endY;
         }
         const newPathData = `M ${startX} ${startY} C ${X1} ${Y1}, ${X2} ${Y2}, ${endX} ${endY}`;
