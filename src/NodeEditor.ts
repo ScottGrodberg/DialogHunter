@@ -236,6 +236,11 @@ export class NodeEditor {
             this.data.choices.delete(choiceId);
         });
         this.data.nodes.delete(nodeId);
+        this.data.choices.forEach(choice => {
+            if (choice.nodeId === nodeId) {
+                choice.nodeId = undefined
+            }
+        });
 
         // Unset refs
         if (this.data.head === nodeId) {
