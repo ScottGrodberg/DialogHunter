@@ -40,16 +40,20 @@ export class Data {
     dump() {
         let output = "";
 
-        output += `[`;
+        output += `[\n`;
         this.nodes.forEach(node => {
-            output += `{\n`;
-            output += `  "nodeId":"${node.nodeId}",\n`;
-            output += `  "text":"${node.text}",\n`;
-            output += `  "choices":[\n`;
-            output += `    ${node.choices.map(choiceId => JSON.stringify(this.choices.get(choiceId)))}\n`;
-            output += `  ]\n`;
-            output += `},\n`;
+            output += `  {\n`;
+            output += `    "nodeId":"${node.nodeId}",\n`;
+            output += `    "text":"${node.text}",\n`;
+            output += `    "choices":[\n`;
+            let choices = ``;
+            node.choices.forEach(choiceId => choices += `      ${JSON.stringify(this.choices.get(choiceId))},\n`);
+
+            output += `${choices.substring(0, choices.length - 2)}\n`;
+            output += `    ]\n`;
+            output += `  },\n`;
         });
+        output = `${output.substring(0, output.length - 2)}\n`;
         output += `]\n`;
 
         document.getElementById("div-output")!.innerHTML = output;
