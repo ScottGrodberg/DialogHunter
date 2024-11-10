@@ -175,6 +175,13 @@ export class ChoiceMaker {
             }
             destination.appendChild(element);
         })
+
+        // Socket elements were blown away when destination.innerHTML unset.
+        // This rewires the connecting paths
+        if (choiceFor == ChoiceFor.LAYOUT) {
+            this.connector.connectNode(node)
+        }
+
         this.data.dump();
     }
 

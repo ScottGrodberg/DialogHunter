@@ -1,4 +1,5 @@
 import { Data, Path } from "./Data";
+import { Node } from "./Node";
 
 export class Connector {
     ARROWHEAD_MARKER_WIDTH = 15;
@@ -263,4 +264,48 @@ export class Connector {
         return arrowMarker;
     }
 
+    connectNode(node: Node) {
+
+        // Remove all lines connected to this node. They will be redrawn with new paths when connectNode is called below        
+        this.data.outgoing.get(node.nodeId)!.forEach(_sc => _sc.path.remove());
+
+        node.choices.forEach(choiceId => {
+            const choice = this.data.choices.get(choiceId)!;
+            if (!choice.nodeId) {
+                return; // no linkage
+            }
+
+            const nodeTo = this.data.nodes.get(choice.nodeId)!;
+
+            // get the from sockets
+            const socketFromLeft = document.querySelector(`#choice-${choiceId} :nth-child(1)`) as HTMLElement;
+            const socketFromRight = document.querySelector(`#choice-${choiceId} :nth-child(3)`) as HTMLElement;
+
+            // get the to sockets
+            const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`) as HTMLElement;
+            const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`) as HTMLElement;
+
+            // Determine if we are drawing from left to right or  right to left
+            let socketFrom, socketTo;
+            if (node.position!.left < nodeTo.position!.left) {
+                socketFrom = socketFromRight;
+                socketTo = socketToLeft;
+            } else {
+                socketFrom = socketFromLeft;
+                socketTo = socketToRight;
+            }
+            socketTo.style.display = "block";
+            const start = this.getSocketCenter(socketFrom);
+            const end = this.getSocketCenter(socketTo)!;
+
+            // Draw the path
+            const path = this.makePath(start, end);
+            this.data.svgLayout!.appendChild(path);
+
+            // Create the incoming and outgoing records, storing the path and socket element refs
+            this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom, path, socketTo });
+            this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom, path, socketTo });
+
+        });
+    }
 }
