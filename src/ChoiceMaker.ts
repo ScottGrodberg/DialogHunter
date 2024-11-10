@@ -156,7 +156,7 @@ export class ChoiceMaker {
     }
 
     /**
-     * Create or update rows for the given node. Called after the data has been changed and needs to be reflected in the ui
+     * Update the ui of the given node, redrawing choice rows and rewiring outgoing connections
      * @param nodeId 
      */
     update(nodeId: NodeId, destination: HTMLElement, choiceFor: ChoiceFor) {

@@ -266,7 +266,7 @@ export class Connector {
 
     connectNode(node: Node) {
 
-        // Remove all lines connected to this node. They will be redrawn with new paths when connectNode is called below        
+        // Remove all lines going out from this node.
         this.data.outgoing.get(node.nodeId)!.forEach(_sc => _sc.path.remove());
 
         node.choices.forEach(choiceId => {
