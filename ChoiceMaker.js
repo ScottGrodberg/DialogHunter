@@ -4,10 +4,11 @@ export var ChoiceFor;
     ChoiceFor[ChoiceFor["EDITOR"] = 1] = "EDITOR";
 })(ChoiceFor || (ChoiceFor = {}));
 export class ChoiceMaker {
-    constructor(data, rowMaker, currentNode) {
+    constructor(data, rowMaker, currentNode, connector) {
         this.data = data;
         this.rowMaker = rowMaker;
         this.currentNode = currentNode;
+        this.connector = connector;
     }
     choiceForLayout(nodeId, choiceId) {
         const element = this.makeRow(nodeId, choiceId);
@@ -54,9 +55,12 @@ export class ChoiceMaker {
         response.onchange = () => {
             this.data.choices.get(choiceId).text = response.value;
             const destination = document.getElementById(`node-body-${this.data.currentNodeId}`);
-            this.update(this.data.currentNodeId, destination, ChoiceFor.LAYOUT);
+            this.changeResponseText(destination);
         };
         return response;
+    }
+    changeResponseText(destination) {
+        this.update(this.data.currentNodeId, destination, ChoiceFor.LAYOUT);
     }
     makeResponseReadOnly(choiceId) {
         const response = document.createElement("p");
@@ -114,9 +118,12 @@ export class ChoiceMaker {
                 nodeIn.delete(nodeId);
             }
             const destination = document.getElementById(`node-body-${nodeId}`);
-            this.update(nodeId, destination, ChoiceFor.LAYOUT);
+            this.deleteResponse(destination, nodeId);
         };
         return x;
+    }
+    deleteResponse(destination, nodeId) {
+        this.update(nodeId, destination, ChoiceFor.LAYOUT);
     }
     /**
      * Create or update rows for the given node. Called after the data has been changed and needs to be reflected in the ui

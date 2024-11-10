@@ -52,7 +52,7 @@ export class NodeLayout {
     // Function to handle the movement during drag
     onPointerMove(event) {
         var _a, _b;
-        const element = event.target;
+        const element = event.currentTarget;
         const deltaX = event.clientX - element.dataset.startX;
         const deltaY = event.clientY - element.dataset.startY;
         const newX = parseFloat(element.dataset.initX) + deltaX;
@@ -76,7 +76,7 @@ export class NodeLayout {
     }
     // Function to handle the end of the drag
     onPointerUp(event) {
-        const element = event.target;
+        const element = event.currentTarget;
         element.releasePointerCapture(event.pointerId);
         element.removeEventListener('pointermove', this.ptrMove);
         element.removeEventListener('pointerup', this.ptrUp);
