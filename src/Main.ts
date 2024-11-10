@@ -25,9 +25,9 @@ export class Main {
         const data = new Data();
         const utility = new Utility();
         const connector = new Connector(data);
-        const rowMaker = new RowMaker(connector, utility);
         const currentNode = new CurrentNode(data);
-        const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode);
+        const rowMaker = new RowMaker(connector, utility);
+        const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode, connector);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, connector, nodeLayout);
 

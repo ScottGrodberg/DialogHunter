@@ -1,3 +1,4 @@
+import { Connector } from "./Connector";
 import { CurrentNode } from "./CurrentNode";
 import { ChoiceId, Data, NodeId } from "./Data";
 import { RowMaker } from "./RowMaker";
@@ -8,7 +9,7 @@ export enum ChoiceFor {
 
 export class ChoiceMaker {
 
-    constructor(public data: Data, public rowMaker: RowMaker, public currentNode: CurrentNode) { }
+    constructor(public data: Data, public rowMaker: RowMaker, public currentNode: CurrentNode, public connector: Connector) { }
 
     choiceForLayout(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
 
