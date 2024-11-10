@@ -194,6 +194,7 @@ export class NodeEditor {
             }
 
             const nodeTo = this.data.nodes.get(choice.nodeId)!;
+
             // get the from sockets
             const socketFromLeft = document.querySelector(`#choice-${choiceId} :nth-child(1)`) as HTMLElement;
             const socketFromRight = document.querySelector(`#choice-${choiceId} :nth-child(3)`) as HTMLElement;
@@ -202,7 +203,6 @@ export class NodeEditor {
             const socketToLeft = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(1)`) as HTMLElement;
             const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`) as HTMLElement;
 
-            // Draw the path
             // Determine if we are drawing from left to right or  right to left
             let socketFrom, socketTo;
             if (node.position!.left < nodeTo.position!.left) {
@@ -215,10 +215,12 @@ export class NodeEditor {
             socketTo.style.display = "block";
             const start = this.connector.getSocketCenter(socketFrom);
             const end = this.connector.getSocketCenter(socketTo)!;
+
+            // Draw the path
             const path = this.connector.makePath(start, end);
             this.data.svgLayout!.appendChild(path);
 
-            // Create the incomign and outgoing records, storing the path and socket element refs
+            // Create the incoming and outgoing records, storing the path and socket element refs
             this.data.incoming.get(choice.nodeId)!.set(node.nodeId, { socketFrom, path, socketTo });
             this.data.outgoing.get(node.nodeId)!.set(choice.nodeId, { socketFrom, path, socketTo });
 
