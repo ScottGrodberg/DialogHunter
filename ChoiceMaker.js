@@ -126,7 +126,7 @@ export class ChoiceMaker {
         this.update(nodeId, destination, ChoiceFor.LAYOUT);
     }
     /**
-     * Create or update rows for the given node. Called after the data has been changed and needs to be reflected in the ui
+     * Update the ui of the given node, redrawing choice rows and rewiring outgoing connections
      * @param nodeId
      */
     update(nodeId, destination, choiceFor) {
@@ -144,6 +144,11 @@ export class ChoiceMaker {
             }
             destination.appendChild(element);
         });
+        // Socket elements were blown away when destination.innerHTML unset.
+        // This rewires the connecting paths
+        if (choiceFor == ChoiceFor.LAYOUT) {
+            this.connector.connectNode(node);
+        }
         this.data.dump();
     }
     changeNode(nodeId) {
