@@ -71,9 +71,13 @@ export class ChoiceMaker {
         response.onchange = () => {
             this.data.choices.get(choiceId)!.text = response.value;
             const destination = document.getElementById(`node-body-${this.data.currentNodeId}`)!;
-            this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
+            this.changeResponseText(destination);
         };
         return response;
+    }
+
+    changeResponseText(destination: HTMLElement) {
+        this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
     }
 
     makeResponseReadOnly(choiceId: ChoiceId) {
@@ -141,10 +145,15 @@ export class ChoiceMaker {
             }
 
             const destination = document.getElementById(`node-body-${nodeId}`)!;
-            this.update(nodeId, destination, ChoiceFor.LAYOUT);
+            this.deleteResponse(destination, nodeId);
         };
         return x;
     }
+
+    deleteResponse(destination: HTMLElement, nodeId: NodeId) {
+        this.update(nodeId, destination, ChoiceFor.LAYOUT);
+    }
+
     /**
      * Create or update rows for the given node. Called after the data has been changed and needs to be reflected in the ui
      * @param nodeId 
