@@ -1,7 +1,8 @@
 import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
-import { Data, NodeId } from "./Data.js";
+import { Data } from "./Data.js";
+import { Node, NodeType } from "./Node.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
@@ -18,7 +19,9 @@ export class NodeLayout {
         this.ptrUp = this.onPointerUp.bind(this);
     }
 
-    node(nodeId: NodeId): HTMLDivElement {
+    node(node: Node): HTMLDivElement {
+        const nodeId = node.nodeId;
+        const nodeType = NodeType[node.nodeType];
 
         const element = document.createElement("div");
         element.id = "node-" + nodeId;
@@ -30,6 +33,11 @@ export class NodeLayout {
         header.id = "node-header-" + nodeId;
         header.classList.add("node-header");
 
+        const headerType = document.createElement("p");
+        headerType.id = "node-header-type-" + nodeId;
+        headerType.style.color = "white";
+        headerType.innerHTML = nodeType;
+
         const headerText = document.createElement("p");
         headerText.id = "node-header-text-" + nodeId;
         headerText.style.color = "white";
@@ -38,7 +46,7 @@ export class NodeLayout {
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";
-        row.append(sockets.socketLeft, headerText, sockets.socketRight);
+        row.append(sockets.socketLeft, headerType, headerText, sockets.socketRight);
         header.appendChild(row);
 
         const body = document.createElement("div");

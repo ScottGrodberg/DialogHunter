@@ -1,6 +1,7 @@
 import { Connector } from "./Connector";
 import { CurrentNode } from "./CurrentNode";
 import { ChoiceId, Data, NodeId } from "./Data";
+import { NodeType } from "./Node.js";
 import { RowMaker } from "./RowMaker";
 
 export enum ChoiceFor {
@@ -188,8 +189,11 @@ export class ChoiceMaker {
     changeNode(nodeId: NodeId) {
 
         // Update the header
-        const text = this.data.nodes.get(nodeId)!.text!;
+        const node = this.data.nodes.get(nodeId)!;
+        const text = node.text!;
+        const nodeType = NodeType[node.nodeType];
         const header = document.getElementById(`node-editor-header`)!;
+        header.getElementsByTagName("p").item(0)!.innerHTML = nodeType;
         header.getElementsByTagName("textarea").item(0)!.value = text;
 
         // Update the responses

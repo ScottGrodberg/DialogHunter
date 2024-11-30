@@ -3,6 +3,7 @@ import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
+import { NodeType } from "./Node.js";
 import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -22,6 +23,10 @@ export class NodeEditor {
         header.id = "node-editor-header";
 
         const row = this.rowMaker.row();
+
+        const headerType = document.createElement("p");
+        headerType.style.color = "white";
+
         const headerText = document.createElement("textarea");
         headerText.style.margin = "5px";
         headerText.style.width = "calc(100% - 10px)";
@@ -41,7 +46,9 @@ export class NodeEditor {
             header.title = text;
             this.data.dump();
         };
-        row.append(headerText);
+
+        row.append(headerType, headerText);
+
         header.appendChild(row);
 
         const body = document.createElement("div");
@@ -155,15 +162,20 @@ export class NodeEditor {
         this.data.nodes.forEach(node => {
 
             // add the node to the layout
-            const element = this.nodeLayout.node(node.nodeId);
+            const element = this.nodeLayout.node(node);
             element.style.left = node.position!.left + "px";
             element.style.top = node.position!.top + "px";
             this.data.divLayout!.appendChild(element);
 
+            // update the type of node
+            const headerType = document.getElementById(`node-header-type-${node.nodeId}`)!;
+            headerType.innerHTML = NodeType[node.nodeType];
+            headerType.title = node.text!;
+
             // update the text of node
-            const header = document.getElementById(`node-header-text-${node.nodeId}`)!;
-            header.innerHTML = node.text!;
-            header.title = node.text!;
+            const headerText = document.getElementById(`node-header-text-${node.nodeId}`)!;
+            headerText.innerHTML = node.text!;
+            headerText.title = node.text!;
 
         });
 

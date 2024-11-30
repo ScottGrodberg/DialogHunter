@@ -2,7 +2,7 @@ import { ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
-import { Node } from "./Node.js";
+import { Node, NodeType } from "./Node.js";
 import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
@@ -147,8 +147,8 @@ export class Main {
         const divLayout = data.divLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
-        const node = new Node(utility.generateUid(8), "Change this text, it can be a description or monologue or question");
-        const element = nodeLayout.node(node.nodeId);
+        const node = new Node(utility.generateUid(8), NodeType.INTR, "Change this text, it can be a description or monologue or question");
+        const element = nodeLayout.node(node);
 
         // Set the node's position
         const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;

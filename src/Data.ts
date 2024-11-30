@@ -1,5 +1,5 @@
 import { Choice } from "./Choice";
-import { Node } from "./Node";
+import { Node, NodeType } from "./Node.js";
 
 export type NodeId = string;
 export type ChoiceId = string;
@@ -44,6 +44,7 @@ export class Data {
         this.nodes.forEach(node => {
             output += `  {\n`;
             output += `    "nodeId":"${node.nodeId}",\n`;
+            output += `    "nodeType":"${NodeType[node.nodeType]}",\n`;
             output += `    "text":${JSON.stringify(node.text)},\n`;
             output += `    "choices":[\n`;
             let choices = ``;
