@@ -62,16 +62,21 @@ export class Main {
         svgLayout.setAttribute("height", "100%");
         data.svgLayout = svgLayout;
 
-        // Add new node button
-        const buttonNew = document.createElement("button");
-        buttonNew.id = "button-new-node";
-        buttonNew.innerHTML = "+ Add Node";
-        buttonNew.style.position = "fixed";
-        buttonNew.style.zIndex = "1";
-        buttonNew.style.top = "20px";
-        buttonNew.style.left = "20px";
-        buttonNew.onclick = () => this.newNode(nodeMaker, utility, data);
-        divLayoutWrapper.appendChild(buttonNew);
+        // Make the buttons
+        const buttonsWrapper = document.createElement("div");
+        buttonsWrapper.style.display = "flex";
+        buttonsWrapper.style.position = "fixed";
+        buttonsWrapper.style.zIndex = "1";
+        buttonsWrapper.style.top = "20px";
+        buttonsWrapper.style.left = "20px";
+
+        const buttonNewInterchange = this.newButton(data, utility, nodeMaker, NodeType.INTR);
+        buttonNewInterchange.innerHTML = `+ Add Interchange (${NodeType[NodeType.INTR]})`;
+        const buttonNewRoll = this.newButton(data, utility, nodeMaker, NodeType.ROLL);
+        buttonNewRoll.innerHTML = `+ Add Roll (${NodeType[NodeType.ROLL]})`;
+        buttonsWrapper.append(buttonNewInterchange, buttonNewRoll);
+
+        divLayoutWrapper.append(buttonsWrapper);
 
         // Options
         const divOptsWrapper = document.createElement("div");
@@ -116,7 +121,7 @@ export class Main {
         document.body.appendChild(divLayoutWrapper);
 
         // Start with one interchange
-        const nodeFirst = this.newNode(nodeMaker, utility, data);
+        const nodeFirst = this.newNode(nodeMaker, utility, data, NodeType.INTR);
         data.head = nodeFirst.dataset.nodeId;
 
         // Special starting position for first node only
@@ -124,6 +129,13 @@ export class Main {
         node.position = { top: 66, left: 100 };
         nodeFirst.style.top = node.position.top + "px";
         nodeFirst.style.left = node.position.top + "px";
+    }
+
+    newButton(data: Data, utility: Utility, nodeMaker: NodeLayout, nodeType: NodeType): HTMLButtonElement {
+        const button = document.createElement("button");
+        button.id = `button-new-node-${NodeType[nodeType]}`;
+        button.onclick = () => this.newNode(nodeMaker, utility, data, nodeType);
+        return button;
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
@@ -143,11 +155,11 @@ export class Main {
     }
 
 
-    newNode(nodeLayout: NodeLayout, utility: Utility, data: Data): HTMLElement {
+    newNode(nodeLayout: NodeLayout, utility: Utility, data: Data, nodeType: NodeType): HTMLElement {
         const divLayout = data.divLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
-        const node = new Node(utility.generateUid(8), NodeType.INTR, "Change this text, it can be a description or monologue or question");
+        const node = new Node(utility.generateUid(8), nodeType, "Change this text, it can be a description or monologue or question");
         const element = nodeLayout.node(node);
 
         // Set the node's position
