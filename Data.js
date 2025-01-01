@@ -14,7 +14,7 @@ export class Data {
         this.nodes.forEach(node => {
             output += `  {\n`;
             output += `    "nodeId":"${node.nodeId}",\n`;
-            output += `    "text":"${node.text}",\n`;
+            output += `    "text":${JSON.stringify(node.text)},\n`;
             output += `    "choices":[\n`;
             let choices = ``;
             node.choices.forEach(choiceId => choices += `      ${JSON.stringify(this.choices.get(choiceId))},\n`);
