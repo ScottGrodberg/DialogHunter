@@ -21,7 +21,7 @@ export class NodeEditor {
         const header = document.createElement("div");
         header.id = "node-editor-header";
 
-        const row = this.rowMaker.row();
+        const row = this.rowMaker.editorRow();
         const headerText = document.createElement("textarea");
         headerText.style.margin = "5px";
         headerText.style.width = "calc(100% - 10px)";

@@ -34,7 +34,7 @@ export class NodeLayout {
         headerText.id = "node-header-text-" + nodeId;
         headerText.style.color = "white";
 
-        const row = this.rowMaker.row();
+        const row = this.rowMaker.layoutRow();
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";

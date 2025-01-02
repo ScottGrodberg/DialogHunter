@@ -11,9 +11,9 @@ export class ChoiceMaker {
 
     constructor(public data: Data, public rowMaker: RowMaker, public currentNode: CurrentNode, public connector: Connector) { }
 
-    choiceForLayout(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
+    choiceForLayout(nodeId: NodeId, choiceId: ChoiceId): SVGElement {
 
-        const element = this.makeRow(nodeId, choiceId);
+        const element = this.makeLayoutRow(nodeId, choiceId);
 
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
 
@@ -25,9 +25,9 @@ export class ChoiceMaker {
         return element;
     }
 
-    choiceForEditor(nodeId: NodeId, choiceId: ChoiceId): HTMLDivElement {
+    choiceForEditor(nodeId: NodeId, choiceId: ChoiceId): HTMLElement {
 
-        const element = this.makeRow(nodeId, choiceId);
+        const element = this.makeEditorRow(nodeId, choiceId);
 
         const key = this.makeKey();
         key.style.width = "30px";
@@ -47,8 +47,16 @@ export class ChoiceMaker {
         return element;
     }
 
-    makeRow(nodeId: NodeId, choiceId: ChoiceId) {
-        const element = this.rowMaker.row();
+    makeLayoutRow(nodeId: NodeId, choiceId: ChoiceId) {
+        const element = this.rowMaker.layoutRow();
+        element.id = "choice-" + choiceId;
+        element.dataset.nodeId = nodeId;
+        element.dataset.choiceId = choiceId;
+        return element;
+    }
+
+    makeEditorRow(nodeId: NodeId, choiceId: ChoiceId) {
+        const element = this.rowMaker.editorRow();
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
@@ -167,7 +175,7 @@ export class ChoiceMaker {
         const node = this.data.nodes.get(nodeId)!;
         const choices = node.choices;
         choices.forEach(choice => {
-            let element: HTMLElement;
+            let element: Element;
             if (choiceFor === ChoiceFor.LAYOUT) {
                 element = this.choiceForLayout(nodeId, choice);
             } else {
