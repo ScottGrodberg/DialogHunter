@@ -151,8 +151,8 @@ export class Main {
         const element = nodeLayout.node(node.nodeId);
 
         // Set the node's position
-        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
-        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
+        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.NODE_WIDTH * 0.5;
+        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.NODE_WIDTH * 0.5;
         node.position = { top, left };
         element.style.top = node.position.top + "px";
         element.style.left = node.position.left + "px";
