@@ -17,15 +17,15 @@ export class NodeLayout {
         this.ptrUp = this.onPointerUp.bind(this);
     }
 
-    node(nodeId: NodeId): HTMLDivElement {
+    node(nodeId: NodeId): SVGElement {
 
-        const element = document.createElement("div");
+        const element = document.createElementNS(this.data.SVGNS, "svg") as SVGElement
         element.id = "node-" + nodeId;
         element.dataset.nodeId = nodeId;
         element.classList.add("node");
         element.style.width = this.data.NODE_WIDTH + "px";
 
-        const header = document.createElement("div");
+        const header = document.createElementNS(this.data.SVGNS, "svg");
         header.id = "node-header-" + nodeId;
         header.classList.add("node-header");
 
@@ -44,7 +44,7 @@ export class NodeLayout {
         row.append(sockets.socketLeft, headerText, sockets.socketRight);
         header.appendChild(row);
 
-        const body = document.createElement("div");
+        const body = document.createElementNS(this.data.SVGNS, "svg");
         body.id = "node-body-" + nodeId;
         body.classList.add("node-body");
 

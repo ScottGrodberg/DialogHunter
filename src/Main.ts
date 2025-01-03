@@ -142,7 +142,7 @@ export class Main {
     }
 
 
-    newNode(nodeLayout: NodeLayout, utility: Utility, data: Data): HTMLElement {
+    newNode(nodeLayout: NodeLayout, utility: Utility, data: Data): SVGElement {
         const divLayout = data.divLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
