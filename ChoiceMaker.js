@@ -11,7 +11,7 @@ export class ChoiceMaker {
         this.connector = connector;
     }
     choiceForLayout(nodeId, choiceId) {
-        const element = this.makeRow(nodeId, choiceId);
+        const element = this.makeLayoutRow(nodeId, choiceId);
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
         const value = this.makeResponseReadOnly(choiceId);
         value.style.width = "100%";
@@ -19,7 +19,7 @@ export class ChoiceMaker {
         return element;
     }
     choiceForEditor(nodeId, choiceId) {
-        const element = this.makeRow(nodeId, choiceId);
+        const element = this.makeEditorRow(nodeId, choiceId);
         const key = this.makeKey();
         key.style.width = "30px";
         const value = this.makeResponse(choiceId);
@@ -32,8 +32,15 @@ export class ChoiceMaker {
         element.append(x, value, arrow);
         return element;
     }
-    makeRow(nodeId, choiceId) {
-        const element = this.rowMaker.row();
+    makeLayoutRow(nodeId, choiceId) {
+        const element = this.rowMaker.layoutRow();
+        element.id = "choice-" + choiceId;
+        element.dataset.nodeId = nodeId;
+        element.dataset.choiceId = choiceId;
+        return element;
+    }
+    makeEditorRow(nodeId, choiceId) {
+        const element = this.rowMaker.editorRow();
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
@@ -63,9 +70,12 @@ export class ChoiceMaker {
         this.update(this.data.currentNodeId, destination, ChoiceFor.LAYOUT);
     }
     makeResponseReadOnly(choiceId) {
-        const response = document.createElement("p");
+        const response = document.createElementNS(this.data.SVGNS, "text");
         response.innerHTML = this.data.choices.get(choiceId).text;
-        response.title = response.innerHTML;
+        response.setAttribute("x", "0");
+        response.setAttribute("y", "17");
+        response.style.width = this.data.NODE_WIDTH + "px";
+        response.style.height = "2.5em";
         return response;
     }
     makeNextArrow(choiceId) {

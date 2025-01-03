@@ -15,14 +15,17 @@ export class NodeLayout {
         element.id = "node-" + nodeId;
         element.dataset.nodeId = nodeId;
         element.classList.add("node");
-        element.style.width = NodeLayout.DEFAULT_WIDTH + "px";
+        element.style.width = this.data.NODE_WIDTH + "px";
         const header = document.createElement("div");
         header.id = "node-header-" + nodeId;
         header.classList.add("node-header");
-        const headerText = document.createElement("p");
+        const headerText = document.createElementNS(this.data.SVGNS, "text");
         headerText.id = "node-header-text-" + nodeId;
-        headerText.style.color = "white";
-        const row = this.rowMaker.row();
+        headerText.setAttribute("x", "0");
+        headerText.setAttribute("y", "17");
+        headerText.setAttribute("fill", "white");
+        headerText.style.width = this.data.NODE_WIDTH + "px";
+        const row = this.rowMaker.layoutRow();
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";
@@ -92,5 +95,4 @@ export class NodeLayout {
         this.choiceMaker.changeNode(nodeId);
     }
 }
-NodeLayout.DEFAULT_WIDTH = 150;
 //# sourceMappingURL=NodeLayout.js.map
