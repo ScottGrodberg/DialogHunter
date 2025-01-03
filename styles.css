@@ -55,6 +55,10 @@ p {
     position: relative;
 }
 
+svg.choice {
+    height: 2.5em;
+}
+
 .socket {
     border-radius: 50%;
     background-color: white;
@@ -66,13 +70,6 @@ p {
     cursor: pointer;
 }
 
-.socket-left {
-    left: -11px;
-}
-
-.socket-right {
-    left: calc(100% - 5px);
-}
 
 #node-editor {
     width: 40%;

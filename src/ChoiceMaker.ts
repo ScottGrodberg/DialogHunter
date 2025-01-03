@@ -89,10 +89,13 @@ export class ChoiceMaker {
         this.update(this.data.currentNodeId!, destination, ChoiceFor.LAYOUT);
     }
 
-    makeResponseReadOnly(choiceId: ChoiceId) {
-        const response = document.createElement("p");
+    makeResponseReadOnly(choiceId: ChoiceId): SVGElement {
+        const response = document.createElementNS(this.data.SVGNS, "text") as SVGElement;
         response.innerHTML = this.data.choices.get(choiceId)!.text!;
-        response.title = response.innerHTML;
+        response.setAttribute("x", "0");
+        response.setAttribute("y", "17");
+        response.style.width = this.data.NODE_WIDTH + "px";
+        response.style.height = "2.5em";
         return response;
     }
 

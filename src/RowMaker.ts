@@ -19,21 +19,24 @@ export class RowMaker {
         return element;
     }
 
+    sockets(nodeId: string, choiceId?: string): { socketLeft: SVGElement, socketRight: SVGElement } {
 
         // Make a socket
-        const socket = document.createElement("div");
+        const socket = document.createElementNS(this.data.SVGNS, "circle") as SVGElement;
+        socket.setAttribute("r", "7");
+        socket.setAttribute("cy", "27");
         socket.dataset.nodeId = nodeId;
-        socket.className = "socket";
+        socket.classList.add("socket");
 
         // Clone for the left
-        const socketLeft = socket.cloneNode() as HTMLDivElement;
+        const socketLeft = socket.cloneNode() as SVGElement;
         socketLeft.id = "socket-" + this.utility.generateUid(8) + "-left";
-        socketLeft.classList.add("socket-left");
+        socketLeft.setAttribute("cx", "0");
 
         // Clone for the right
-        const socketRight = socket.cloneNode() as HTMLDivElement;
+        const socketRight = socket.cloneNode() as SVGElement;
         socketRight.id = "socket-" + this.utility.generateUid(8) + "-right";
-        socketRight.classList.add("socket-right");
+        socketRight.setAttribute("cx", `${this.data.NODE_WIDTH}`);
 
         if (choiceId) {
             // body sockets, outgoing from choices

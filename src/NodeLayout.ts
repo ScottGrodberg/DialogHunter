@@ -29,9 +29,13 @@ export class NodeLayout {
         header.id = "node-header-" + nodeId;
         header.classList.add("node-header");
 
-        const headerText = document.createElement("p");
+        const headerText = document.createElementNS(this.data.SVGNS, "text") as SVGElement;
         headerText.id = "node-header-text-" + nodeId;
-        headerText.style.color = "white";
+        headerText.setAttribute("x", "0");
+        headerText.setAttribute("y", "17");
+        headerText.setAttribute("fill", "white");
+        headerText.style.width = this.data.NODE_WIDTH + "px";
+
 
         const row = this.rowMaker.layoutRow();
         const sockets = this.rowMaker.sockets(nodeId);
