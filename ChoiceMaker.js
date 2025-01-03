@@ -144,6 +144,7 @@ export class ChoiceMaker {
         destination.innerHTML = ``;
         const node = this.data.nodes.get(nodeId);
         const choices = node.choices;
+        let i = 1;
         choices.forEach(choice => {
             let element;
             if (choiceFor === ChoiceFor.LAYOUT) {
@@ -152,7 +153,9 @@ export class ChoiceMaker {
             else {
                 element = this.choiceForEditor(nodeId, choice);
             }
+            element.setAttribute("y", `${i * 40}`);
             destination.appendChild(element);
+            i++;
         });
         // Socket elements were blown away when destination.innerHTML unset.
         // This rewires the connecting paths
