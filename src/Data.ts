@@ -12,6 +12,9 @@ export type SocketsConnection = {
 }
 export class Data {
 
+    NODE_WIDTH = 150;
+    SVGNS = "http://www.w3.org/2000/svg";
+
     // Elements
 
     // Top section - layout

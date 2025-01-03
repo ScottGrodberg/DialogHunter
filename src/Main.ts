@@ -8,7 +8,6 @@ import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
-const svgns = "http://www.w3.org/2000/svg";
 
 // Entry point
 window.addEventListener("DOMContentLoaded", () => {
@@ -26,7 +25,7 @@ export class Main {
         const utility = new Utility();
         const connector = new Connector(data);
         const currentNode = new CurrentNode(data);
-        const rowMaker = new RowMaker(connector, utility);
+        const rowMaker = new RowMaker(data, connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode, connector);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, connector, nodeLayout);
@@ -56,7 +55,7 @@ export class Main {
         data.divLayout = divLayout;
 
         // Svg
-        const svgLayout = document.createElementNS(svgns, "svg");
+        const svgLayout = document.createElementNS(data.SVGNS, "svg") as SVGElement;
         svgLayout.id = "svg-layout";
         svgLayout.setAttribute("width", "100%");
         svgLayout.setAttribute("height", "100%");
@@ -151,8 +150,8 @@ export class Main {
         const element = nodeLayout.node(node.nodeId);
 
         // Set the node's position
-        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.NODE_WIDTH * 0.5;
-        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.NODE_WIDTH * 0.5;
+        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
+        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
         node.position = { top, left };
         element.style.top = node.position.top + "px";
         element.style.left = node.position.left + "px";

@@ -1,11 +1,11 @@
 import { Connector } from "./Connector";
+import { Data } from "./Data";
 import { Utility } from "./Utility";
 
 export class RowMaker {
 
-    svgns = "http://www.w3.org/2000/svg";
 
-    constructor(public connector: Connector, public utility: Utility) { }
+    constructor(public data: Data, public connector: Connector, public utility: Utility) { }
 
     editorRow(): HTMLDivElement {
         const element = document.createElement("div");
@@ -14,7 +14,7 @@ export class RowMaker {
     }
 
     layoutRow(): SVGElement {
-        const element = document.createElementNS(this.svgns, "svg") as SVGElement;
+        const element = document.createElementNS(this.data.SVGNS, "svg") as SVGElement;
         element.classList.add("choice");
         return element;
     }

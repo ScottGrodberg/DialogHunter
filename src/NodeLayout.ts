@@ -6,8 +6,6 @@ import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeLayout {
-    static NODE_WIDTH = 150;
-
 
     ptrDown: (event: any) => void;
     ptrMove: (event: any) => void;
@@ -25,7 +23,7 @@ export class NodeLayout {
         element.id = "node-" + nodeId;
         element.dataset.nodeId = nodeId;
         element.classList.add("node");
-        element.style.width = NodeLayout.NODE_WIDTH + "px";
+        element.style.width = this.data.NODE_WIDTH + "px";
 
         const header = document.createElement("div");
         header.id = "node-header-" + nodeId;
