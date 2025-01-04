@@ -14,8 +14,12 @@ export class RowMaker {
     }
 
     layoutRow(): SVGElement {
+        const rect = document.createElementNS(this.data.SVGNS, "rect");
+        rect.setAttribute("width", this.data.NODE_WIDTH.toString());
+        rect.setAttribute("height", "3em");
         const element = document.createElementNS(this.data.SVGNS, "svg") as SVGElement;
         element.classList.add("choice");
+        element.append(rect);
         return element;
     }
 

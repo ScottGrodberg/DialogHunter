@@ -49,6 +49,9 @@ export class ChoiceMaker {
 
     makeLayoutRow(nodeId: NodeId, choiceId: ChoiceId): SVGElement {
         const element = this.rowMaker.layoutRow();
+        const rect = element.children[0] as SVGRectElement;
+        const fillColor = window.getComputedStyle(document.documentElement).getPropertyValue('--node-body-background');
+        rect.setAttribute("fill", fillColor);
         this.decorateIdAndData(element, nodeId, choiceId);
         return element;
     }
