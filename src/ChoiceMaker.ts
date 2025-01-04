@@ -47,20 +47,22 @@ export class ChoiceMaker {
         return element;
     }
 
-    makeLayoutRow(nodeId: NodeId, choiceId: ChoiceId) {
+    makeLayoutRow(nodeId: NodeId, choiceId: ChoiceId): SVGElement {
         const element = this.rowMaker.layoutRow();
-        element.id = "choice-" + choiceId;
-        element.dataset.nodeId = nodeId;
-        element.dataset.choiceId = choiceId;
+        this.decorateIdAndData(element, nodeId, choiceId);
         return element;
     }
 
-    makeEditorRow(nodeId: NodeId, choiceId: ChoiceId) {
+    makeEditorRow(nodeId: NodeId, choiceId: ChoiceId): HTMLElement {
         const element = this.rowMaker.editorRow();
+        this.decorateIdAndData(element, nodeId, choiceId);
+        return element;
+    }
+
+    decorateIdAndData(element: HTMLElement | SVGElement, nodeId: NodeId, choiceId: ChoiceId) {
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
-        return element;
     }
 
     makeKey() {
