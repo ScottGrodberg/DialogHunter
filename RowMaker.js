@@ -10,8 +10,12 @@ export class RowMaker {
         return element;
     }
     layoutRow() {
+        const rect = document.createElementNS(this.data.SVGNS, "rect");
+        rect.setAttribute("width", this.data.NODE_WIDTH.toString());
+        rect.setAttribute("height", "3em");
         const element = document.createElementNS(this.data.SVGNS, "svg");
         element.classList.add("choice");
+        element.append(rect);
         return element;
     }
     sockets(nodeId, choiceId) {

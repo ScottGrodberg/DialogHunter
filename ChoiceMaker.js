@@ -34,17 +34,21 @@ export class ChoiceMaker {
     }
     makeLayoutRow(nodeId, choiceId) {
         const element = this.rowMaker.layoutRow();
-        element.id = "choice-" + choiceId;
-        element.dataset.nodeId = nodeId;
-        element.dataset.choiceId = choiceId;
+        const rect = element.children[0];
+        const fillColor = window.getComputedStyle(document.documentElement).getPropertyValue('--node-body-background');
+        rect.setAttribute("fill", fillColor);
+        this.decorateIdAndData(element, nodeId, choiceId);
         return element;
     }
     makeEditorRow(nodeId, choiceId) {
         const element = this.rowMaker.editorRow();
+        this.decorateIdAndData(element, nodeId, choiceId);
+        return element;
+    }
+    decorateIdAndData(element, nodeId, choiceId) {
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
-        return element;
     }
     makeKey() {
         const key = document.createElement("input");

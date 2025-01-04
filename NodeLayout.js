@@ -26,6 +26,8 @@ export class NodeLayout {
         headerText.setAttribute("fill", "white");
         headerText.style.width = this.data.NODE_WIDTH + "px";
         const row = this.rowMaker.layoutRow();
+        const rect = row.children[0];
+        rect.setAttribute("fill", "transparent");
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";
