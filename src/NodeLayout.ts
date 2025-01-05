@@ -38,7 +38,7 @@ export class NodeLayout {
 
         const row = this.rowMaker.layoutRow();
         const rect = row.children[0] as SVGRectElement;
-        rect.setAttribute("fill", "transparent");
+        rect.setAttribute("fill", "red");
         const sockets = this.rowMaker.sockets(nodeId);
         sockets.socketLeft.style.display = "none";
         sockets.socketRight.style.display = "none";
@@ -68,8 +68,8 @@ export class NodeLayout {
         element.dataset.startX = event.clientX;
         element.dataset.startY = event.clientY;
         const nodeElement = element.parentElement;
-        element.dataset.initX = parseFloat(nodeElement.style.left) || 0;
-        element.dataset.initY = parseFloat(nodeElement.style.top) || 0;
+        element.dataset.initX = parseFloat(nodeElement.getAttribute("x")) || 0;
+        element.dataset.initY = parseFloat(nodeElement.getAttribute("y")) || 0;
     }
 
     // Function to handle the movement during drag
@@ -80,9 +80,9 @@ export class NodeLayout {
         const newX = parseFloat(element.dataset.initX) + deltaX;
         const newY = parseFloat(element.dataset.initY) + deltaY;
         const nodeElement = element.parentElement;
-        nodeElement.style.left = newX + "px";
-        nodeElement.style.top = newY + "px";
-        this.data.nodes.get(nodeElement.dataset.nodeId)!.position = { left: newX, top: newY };
+        nodeElement.setAttribute("x", newX.toString());
+        nodeElement.setAttribute("y", newY.toString());
+        this.data.nodes.get(nodeElement.dataset.nodeId)!.position = { x: newX, y: newY };
 
         // TODO: get the incoming and outgoing paths by nodeId.
         const nodeId = nodeElement.dataset.nodeId;
@@ -109,7 +109,10 @@ export class NodeLayout {
         // Update node position        
         const node = element.parentElement;
         const nodeId = node.dataset.nodeId;
-        this.data.nodes.get(nodeId)!.position = { left: parseFloat(node.style.left), top: parseFloat(node.style.top) };
+        this.data.nodes.get(nodeId)!.position = {
+            x: parseFloat(node.getAttribute("x")),
+            y: parseFloat(node.getAttribute("y"))
+        };
     }
 
     loadNodeIntoEditor(event: Event) {

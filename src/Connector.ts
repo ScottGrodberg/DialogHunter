@@ -14,8 +14,8 @@ export class Connector {
         defs.appendChild(this.createArrowMarker());
         this.data.svgLayout!.appendChild(defs);
 
-        this.data.divLayout!.addEventListener('pointerup', this.onPointerUp.bind(this));
-        this.data.divLayout!.addEventListener('pointermove', this.onPointerMove.bind(this));
+        this.data.svgLayout!.addEventListener('pointerup', this.onPointerUp.bind(this));
+        this.data.svgLayout!.addEventListener('pointermove', this.onPointerMove.bind(this));
 
     }
 
@@ -41,7 +41,7 @@ export class Connector {
     onPointerDown(event: PointerEvent) {
         event.stopPropagation();
 
-        this.data.divLayout!.style.userSelect = "none";
+        this.data.svgLayout!.style.userSelect = "none";
 
         this.socketFrom = event.target as HTMLElement;
 
@@ -121,7 +121,7 @@ export class Connector {
                 _socket.style.display = "none";
             }
         });
-        this.data.divLayout!.style.userSelect = "initial";
+        this.data.svgLayout!.style.userSelect = "initial";
     }
 
     /**
@@ -287,7 +287,7 @@ export class Connector {
 
             // Determine if we are drawing from left to right or  right to left
             let socketFrom, socketTo;
-            if (node.position!.left < nodeTo.position!.left) {
+            if (node.position!.x < nodeTo.position!.x) {
                 socketFrom = socketFromRight;
                 socketTo = socketToLeft;
             } else {

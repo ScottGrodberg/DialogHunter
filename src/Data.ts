@@ -19,7 +19,6 @@ export class Data {
 
     // Top section - layout
     divLayoutWrapper?: HTMLDivElement;
-    divLayout?: HTMLDivElement;
     svgLayout?: SVGElement;
 
     // Bottom section - editor

@@ -156,9 +156,9 @@ export class NodeEditor {
 
             // add the node to the layout
             const element = this.nodeLayout.node(node.nodeId);
-            element.style.left = node.position!.left + "px";
-            element.style.top = node.position!.top + "px";
-            this.data.divLayout!.appendChild(element);
+            element.setAttribute("x", node.position!.x.toString());
+            element.setAttribute("y", node.position!.y.toString());
+            this.data.svgLayout!.appendChild(element);
 
             // update the text of node
             const header = document.getElementById(`node-header-text-${node.nodeId}`)!;

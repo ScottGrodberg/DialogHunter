@@ -46,14 +46,6 @@ export class Main {
         divLayoutWrapper.style.overflow = "scroll";
         data.divLayoutWrapper = divLayoutWrapper;
 
-        // Layout inner
-        const divLayout = document.createElement("div");
-        divLayout.id = "div-layout";
-        divLayout.style.width = "2000px";
-        divLayout.style.height = "1000px";
-        divLayout.style.position = "relative";
-        data.divLayout = divLayout;
-
         // Svg
         const svgLayout = document.createElementNS(data.SVGNS, "svg") as SVGElement;
         svgLayout.id = "svg-layout";
@@ -92,26 +84,25 @@ export class Main {
         divOptsWrapper.append(checkCenterOnCurrent);
         divLayoutWrapper.append(divOptsWrapper)
 
-        divLayout.onwheel = (event: WheelEvent) => {
-            if (!event.ctrlKey) {
-                return;
-            }
-            if (event.deltaY > 0) {
-                this.zoomScaleFactor -= 0.1;
-            } else {
-                this.zoomScaleFactor += 0.1;
-            }
-            divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
-            event.stopPropagation();
-            event.preventDefault();
-        };
+        // divLayout.onwheel = (event: WheelEvent) => {
+        //     if (!event.ctrlKey) {
+        //         return;
+        //     }
+        //     if (event.deltaY > 0) {
+        //         this.zoomScaleFactor -= 0.1;
+        //     } else {
+        //         this.zoomScaleFactor += 0.1;
+        //     }
+        //     divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
+        //     event.stopPropagation();
+        //     event.preventDefault();
+        // };
 
         // "Current node" indicator
         currentNode.makeCurrentArrow();
 
         // Element composition
-        divLayout.appendChild(svgLayout);
-        divLayoutWrapper.appendChild(divLayout);
+        divLayoutWrapper.appendChild(svgLayout);
         document.body.appendChild(divLayoutWrapper);
 
         // Start with one interchange
@@ -120,9 +111,9 @@ export class Main {
 
         // Special starting position for first node only
         const node = data.nodes.get(data.head!)!;
-        node.position = { top: 66, left: 100 };
-        nodeFirst.style.top = node.position.top + "px";
-        nodeFirst.style.left = node.position.top + "px";
+        node.position = { x: 100, y: 66 };
+        nodeFirst.setAttribute("x", node.position.x.toString());
+        nodeFirst.setAttribute("y", node.position.y.toString());
     }
 
     composeEditor(data: Data, nodeEditor: NodeEditor) {
@@ -143,21 +134,21 @@ export class Main {
 
 
     newNode(nodeLayout: NodeLayout, utility: Utility, data: Data): SVGElement {
-        const divLayout = data.divLayout!;
+        const svgLayout = data.svgLayout!;
         const divLayoutWrapper = data.divLayoutWrapper!;
 
         const node = new Node(utility.generateUid(8), "Change this text, it can be a description or monologue or question");
         const element = nodeLayout.node(node.nodeId);
 
         // Set the node's position
-        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
-        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
-        node.position = { top, left };
-        element.style.top = node.position.top + "px";
-        element.style.left = node.position.left + "px";
+        const x = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
+        const y = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
+        node.position = { x, y };
+        element.setAttribute("x", node.position.x.toString());
+        element.setAttribute("y", node.position.y.toString());
 
         // Add to ui
-        divLayout.appendChild(element);
+        svgLayout.appendChild(element);
 
         // Add to data
         data.nodes.set(node.nodeId, node);

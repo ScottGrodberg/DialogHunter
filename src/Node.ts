@@ -1,7 +1,7 @@
 import { ChoiceId, NodeId } from "./Data";
 
 export class Node {
-    position?: { top: number, left: number };
+    position?: { x: number, y: number };
     choices: Array<ChoiceId>
 
     constructor(public nodeId: NodeId, public text: string) {
