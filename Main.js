@@ -67,19 +67,23 @@ export class Main {
         checkCenterOnCurrent.type = "checkbox";
         divOptsWrapper.append(checkCenterOnCurrent);
         divLayoutWrapper.append(divOptsWrapper);
-        // divLayout.onwheel = (event: WheelEvent) => {
-        //     if (!event.ctrlKey) {
-        //         return;
-        //     }
-        //     if (event.deltaY > 0) {
-        //         this.zoomScaleFactor -= 0.1;
-        //     } else {
-        //         this.zoomScaleFactor += 0.1;
-        //     }
-        //     divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
-        //     event.stopPropagation();
-        //     event.preventDefault();
-        // };
+        svgLayout.onwheel = (event) => {
+            if (!event.ctrlKey) {
+                return;
+            }
+            const ratio = divLayoutWrapper.clientWidth / divLayoutWrapper.clientHeight;
+            if (event.deltaY > 0) {
+                data.svgViewBox.height -= 10;
+                data.svgViewBox.width -= 10 * ratio;
+            }
+            else {
+                data.svgViewBox.height += 10;
+                data.svgViewBox.width += 10 * ratio;
+            }
+            svgLayout.setAttribute("viewBox", `${data.svgViewBox.left} ${data.svgViewBox.top} ${data.svgViewBox.width} ${data.svgViewBox.height}`);
+            event.stopPropagation();
+            event.preventDefault();
+        };
         // "Current node" indicator
         currentNode.makeCurrentArrow();
         // Element composition
