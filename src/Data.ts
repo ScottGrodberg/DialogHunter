@@ -20,6 +20,7 @@ export class Data {
     // Top section - layout
     divLayoutWrapper?: HTMLDivElement;
     svgLayout?: SVGElement;
+    svgViewBox = { left: 0, top: 0, width: 950, height: 450 };
 
     // Bottom section - editor
     divEditorWrapper?: HTMLDivElement;
