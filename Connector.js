@@ -7,8 +7,8 @@ export class Connector {
         const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
         defs.appendChild(this.createArrowMarker());
         this.data.svgLayout.appendChild(defs);
-        this.data.divLayout.addEventListener('pointerup', this.onPointerUp.bind(this));
-        this.data.divLayout.addEventListener('pointermove', this.onPointerMove.bind(this));
+        this.data.svgLayout.addEventListener('pointerup', this.onPointerUp.bind(this));
+        this.data.svgLayout.addEventListener('pointermove', this.onPointerMove.bind(this));
     }
     makePath(start, end) {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -29,7 +29,7 @@ export class Connector {
     }
     onPointerDown(event) {
         event.stopPropagation();
-        this.data.divLayout.style.userSelect = "none";
+        this.data.svgLayout.style.userSelect = "none";
         this.socketFrom = event.target;
         this.removeExistingConnection();
         // Hide the choice sockets and show the node sockets
@@ -92,7 +92,7 @@ export class Connector {
                 _socket.style.display = "none";
             }
         });
-        this.data.divLayout.style.userSelect = "initial";
+        this.data.svgLayout.style.userSelect = "initial";
     }
     /**
      * @param x ending x
@@ -229,7 +229,7 @@ export class Connector {
             const socketToRight = document.querySelector(`#node-header-${choice.nodeId} div :nth-child(3)`);
             // Determine if we are drawing from left to right or  right to left
             let socketFrom, socketTo;
-            if (node.position.left < nodeTo.position.left) {
+            if (node.position.x < nodeTo.position.x) {
                 socketFrom = socketFromRight;
                 socketTo = socketToLeft;
             }
