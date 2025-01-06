@@ -110,6 +110,8 @@ export class NodeEditor {
         buttonPaste.onclick = () => {
             var divOutput = document.getElementById("div-output")!;
             navigator.clipboard.readText().then((text: string) => {
+                const body = JSON.parse(text);
+                this.loadData(body);
                 divOutput.innerHTML = text
             });
         };
@@ -123,7 +125,8 @@ export class NodeEditor {
         const buttonLoad = document.createElement("button");
         buttonLoad.innerHTML = "Load";
         buttonLoad.onclick = () => {
-            this.loadFromStorage();
+            const body = JSON.parse(localStorage.getItem("body")!);
+            this.loadData(body);
         };
 
         divOutputWrapper.append(divOutput, buttonCopy, buttonPaste, buttonSave, buttonLoad);
@@ -151,7 +154,7 @@ export class NodeEditor {
         localStorage.setItem("body", this.data.getOutputString());
     }
 
-    loadFromStorage() {
+    loadData(body: Array<Node>) {
         // clear the dom
         this.data.nodes.forEach(node => {
             const element = document.getElementById(`node-${node.nodeId}`);
@@ -164,7 +167,6 @@ export class NodeEditor {
         })
 
         // Load the basic data from storage
-        const body = JSON.parse(localStorage.getItem("body")!);
         this.data.nodes.clear();
         this.data.choices.clear();
 
