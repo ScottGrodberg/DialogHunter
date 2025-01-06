@@ -3,7 +3,7 @@ import { ChoiceFor, ChoiceMaker } from "./ChoiceMaker.js";
 import { Connector } from "./Connector.js";
 import { CurrentNode } from "./CurrentNode.js";
 import { Data, NodeId, SocketsConnection } from "./Data.js";
-import { NodeType } from "./Node.js";
+import { Node, NodeType } from "./Node.js";
 import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
@@ -139,8 +139,7 @@ export class NodeEditor {
     }
 
     saveToStorage() {
-        localStorage.setItem("nodes", JSON.stringify(Array.from(this.data.nodes.entries())));
-        localStorage.setItem("choices", JSON.stringify(Array.from(this.data.choices.entries())));
+        localStorage.setItem("body", this.data.getOutputString());
     }
 
     loadFromStorage() {
@@ -156,8 +155,23 @@ export class NodeEditor {
         })
 
         // Load the basic data from storage
-        this.data.nodes = new Map(JSON.parse(localStorage.getItem("nodes")!));
-        this.data.choices = new Map(JSON.parse(localStorage.getItem("choices")!));
+        const body = JSON.parse(localStorage.getItem("body")!);
+        this.data.nodes.clear();
+        this.data.choices.clear();
+
+        // First pass thru incoming nodes
+        body.forEach((node: Node) => {
+            this.data.nodes.set(node.nodeId, node);
+            node.choices.forEach((choice: any) => {
+                this.data.choices.set(choice.choiceId, choice);
+            })
+        });
+
+        // Second pass, clean up nodes
+        this.data.nodes.forEach((node: any) => {
+            node.choices = node.choices.map((choice: any) => choice.choiceId);
+            node.nodeType = NodeType[node.nodeType];
+        });
 
         // Update the UI put all nodes and choices into the layout window
         this.data.nodes.forEach(node => {
