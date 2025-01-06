@@ -47,6 +47,7 @@ export class Data {
             output += `    "nodeId":"${node.nodeId}",\n`;
             output += `    "nodeType":"${NodeType[node.nodeType]}",\n`;
             output += `    "text":${JSON.stringify(node.text)},\n`;
+            output += `    "position": { "top": ${Math.round(node.position!.top)}, "left": ${Math.round(node.position!.left)}},\n`;
             output += `    "choices":[\n`;
             let choices = ``;
             node.choices.forEach(choiceId => choices += `      ${JSON.stringify(this.choices.get(choiceId))},\n`);
