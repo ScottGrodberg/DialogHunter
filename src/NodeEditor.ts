@@ -101,8 +101,17 @@ export class NodeEditor {
         const buttonCopy = document.createElement("button");
         buttonCopy.innerHTML = "Copy";
         buttonCopy.onclick = () => {
-            var text = document.getElementById("div-output")!.innerHTML;
-            navigator.clipboard.writeText(text);
+            var divOutput = document.getElementById("div-output")!;
+            navigator.clipboard.writeText(divOutput.innerHTML);
+        };
+
+        const buttonPaste = document.createElement("button");
+        buttonPaste.innerHTML = "Paste";
+        buttonPaste.onclick = () => {
+            var divOutput = document.getElementById("div-output")!;
+            navigator.clipboard.readText().then((text: string) => {
+                divOutput.innerHTML = text
+            });
         };
 
         const buttonSave = document.createElement("button");
@@ -117,7 +126,7 @@ export class NodeEditor {
             this.loadFromStorage();
         };
 
-        divOutputWrapper.append(divOutput, buttonCopy, buttonSave, buttonLoad);
+        divOutputWrapper.append(divOutput, buttonCopy, buttonPaste, buttonSave, buttonLoad);
         return divOutputWrapper;
     }
 
