@@ -18,8 +18,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 export class Main {
 
-    zoomScaleFactor = 1.0;
-
     constructor() {
         // Begin composition root
         const data = new Data();
@@ -103,11 +101,12 @@ export class Main {
                 return;
             }
             if (event.deltaY > 0) {
-                this.zoomScaleFactor -= 0.1;
+                data.zoomScaleFactor -= 0.1;
             } else {
-                this.zoomScaleFactor += 0.1;
+                data.zoomScaleFactor += 0.1;
             }
-            divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
+            divLayout.style.transform = `scale(${data.zoomScaleFactor})`;
+            console.log(`divLayout zoom scale factor is ${data.zoomScaleFactor}`);
             event.stopPropagation();
             event.preventDefault();
         };

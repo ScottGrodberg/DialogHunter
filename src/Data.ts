@@ -18,6 +18,7 @@ export class Data {
     divLayoutWrapper?: HTMLDivElement;
     divLayout?: HTMLDivElement;
     svgLayout?: SVGElement;
+    zoomScaleFactor = 1.0;
 
     // Bottom section - editor
     divEditorWrapper?: HTMLDivElement;
