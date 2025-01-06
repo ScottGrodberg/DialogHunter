@@ -183,7 +183,8 @@ export class ChoiceMaker {
             this.connector.connectNode(node)
         }
 
-        this.data.dump();
+        const output = this.data.getOutputString();
+        document.getElementById("div-output")!.innerHTML = output;
     }
 
     changeNode(nodeId: NodeId) {

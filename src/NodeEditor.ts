@@ -44,7 +44,8 @@ export class NodeEditor {
             const header = document.getElementById(`node-header-text-${this.data.currentNodeId}`)!;
             header.innerHTML = text;
             header.title = text;
-            this.data.dump();
+            const output = this.data.getOutputString();
+            document.getElementById("div-output")!.innerHTML = output;
         };
 
         row.append(headerType, headerText);
@@ -224,7 +225,8 @@ export class NodeEditor {
         this.currentNode.unsetCurrentNode();
 
         // update output in editor pane
-        this.data.dump();
+        const output = this.data.getOutputString();
+        document.getElementById("div-output")!.innerHTML = output;
     }
 
     deleteFromLayout(nodeId: NodeId) {

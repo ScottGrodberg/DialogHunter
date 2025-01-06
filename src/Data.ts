@@ -38,7 +38,7 @@ export class Data {
     incoming = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from values to the key
     outgoing = new Map<NodeId, Map<NodeId, SocketsConnection>>();  // Connections from the key to values
 
-    dump() {
+    getOutputString(): string {
         let output = "";
 
         output += `[\n`;
@@ -58,7 +58,7 @@ export class Data {
         output = `${output.substring(0, output.length - 2)}\n`;
         output += `]\n`;
 
-        document.getElementById("div-output")!.innerHTML = output;
+        return output;
     }
 
 }
