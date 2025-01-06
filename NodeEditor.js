@@ -16,7 +16,7 @@ export class NodeEditor {
         element.style.display = "none";
         const header = document.createElement("div");
         header.id = "node-editor-header";
-        const row = this.rowMaker.editorRow();
+        const row = this.rowMaker.row();
         const headerText = document.createElement("textarea");
         headerText.style.margin = "5px";
         headerText.style.width = "calc(100% - 10px)";
@@ -128,9 +128,9 @@ export class NodeEditor {
         this.data.nodes.forEach(node => {
             // add the node to the layout
             const element = this.nodeLayout.node(node.nodeId);
-            element.setAttribute("x", node.position.x.toString());
-            element.setAttribute("y", node.position.y.toString());
-            this.data.svgLayout.appendChild(element);
+            element.style.left = node.position.left + "px";
+            element.style.top = node.position.top + "px";
+            this.data.divLayout.appendChild(element);
             // update the text of node
             const header = document.getElementById(`node-header-text-${node.nodeId}`);
             header.innerHTML = node.text;

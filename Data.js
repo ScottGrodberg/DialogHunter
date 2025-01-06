@@ -1,8 +1,6 @@
 export class Data {
     constructor() {
-        this.NODE_WIDTH = 150;
-        this.SVGNS = "http://www.w3.org/2000/svg";
-        this.svgViewBox = { left: 0, top: 0, width: 950, height: 450 };
+        // Elements
         // Data structures, meant to be serialized to storage
         this.nodes = new Map();
         this.choices = new Map();

@@ -7,6 +7,7 @@ import { NodeEditor } from "./NodeEditor.js";
 import { NodeLayout } from "./NodeLayout.js";
 import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
+const svgns = "http://www.w3.org/2000/svg";
 // Entry point
 window.addEventListener("DOMContentLoaded", () => {
     const main = new Main();
@@ -19,7 +20,7 @@ export class Main {
         const utility = new Utility();
         const connector = new Connector(data);
         const currentNode = new CurrentNode(data);
-        const rowMaker = new RowMaker(data, connector, utility);
+        const rowMaker = new RowMaker(connector, utility);
         const choiceMaker = new ChoiceMaker(data, rowMaker, currentNode, connector);
         const nodeLayout = new NodeLayout(rowMaker, utility, data, choiceMaker, currentNode, connector);
         const nodeEditor = new NodeEditor(rowMaker, utility, data, choiceMaker, currentNode, connector, nodeLayout);
@@ -34,8 +35,15 @@ export class Main {
         divLayoutWrapper.style.height = "48.5%";
         divLayoutWrapper.style.overflow = "scroll";
         data.divLayoutWrapper = divLayoutWrapper;
+        // Layout inner
+        const divLayout = document.createElement("div");
+        divLayout.id = "div-layout";
+        divLayout.style.width = "2000px";
+        divLayout.style.height = "1000px";
+        divLayout.style.position = "relative";
+        data.divLayout = divLayout;
         // Svg
-        const svgLayout = document.createElementNS(data.SVGNS, "svg");
+        const svgLayout = document.createElementNS(svgns, "svg");
         svgLayout.id = "svg-layout";
         svgLayout.setAttribute("width", "100%");
         svgLayout.setAttribute("height", "100%");
@@ -67,36 +75,34 @@ export class Main {
         checkCenterOnCurrent.type = "checkbox";
         divOptsWrapper.append(checkCenterOnCurrent);
         divLayoutWrapper.append(divOptsWrapper);
-        svgLayout.onwheel = (event) => {
+        divLayout.onwheel = (event) => {
             if (!event.ctrlKey) {
                 return;
             }
-            const ratio = divLayoutWrapper.clientWidth / divLayoutWrapper.clientHeight;
             if (event.deltaY > 0) {
-                data.svgViewBox.height -= 10;
-                data.svgViewBox.width -= 10 * ratio;
+                this.zoomScaleFactor -= 0.1;
             }
             else {
-                data.svgViewBox.height += 10;
-                data.svgViewBox.width += 10 * ratio;
+                this.zoomScaleFactor += 0.1;
             }
-            svgLayout.setAttribute("viewBox", `${data.svgViewBox.left} ${data.svgViewBox.top} ${data.svgViewBox.width} ${data.svgViewBox.height}`);
+            divLayout.style.transform = `scale(${this.zoomScaleFactor})`;
             event.stopPropagation();
             event.preventDefault();
         };
         // "Current node" indicator
         currentNode.makeCurrentArrow();
         // Element composition
-        divLayoutWrapper.appendChild(svgLayout);
+        divLayout.appendChild(svgLayout);
+        divLayoutWrapper.appendChild(divLayout);
         document.body.appendChild(divLayoutWrapper);
         // Start with one interchange
         const nodeFirst = this.newNode(nodeMaker, utility, data);
         data.head = nodeFirst.dataset.nodeId;
         // Special starting position for first node only
         const node = data.nodes.get(data.head);
-        node.position = { x: 100, y: 66 };
-        nodeFirst.setAttribute("x", node.position.x.toString());
-        nodeFirst.setAttribute("y", node.position.y.toString());
+        node.position = { top: 66, left: 100 };
+        nodeFirst.style.top = node.position.top + "px";
+        nodeFirst.style.left = node.position.top + "px";
     }
     composeEditor(data, nodeEditor) {
         // Editor wrapper
@@ -112,18 +118,18 @@ export class Main {
         document.body.appendChild(divEditorWrapper);
     }
     newNode(nodeLayout, utility, data) {
-        const svgLayout = data.svgLayout;
+        const divLayout = data.divLayout;
         const divLayoutWrapper = data.divLayoutWrapper;
         const node = new Node(utility.generateUid(8), "Change this text, it can be a description or monologue or question");
         const element = nodeLayout.node(node.nodeId);
         // Set the node's position
-        const x = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
-        const y = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - data.NODE_WIDTH * 0.5;
-        node.position = { x, y };
-        element.setAttribute("x", node.position.x.toString());
-        element.setAttribute("y", node.position.y.toString());
+        const top = divLayoutWrapper.scrollTop + divLayoutWrapper.offsetHeight * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
+        const left = divLayoutWrapper.scrollLeft + divLayoutWrapper.offsetWidth * 0.5 + Math.random() * 100 - 50 - NodeLayout.DEFAULT_WIDTH * 0.5;
+        node.position = { top, left };
+        element.style.top = node.position.top + "px";
+        element.style.left = node.position.left + "px";
         // Add to ui
-        svgLayout.appendChild(element);
+        divLayout.appendChild(element);
         // Add to data
         data.nodes.set(node.nodeId, node);
         if (data.incoming.has(node.nodeId) || data.outgoing.has(node.nodeId)) {

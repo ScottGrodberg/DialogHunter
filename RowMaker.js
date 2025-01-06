@@ -1,38 +1,26 @@
 export class RowMaker {
-    constructor(data, connector, utility) {
-        this.data = data;
+    constructor(connector, utility) {
         this.connector = connector;
         this.utility = utility;
     }
-    editorRow() {
+    row() {
         const element = document.createElement("div");
         element.classList.add("choice");
         return element;
     }
-    layoutRow() {
-        const rect = document.createElementNS(this.data.SVGNS, "rect");
-        rect.setAttribute("width", this.data.NODE_WIDTH.toString());
-        rect.setAttribute("height", "3em");
-        const element = document.createElementNS(this.data.SVGNS, "svg");
-        element.classList.add("choice");
-        element.append(rect);
-        return element;
-    }
     sockets(nodeId, choiceId) {
         // Make a socket
-        const socket = document.createElementNS(this.data.SVGNS, "circle");
-        socket.setAttribute("r", "7");
-        socket.setAttribute("cy", "27");
+        const socket = document.createElement("div");
         socket.dataset.nodeId = nodeId;
-        socket.classList.add("socket");
+        socket.className = "socket";
         // Clone for the left
         const socketLeft = socket.cloneNode();
         socketLeft.id = "socket-" + this.utility.generateUid(8) + "-left";
-        socketLeft.setAttribute("cx", "0");
+        socketLeft.classList.add("socket-left");
         // Clone for the right
         const socketRight = socket.cloneNode();
         socketRight.id = "socket-" + this.utility.generateUid(8) + "-right";
-        socketRight.setAttribute("cx", `${this.data.NODE_WIDTH}`);
+        socketRight.classList.add("socket-right");
         if (choiceId) {
             // body sockets, outgoing from choices
             socketLeft.dataset.choiceId = choiceId;

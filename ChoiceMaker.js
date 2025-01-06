@@ -11,7 +11,7 @@ export class ChoiceMaker {
         this.connector = connector;
     }
     choiceForLayout(nodeId, choiceId) {
-        const element = this.makeLayoutRow(nodeId, choiceId);
+        const element = this.makeRow(nodeId, choiceId);
         const { socketLeft, socketRight } = this.rowMaker.sockets(nodeId, choiceId);
         const value = this.makeResponseReadOnly(choiceId);
         value.style.width = "100%";
@@ -19,7 +19,7 @@ export class ChoiceMaker {
         return element;
     }
     choiceForEditor(nodeId, choiceId) {
-        const element = this.makeEditorRow(nodeId, choiceId);
+        const element = this.makeRow(nodeId, choiceId);
         const key = this.makeKey();
         key.style.width = "30px";
         const value = this.makeResponse(choiceId);
@@ -32,23 +32,12 @@ export class ChoiceMaker {
         element.append(x, value, arrow);
         return element;
     }
-    makeLayoutRow(nodeId, choiceId) {
-        const element = this.rowMaker.layoutRow();
-        const rect = element.children[0];
-        const fillColor = window.getComputedStyle(document.documentElement).getPropertyValue('--node-body-background');
-        rect.setAttribute("fill", fillColor);
-        this.decorateIdAndData(element, nodeId, choiceId);
-        return element;
-    }
-    makeEditorRow(nodeId, choiceId) {
-        const element = this.rowMaker.editorRow();
-        this.decorateIdAndData(element, nodeId, choiceId);
-        return element;
-    }
-    decorateIdAndData(element, nodeId, choiceId) {
+    makeRow(nodeId, choiceId) {
+        const element = this.rowMaker.row();
         element.id = "choice-" + choiceId;
         element.dataset.nodeId = nodeId;
         element.dataset.choiceId = choiceId;
+        return element;
     }
     makeKey() {
         const key = document.createElement("input");
@@ -74,12 +63,9 @@ export class ChoiceMaker {
         this.update(this.data.currentNodeId, destination, ChoiceFor.LAYOUT);
     }
     makeResponseReadOnly(choiceId) {
-        const response = document.createElementNS(this.data.SVGNS, "text");
+        const response = document.createElement("p");
         response.innerHTML = this.data.choices.get(choiceId).text;
-        response.setAttribute("x", "0");
-        response.setAttribute("y", "17");
-        response.style.width = this.data.NODE_WIDTH + "px";
-        response.style.height = "2.5em";
+        response.title = response.innerHTML;
         return response;
     }
     makeNextArrow(choiceId) {
@@ -148,7 +134,6 @@ export class ChoiceMaker {
         destination.innerHTML = ``;
         const node = this.data.nodes.get(nodeId);
         const choices = node.choices;
-        let i = 1;
         choices.forEach(choice => {
             let element;
             if (choiceFor === ChoiceFor.LAYOUT) {
@@ -157,9 +142,7 @@ export class ChoiceMaker {
             else {
                 element = this.choiceForEditor(nodeId, choice);
             }
-            element.setAttribute("y", `${i * 40}`);
             destination.appendChild(element);
-            i++;
         });
         // Socket elements were blown away when destination.innerHTML unset.
         // This rewires the connecting paths

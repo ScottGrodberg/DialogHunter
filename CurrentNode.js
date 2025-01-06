@@ -7,8 +7,8 @@ export class CurrentNode {
         // position the arrow indicator
         const element = document.getElementById(`node-${nodeId}`);
         this.arrow.style.display = "block";
-        this.arrow.setAttribute("x", parseInt(element.getAttribute("x")) - 5 + "px");
-        this.arrow.setAttribute("y", parseInt(element.getAttribute("y")) - 30 + "px");
+        this.arrow.setAttribute("x", parseInt(element.style.left) - 5 + "px");
+        this.arrow.setAttribute("y", parseInt(element.style.top) - 30 + "px");
         // scroll into view
         const checkCenter = document.getElementById("input-center");
         if (!checkCenter.checked) {
