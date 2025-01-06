@@ -33,8 +33,8 @@ export class Connector {
         const rect = socket.getBoundingClientRect();
         const svgRect = this.data.svgLayout!.getBoundingClientRect();
         return {
-            x: rect.left + rect.width / 2 - svgRect.left,
-            y: rect.top + rect.height / 2 - svgRect.top,
+            x: (rect.left + rect.width / 2 - svgRect.left) * 1 / this.data.zoomScaleFactor,
+            y: (rect.top + rect.height / 2 - svgRect.top) * 1 / this.data.zoomScaleFactor,
         };
     }
 

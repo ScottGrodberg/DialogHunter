@@ -106,7 +106,7 @@ export class Main {
                 data.zoomScaleFactor += 0.1;
             }
             divLayout.style.transform = `scale(${data.zoomScaleFactor})`;
-            console.log(`divLayout zoom scale factor is ${data.zoomScaleFactor}`);
+            //console.log(`divLayout zoom scale factor is ${data.zoomScaleFactor}`);
             event.stopPropagation();
             event.preventDefault();
         };
