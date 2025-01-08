@@ -1,4 +1,3 @@
-* Clear and import button to paste and upload previous json to the app
 * Pointer pan drag layout
 * Do not select text on any nodes or choices in layout view
 * Clicking "add choice button" should put focus and select text in the newly made choice
