@@ -112,7 +112,7 @@ export class NodeEditor {
             navigator.clipboard.readText().then((text: string) => {
                 const body = JSON.parse(text);
                 this.loadData(body);
-                divOutput.innerHTML = text
+                divOutput.innerHTML = text;
             });
         };
 
