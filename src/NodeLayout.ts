@@ -7,7 +7,7 @@ import { RowMaker } from "./RowMaker.js";
 import { Utility } from "./Utility.js";
 
 export class NodeLayout {
-    static DEFAULT_WIDTH = 150;
+    static DEFAULT_WIDTH = 300;
 
     ptrDown: (event: any) => void;
     ptrMove: (event: any) => void;
